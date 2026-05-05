@@ -16,7 +16,10 @@ class PageController extends Controller
     
     public function index($slug)
     {
-        $page = Page::where('slug', $slug)->first();
-        return view("frontend.{$this->theme}.layouts.page", compact('page'));
+        $cmsData = \App\Models\CMS::all()->makeHidden(['created_at', 'updated_at']);
+        $cms = ['home' => $cmsData->where('page', \App\Enums\PageEnum::HOME), 'common' => $cmsData->where('page', \App\Enums\PageEnum::COMMON)];
+        $page = Page::where('slug', $slug)->firstOrFail();
+        $socials = \App\Models\SocialLink::where('status', 'active')->get();
+        return view("frontend.{$this->theme}.layouts.page", compact('page', 'socials', 'cms'));
     }
 }

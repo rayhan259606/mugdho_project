@@ -70,8 +70,8 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        $validate = $request->validate([
-            'name'    => 'required|unique:categories,name',
+        $request->validate([
+            'name'    => 'required|unique:pages,name',
             'title'   => 'required|string|max:255',
             'content' => 'required|string',
             'icon'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
@@ -82,13 +82,22 @@ class PageController extends Controller
         ]);
 
         try {
-            $validate['slug'] = Helper::makeSlug(Page::class, $validate['name']);
-            Page::create($validate);
-            session()->put('t-success', 'Page created successfully');
+            $data = $request->all();
+            $data['slug'] = Helper::makeSlug(Page::class, $request->name);
+
+            if ($request->hasFile('icon')) {
+                $data['icon'] = Helper::fileUpload($request->file('icon'), 'pages', 'icon-' . time());
+            }
+
+            if ($request->hasFile('meta_image')) {
+                $data['meta_image'] = Helper::fileUpload($request->file('meta_image'), 'pages', 'meta-' . time());
+            }
+
+            Page::create($data);
+            return redirect()->route('admin.page.index')->with('t-success', 'Page created successfully');
         } catch (Exception $e) {
-            session()->put('t-error', $e->getMessage());
+            return redirect()->back()->with('t-error', $e->getMessage());
         }
-        return redirect()->route('Page.index')->with('t-success', 'Page created successfully');
     }
 
     /**
@@ -114,8 +123,8 @@ class PageController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validate = $request->validate([
-            'name'    => 'required|unique:categories,name',
+        $request->validate([
+            'name'    => 'required|unique:pages,name,' . $id,
             'title'   => 'required|string|max:255',
             'content' => 'required|string',
             'icon'    => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
@@ -127,13 +136,27 @@ class PageController extends Controller
 
         try {
             $page = Page::findOrFail($id);
-            $page->update($validate);
-            session()->put('t-success', 'Page updated successfully');
-        } catch (Exception $e) {
-            session()->put('t-error', $e->getMessage());
-        }
+            $data = $request->all();
 
-        return redirect()->route('Page.index');
+            if ($request->hasFile('icon')) {
+                if ($page->icon) {
+                    Helper::fileDelete($page->icon);
+                }
+                $data['icon'] = Helper::fileUpload($request->file('icon'), 'pages', 'icon-' . time());
+            }
+
+            if ($request->hasFile('meta_image')) {
+                if ($page->meta_image) {
+                    Helper::fileDelete($page->meta_image);
+                }
+                $data['meta_image'] = Helper::fileUpload($request->file('meta_image'), 'pages', 'meta-' . time());
+            }
+
+            $page->update($data);
+            return redirect()->route('admin.page.index')->with('t-success', 'Page updated successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->with('t-error', $e->getMessage());
+        }
     }
 
     /**

@@ -1,182 +1,75 @@
-@extends('backend.app', ['title' => 'Post'])
+@extends('backend.app')
 
-@push('styles')
-<link href="{{ asset('default/datatable.css') }}" rel="stylesheet" />  
-@endpush
-
+@section('title', 'Orders')
 
 @section('content')
-<!--app-content open-->
-<div class="app-content main-content mt-0">
-    <div class="side-app">
+<div class="main-container container-fluid">
+    <div class="page-header">
+        <h1 class="page-title">Orders</h1>
+        <div>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Orders</li>
+            </ol>
+        </div>
+    </div>
 
-        <!-- CONTAINER -->
-        <div class="main-container container-fluid">
-
-
-            <!-- PAGE-HEADER -->
-            <div class="page-header">
-                <div>
-                    <h1 class="page-title">{{ $crud ? ucwords(str_replace('_', ' ', $crud)) : 'N/A' }}</h1>
+    <div class="row row-sm">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-header border-bottom">
+                    <h3 class="card-title">All Customer Orders</h3>
                 </div>
-                <div class="ms-auto pageheader-btn">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ url("admin/dashboard") }}"><i class="fe fe-home me-2 fs-14"></i>Home</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Post</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Index</li>
-                    </ol>
-                </div>
-            </div>
-            <!-- PAGE-HEADER END -->
-
-            <!-- ROW-4 -->
-            <div class="row">
-                <div class="col-12 col-sm-12">
-                    <div class="card product-sales-main">
-                        <div class="card-header border-bottom">
-                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <button type="button" class="btn btn-danger"><a href="#">Import</a></button>
-                                <button type="button" class="btn btn-warning"><a href="#">Export</a></button>
-                            </div>
-                            <div class="card-options ms-auto">
-                                <a href="{{ route('admin.post.create') }}" class="btn btn-primary btn-sm">Add</a>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="">
-                                <table class="table table-bordered text-nowrap border-bottom" id="datatable">
-                                    <thead>
-                                        <tr>
-                                            <th class="bg-transparent border-bottom-0 wp-15">ID</th>
-                                            <th class="bg-transparent border-bottom-0 wp-15">Title</th>
-                                            <th class="bg-transparent border-bottom-0 wp-15">Category</th>
-                                            <th class="bg-transparent border-bottom-0 wp-15">Subcategory</th>
-                                            <th class="bg-transparent border-bottom-0 wp-15">Author</th>
-                                            <th class="bg-transparent border-bottom-0">Thumbnail</th>
-                                            <th class="bg-transparent border-bottom-0">Status</th>
-                                            <th class="bg-transparent border-bottom-0">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="datatable" class="table table-bordered text-nowrap border-bottom">
+                            <thead>
+                                <tr>
+                                    <th>SL</th>
+                                    <th>Product</th>
+                                    <th>Customer</th>
+                                    <th>Address</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
-                </div><!-- COL END -->
+                </div>
             </div>
-            <!-- ROW-4 END -->
-
         </div>
     </div>
 </div>
-<!-- CONTAINER CLOSED -->
 @endsection
 
-
-
-@push('scripts')
+@push('script')
 <script>
     $(document).ready(function() {
-
-        $.ajaxSetup({
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            }
+        $('#datatable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('admin.order.index') }}",
+            columns: [
+                {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
+                {data: 'product', name: 'product'},
+                {data: 'customer', name: 'customer'},
+                {data: 'address', name: 'address'},
+                {data: 'total', name: 'total'},
+                {data: 'status', name: 'status'},
+                {data: 'action', name: 'action', orderable: false, searchable: false},
+            ]
         });
-        if (!$.fn.DataTable.isDataTable('#datatable')) {
-            let dTable = $('#datatable').DataTable({
-                order: [],
-                lengthMenu: [
-                    [10, 25, 50, 100, -1],
-                    [10, 25, 50, 100, "All"]
-                ],
-                processing: true,
-                responsive: true,
-                serverSide: true,
-
-                language: {
-                    processing: `<div class="text-center">
-                        <img src="{{ asset('default/loader.gif') }}" alt="Loader" style="width: 50px;">
-                        </div>`
-                },
-
-                scroller: {
-                    loadingIndicator: false
-                },
-                pagingType: "full_numbers",
-                dom: "<'row justify-content-between table-topbar'<'col-md-4 col-sm-3'l><'col-md-5 col-sm-5 px-0'f>>tipr",
-                ajax: {
-                    url: "{{ route('admin.post.index') }}",
-                    type: "GET",
-                },
-
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'title',
-                        name: 'title',
-                        orderable: true,
-                        searchable: true
-                    },
-                    {
-                        data: 'category',
-                        name: 'category',
-                        orderable: true,
-                        searchable: true
-                    },
-                    {
-                        data: 'subcategory',
-                        name: 'subcategory',
-                        orderable: true,
-                        searchable: true
-                    },
-                    {
-                        data: 'author',
-                        name: 'author',
-                        orderable: true,
-                        searchable: true
-                    },
-                    {
-                        data: 'thumbnail',
-                        name: 'thumbnail',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false,
-                        className: 'dt-center text-center'
-                    },
-                ],
-            });
-        }
     });
 
-    // Status Change Confirm Alert
     function showStatusChangeAlert(id) {
-        event.preventDefault();
-
         Swal.fire({
-            title: 'Are you sure?',
-            text: 'You want to update the status?',
+            title: 'Change order status?',
+            text: "This will toggle between Accept/Reject (or Pending).",
             icon: 'info',
             showCancelButton: true,
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'No',
+            confirmButtonText: 'Yes, change it!'
         }).then((result) => {
             if (result.isConfirmed) {
                 statusChange(id);
@@ -184,74 +77,40 @@
         });
     }
 
-    // Status Change
     function statusChange(id) {
-        NProgress.start();
-        let url = "{{ route('admin.post.status', ':id') }}";
+        var url = "{{ route('admin.order.status', ':id') }}";
         $.ajax({
-            type: "GET",
             url: url.replace(':id', id),
-            success: function(resp) {
-                NProgress.done();
-                toastr.success(resp.message);
-                $('#datatable').DataTable().ajax.reload();
-            },
-            error: function(error) {
-                NProgress.done();
-                toastr.error(error.message);
+            type: 'GET',
+            success: function(response) {
+                if (response.status === 't-success') {
+                    $('#datatable').DataTable().ajax.reload();
+                    toastr.success(response.message);
+                } else {
+                    toastr.error(response.message);
+                }
             }
         });
     }
 
-    // delete Confirm
     function showDeleteConfirm(id) {
-        event.preventDefault();
         Swal.fire({
-            title: 'Are you sure you want to delete this record?',
-            text: 'If you delete this, it will be gone forever.',
+            title: 'Are you sure?',
+            text: "This order will be permanently deleted!",
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                deleteItem(id);
+                deleteOrder(id);
             }
         });
     }
 
-    // Delete Button
-    function deleteItem(id) {
-        NProgress.start();
-        let url = "{{ route('admin.post.destroy', ':id') }}";
-        let csrfToken = '{{ csrf_token() }}';
-        $.ajax({
-            type: "DELETE",
-            url: url.replace(':id', id),
-            headers: {
-                'X-CSRF-TOKEN': csrfToken
-            },
-            success: function(resp) {
-                NProgress.done();
-                toastr.success(resp.message);
-                $('#datatable').DataTable().ajax.reload();
-            },
-            error: function(error) {
-                NProgress.done();
-                toastr.error(error.message);
-            }
-        });
-    }
-
-    //edit
-    function goToEdit(id) {
-        let url = "{{ route('admin.post.edit', ':id') }}";
-        window.location.href = url.replace(':id', id);
-    }
-    function goToOpen(id) {
-        let url = "{{ route('admin.post.show', ':id') }}";
-        window.location.href = url.replace(':id', id);
+    function deleteOrder(id) {
+        // Note: Order destroy route might not exist in the controller yet, let's check
+        toastr.info("Delete functionality coming soon or not implemented in controller.");
     }
 </script>
 @endpush

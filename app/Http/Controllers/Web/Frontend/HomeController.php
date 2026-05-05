@@ -13,6 +13,7 @@ use App\Models\SocialLink;
 use Modules\Portfolio\Models\Project;
 use Modules\Portfolio\Models\Type;
 use App\Traits\CMSData;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -25,40 +26,142 @@ class HomeController extends Controller
         $this->theme = env('THEME');
     }
     
-    public function index()
+    public function index(Request $request)
     {
         //CMS Data
         $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
-
         $cms = [
             'home' => $cmsData->where('page', PageEnum::HOME),
             'common' => $cmsData->where('page', PageEnum::COMMON),
         ];
 
-        //social links
-        $socials = Cache::rememberForever(CacheEnum::CMS_SOCIAL_LINKS, function () {
-            return SocialLink::where('status', 'active')->get();
-        });
-        
-        $posts = Post::with(['category', 'subcategory', 'user', 'images'])->where('status', 'active')->latest()->limit(3)->get();
-
+        $posts = Post::with(['category', 'user'])->where('status', 'active')->latest()->take(3)->get();
+        $socials = SocialLink::where('status', 'active')->get();
         $types = Type::where('status', 'active')->get();
         $projects = Project::where('status', 'active')->get();
 
-        $products = Product::with(['category', 'user'])->where('status', 'active')->get();
+        $banners = \App\Models\Banner::where('status', 'active')->latest()->get();
+        
+        $query = Product::with(['category', 'user'])->where('status', 'active');
 
-        return view("frontend.{$this->theme}.layouts.home.index", compact('cms', 'posts', 'types', 'projects', 'products', 'socials'));
+        if ($request->has('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%');
+        }
+
+        if ($request->has('category')) {
+            $query->whereHas('category', function($q) use ($request) {
+                $q->where('slug', $request->category);
+            });
+        }
+
+        $products = $query->latest()->take(50)->get();
+
+        return view("frontend.{$this->theme}.layouts.home.index", compact('cms', 'posts', 'types', 'projects', 'products', 'socials', 'banners'));
     }
 
-    public function post($slug){
-        //CMS Data
+    public function posts()
+    {
+        $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
+        $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
+        $posts = Post::where('status', 'active')->latest()->get();
+        $socials = \App\Models\SocialLink::where('status', 'active')->get();
+        return view("frontend.{$this->theme}.layouts.posts", compact('cms', 'posts', 'socials'));
+    }
+
+    public function post($slug)
+    {
+        $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
+        $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
+        $post = Post::where('slug', $slug)->where('status', 'active')->firstOrFail();
+        $socials = \App\Models\SocialLink::where('status', 'active')->get();
+        return view("frontend.{$this->theme}.layouts.post_details", compact('cms', 'post', 'socials'));
+    }
+
+    public function product($slug)
+    {
         $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
         $cms = [
-            'home' => $cmsData->where('page', PageEnum::HOME)->where('status', 'active')->get(),
-            'common' => $cmsData->where('page', PageEnum::COMMON)->where('status', 'active')->get(),
+            'home' => $cmsData->where('page', PageEnum::HOME),
+            'common' => $cmsData->where('page', PageEnum::COMMON),
         ];
-        
-        $post = Post::where('slug', base64_decode($slug))->where('status', 'active')->firstOrFail();
-        return view('frontend.default.layouts.post', compact('cms', 'post'));
+
+        $product = Product::with(['category', 'user'])->where('slug', $slug)->where('status', 'active')->firstOrFail();
+        $socials = \App\Models\SocialLink::where('status', 'active')->get();
+        return view("frontend.{$this->theme}.layouts.product_details", compact('cms', 'product', 'socials'));
+    }
+
+    public function course($id)
+    {
+        $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
+        $cms = [
+            'home' => $cmsData->where('page', PageEnum::HOME),
+            'common' => $cmsData->where('page', PageEnum::COMMON),
+        ];
+
+        $course = \App\Models\Course::with('curricula')->findOrFail($id);
+        $socials = \App\Models\SocialLink::where('status', 'active')->get();
+        return view("frontend.{$this->theme}.layouts.course_details", compact('cms', 'course', 'socials'));
+    }
+
+    public function service($id)
+    {
+        $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
+        $cms = [
+            'home' => $cmsData->where('page', PageEnum::HOME),
+            'common' => $cmsData->where('page', PageEnum::COMMON),
+        ];
+
+        $service = \App\Models\Service::findOrFail($id);
+        $socials = \App\Models\SocialLink::where('status', 'active')->get();
+        return view("frontend.{$this->theme}.layouts.service_details", compact('cms', 'service', 'socials'));
+    }
+
+    public function msmCourse()
+    {
+        $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
+        $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
+        $courses = \App\Models\Course::where('status', 'active')->latest()->get();
+        $featured_course = $courses->first();
+        $socials = \App\Models\SocialLink::where('status', 'active')->get();
+        return view("frontend.{$this->theme}.layouts.modules.msm_course", compact('cms', 'courses', 'featured_course', 'socials'));
+    }
+
+    public function gadgets()
+    {
+        $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
+        $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
+        $products = Product::whereHas('category', function($q) { $q->where('slug', 'gadget'); })->latest()->get();
+        $title = 'Gadgets Collection';
+        $socials = \App\Models\SocialLink::where('status', 'active')->get();
+        return view("frontend.{$this->theme}.layouts.modules.products", compact('cms', 'products', 'title', 'socials'));
+    }
+
+    public function digital()
+    {
+        $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
+        $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
+        $products = Product::whereHas('category', function($q) { $q->where('slug', 'digital'); })->latest()->get();
+        $title = 'Digital Products';
+        $socials = \App\Models\SocialLink::where('status', 'active')->get();
+        return view("frontend.{$this->theme}.layouts.modules.products", compact('cms', 'products', 'title', 'socials'));
+    }
+
+    public function antique()
+    {
+        $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
+        $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
+        $products = Product::whereHas('category', function($q) { $q->where('slug', 'antique'); })->latest()->get();
+        $title = 'Antique Collection';
+        $socials = \App\Models\SocialLink::where('status', 'active')->get();
+        return view("frontend.{$this->theme}.layouts.modules.products", compact('cms', 'products', 'title', 'socials'));
+    }
+
+    public function services()
+    {
+        $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
+        $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
+        $services = \App\Models\Service::where('status', 'active')->latest()->get();
+        $socials = \App\Models\SocialLink::where('status', 'active')->get();
+        return view("frontend.{$this->theme}.layouts.modules.services", compact('cms', 'services', 'socials'));
     }
 }

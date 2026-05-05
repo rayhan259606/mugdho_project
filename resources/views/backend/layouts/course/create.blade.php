@@ -51,6 +51,30 @@
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
+                                                <label for="image" class="form-label">Course Image:</label>
+                                                <input type="file" class="dropify" name="image" id="image" data-default-file="" />
+                                                @error('image')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="price" class="form-label">Price (Optional):</label>
+                                                <input type="number" step="0.01" class="form-control @error('price') is-invalid @enderror" name="price" placeholder="Enter course price" id="price" value="{{ old('price') ?? '' }}">
+                                                @error('price')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
                                                 <label for="description" class="form-label">Description:</label>
                                                 <textarea class="summernote form-control @error('description') is-invalid @enderror" name="description" id="description" placeholder="Enter here description" rows="3">{{ old('description') ?? '' }}</textarea>
                                                 @error('description')

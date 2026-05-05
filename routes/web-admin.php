@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Web\Backend\BannerController;
+use App\Http\Controllers\Web\Backend\ServiceController;
+use App\Http\Controllers\Web\Backend\LeadController;
 use App\Http\Controllers\Web\Backend\Access\PermissionController;
 use App\Http\Controllers\Web\Backend\Access\RoleController;
 use App\Http\Controllers\Web\Backend\Access\UserController;
@@ -32,6 +35,7 @@ use App\Http\Controllers\Web\Backend\MenuController;
 use App\Http\Controllers\Web\Backend\OrderController;
 use App\Http\Controllers\Web\Backend\PageController;
 use App\Http\Controllers\Web\Backend\PostController;
+use App\Http\Controllers\Web\Backend\ReviewController;
 use App\Http\Controllers\Web\Backend\ProductController;
 use App\Http\Controllers\Web\Backend\PropertyController;
 use App\Http\Controllers\Web\Backend\Settings\CaptchaController;
@@ -436,6 +440,39 @@ Route::group(['middleware' => ['web-admin']], function () {
         Route::post('/store', 'store')->name('store');
         Route::post('/update/{id}', 'update')->name('update');
         Route::get('/delete/{id}', 'destroy')->name('destroy');
+    });
+
+    Route::controller(BannerController::class)->prefix('banner')->name('banner.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::post('/update/{id}', 'update')->name('update');
+        Route::delete('/delete/{id}', 'destroy')->name('destroy');
+        Route::get('/status/{id}', 'status')->name('status');
+    });
+
+    Route::controller(ServiceController::class)->prefix('service')->name('service.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::post('/update/{id}', 'update')->name('update');
+        Route::delete('/delete/{id}', 'destroy')->name('destroy');
+        Route::get('/status/{id}', 'status')->name('status');
+    });
+
+    Route::prefix('lead')->name('lead.')->group(function () {
+        Route::get('/enrollments', [LeadController::class, 'enrollments'])->name('enrollments');
+        Route::get('/service-requests', [LeadController::class, 'serviceRequests'])->name('service-requests');
+        Route::delete('/enrollment/delete/{id}', [LeadController::class, 'destroyEnrollment'])->name('enrollments.destroy');
+        Route::delete('/service-request/delete/{id}', [LeadController::class, 'destroyServiceRequest'])->name('service-requests.destroy');
+    });
+
+    Route::controller(ReviewController::class)->prefix('review')->name('review.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/status/{id}', 'status')->name('status');
+        Route::delete('/delete/{id}', 'destroy')->name('destroy');
     });
 });
 

@@ -99,7 +99,9 @@ class CourseController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title'             => 'required|max:250',
-            'description'       => 'required|string|max:1000',
+            'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'description'       => 'required|string',
+            'price'             => 'nullable|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -110,9 +112,14 @@ class CourseController extends Controller
             $data = $validator->validated();
 
             $course = new Course();
-
             $course->title = $data['title'];
             $course->description = $data['description'];
+            $course->price = $request->price;
+            
+            if ($request->hasFile('image')) {
+                $course->image = \App\Helpers\Helper::fileUpload($request->file('image'), 'course', Str::slug($request->title));
+            }
+            
             $course->save();
 
             session()->put('t-success', 'Created Successfully');
@@ -157,7 +164,9 @@ class CourseController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'title'             => 'required|max:250',
-            'description'       => 'required|string|max:1000',
+            'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'description'       => 'required|string',
+            'price'             => 'nullable|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -168,9 +177,17 @@ class CourseController extends Controller
             $data = $validator->validated();
 
             $course = Course::findOrFail($id);
-
             $course->title = $data['title'];
             $course->description = $data['description'];
+            $course->price = $request->price;
+
+            if ($request->hasFile('image')) {
+                if ($course->image && file_exists(public_path($course->image))) {
+                    unlink(public_path($course->image));
+                }
+                $course->image = \App\Helpers\Helper::fileUpload($request->file('image'), 'course', Str::slug($request->title));
+            }
+
             $course->save();
 
             session()->put('t-success', 'Updated Successfully');

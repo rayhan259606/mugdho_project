@@ -30,7 +30,11 @@ $systemSetting = App\Models\Setting::first();
 
   <div class="page">
     <div class="page-main">
+      @include('frontend.simple.partials.header')
+      
       @yield('content')
+      
+      @include('frontend.simple.partials.footer')
     </div>
   </div>
 

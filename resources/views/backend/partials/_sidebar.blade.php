@@ -21,12 +21,12 @@ use Illuminate\Support\Facades\Route;
                     <h3>Menu</h3>
                 </li>
                 <li class="slide">
-                    <a class="side-menu__item {{  request()->routeIs('dashboard') ? 'has-link active' : '' }}" href="{{ route('admin.dashboard') }}">
+                    <a class="side-menu__item {{  request()->routeIs('admin.dashboard') ? 'has-link active' : '' }}" href="{{ route('admin.dashboard') }}">
                         <i class="fa-solid fa-house side-menu__icon"></i>
                         <span class=" side-menu__label">Dashboard</span>
                     </a>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.setting.*') ? 'has-link active' : '' }}" data-bs-toggle="slide" href="#">
                         <i class="fa-solid fa-chart-simple side-menu__icon"></i>
                         <span class="side-menu__label">Reports</span><i class="angle fa fa-angle-right"></i>
@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Route;
                     <ul class="slide-menu">
                         <li><a href="#" class="slide-item">General Report</a></li>
                     </ul>
-                </li>
+                </li> --}}
                 <li>
                     <h3>Basic</h3>
                 </li>
@@ -54,6 +54,18 @@ use Illuminate\Support\Facades\Route;
                     </a>
                 </li>
                 @endrole
+                <li class="slide">
+                    <a class="side-menu__item {{  request()->routeIs('admin.banner.*') ? 'has-link active' : '' }}" href="{{ route('admin.banner.index') }}">
+                        <i class="fa-solid fa-image side-menu__icon"></i>
+                        <span class="side-menu__label">Banner</span>
+                    </a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item {{  request()->routeIs('admin.service.*') ? 'has-link active' : '' }}" href="{{ route('admin.service.index') }}">
+                        <i class="fa-solid fa-handshake side-menu__icon"></i>
+                        <span class="side-menu__label">Service</span>
+                    </a>
+                </li>
                 <li>
                     <h3>Product</h3>
                 </li>
@@ -75,12 +87,12 @@ use Illuminate\Support\Facades\Route;
                         <span class="side-menu__label">Post</span>
                     </a>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.quiz.*') ? 'has-link active' : '' }}" href="{{ route('admin.quiz.index') }}">
                         <i class="fa-solid fa-feather side-menu__icon"></i>
                         <span class="side-menu__label">Quiz</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <h3>Ecommerce</h3>
                 </li>
@@ -90,12 +102,12 @@ use Illuminate\Support\Facades\Route;
                         <span class="side-menu__label">Product</span>
                     </a>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.attribute.*') ? 'has-link active' : '' }}" href="{{ route('admin.attribute.index') }}">
                         <i class="fa-solid fa-eye side-menu__icon"></i>
                         <span class="side-menu__label">Attribute</span>
                     </a>
-                </li>
+                </li> --}}
                 <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.order.*') ? 'has-link active' : '' }}" href="{{ route('admin.order.index') }}">
                         <i class="fa-solid fa-truck side-menu__icon"></i>
@@ -103,6 +115,12 @@ use Illuminate\Support\Facades\Route;
                     </a>
                 </li>
                 <li class="slide">
+                    <a class="side-menu__item {{  request()->routeIs('admin.review.*') ? 'has-link active' : '' }}" href="{{ route('admin.review.index') }}">
+                        <i class="fa-solid fa-star side-menu__icon"></i>
+                        <span class="side-menu__label">Product Reviews</span>
+                    </a>
+                </li>
+                {{-- <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.booking.*') ? 'has-link active' : '' }}" href="{{ route('admin.booking.index') }}">
                         <i class="fa-solid fa-book side-menu__icon"></i>
                         <span class="side-menu__label">Booking</span>
@@ -113,8 +131,23 @@ use Illuminate\Support\Facades\Route;
                         <i class="fa-solid fa-money-bill-transfer side-menu__icon"></i>
                         <span class="side-menu__label">Transaction</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
+                    <h3>Lead Management</h3>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item {{  request()->routeIs('admin.lead.enrollments') ? 'has-link active' : '' }}" href="{{ route('admin.lead.enrollments') }}">
+                        <i class="fa-solid fa-user-graduate side-menu__icon"></i>
+                        <span class="side-menu__label">Enrollments</span>
+                    </a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item {{  request()->routeIs('admin.lead.service-requests') ? 'has-link active' : '' }}" href="{{ route('admin.lead.service-requests') }}">
+                        <i class="fa-solid fa-headset side-menu__icon"></i>
+                        <span class="side-menu__label">Service Requests</span>
+                    </a>
+                </li>
+                {{-- <li>
                     <h3>Portfolio</h3>
                 </li>
                 @role('admin')
@@ -130,11 +163,11 @@ use Illuminate\Support\Facades\Route;
                         <i class="fa-solid fa-file side-menu__icon"></i>
                         <span class="side-menu__label">Project</span>
                     </a>
-                </li>
+                </li> --}}
                 <li>
                     <h3>Components</h3>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.contact.*') ? 'has-link active' : '' }}" href="{{ route('admin.contact.index') }}">
                         <i class="fa-solid fa-address-card side-menu__icon"></i>
                         <span class="side-menu__label">Contact</span>
@@ -151,7 +184,7 @@ use Illuminate\Support\Facades\Route;
                         <i class="fa-brands fa-rocketchat side-menu__icon"></i>
                         <span class="side-menu__label">Chat</span>
                     </a>
-                </li>
+                </li> --}}
                 @role('admin')
                 <li class="sliden {{ env('ACCESS') === false ? 'd-none' : '' }}">
                     <a class="side-menu__item {{  request()->routeIs('admin.users.*') ? 'has-link active' : '' }}" data-bs-toggle="slide" href="#">
@@ -195,7 +228,7 @@ use Illuminate\Support\Facades\Route;
                 </li>
                 @endrole
                 @role('admin')
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.template.*') ? 'has-link active' : '' }}" data-bs-toggle="slide" href="#">
                         <i class="fa-solid fa-synagogue side-menu__icon"></i>
                         <span class="side-menu__label">Template</span><i class="angle fa fa-angle-right"></i>
@@ -203,7 +236,7 @@ use Illuminate\Support\Facades\Route;
                     <ul class="slide-menu">
                         <li><a href="{{ route('admin.template.email.index') }}" class="slide-item">Email Template</a></li>
                     </ul>
-                </li>
+                </li> --}}
                 @endrole
                 @role('admin')
                 <li>
@@ -211,9 +244,7 @@ use Illuminate\Support\Facades\Route;
                 </li>
                 <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.page.*') ? 'has-link active' : '' }}" href="{{ route('admin.page.index') }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="side-menu__icon" viewBox="0 0 16 16">
-                            <path d="M15 14l-5-5-5 5v-3l10 -10z" />
-                        </svg>
+                        <i class="fa-solid fa-file-invoice side-menu__icon"></i>
                         <span class="side-menu__label">Dynamic Page</span>
                     </a>
                 </li>
@@ -229,12 +260,9 @@ use Illuminate\Support\Facades\Route;
                         <span class="side-menu__label">FAQ</span>
                     </a>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item" data-bs-toggle="slide" href="#">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="side-menu__icon" viewBox="0 0 16 16">
-                            <path d="M7.5 5.5a.5.5 0 0 0-1 0v.634l-.549-.317a.5.5 0 1 0-.5.866L6 7l-.549.317a.5.5 0 1 0 .5.866l.549-.317V8.5a.5.5 0 1 0 1 0v-.634l.549.317a.5.5 0 1 0 .5-.866L8 7l.549-.317a.5.5 0 1 0-.5-.866l-.549.317zm-2 4.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z" />
-                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
-                        </svg>
+                        <i class="fa-solid fa-desktop side-menu__icon"></i>
                         <span class="side-menu__label">CMS</span><i class="angle fa fa-angle-right"></i>
                     </a>
                     <ul class="slide-menu">
@@ -249,8 +277,8 @@ use Illuminate\Support\Facades\Route;
                             </ul>
                         </li>
                     </ul>
-                </li>
-                <li class="slide">
+                </li> --}}
+                {{-- <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.menu.*') ? 'has-link active' : '' }}" href="{{ route('admin.menu.index') }}">
                         <i class="fa-solid fa-bars-staggered side-menu__icon"></i>
                         <span class="side-menu__label">Menu</span>
@@ -266,10 +294,10 @@ use Illuminate\Support\Facades\Route;
                         App\Helpers\Plugins::getPluginsList();
                         @endphp
                     </ul>
-                </li>
+                </li> --}}
                 @endrole
                 @role('admin')
-                <li>
+                {{-- <li>
                     <h3>Location</h3>
                 </li>
                 <li class="slide">
@@ -277,10 +305,10 @@ use Illuminate\Support\Facades\Route;
                         <i class="fa-solid fa-earth-americas side-menu__icon"></i>
                         <span class="side-menu__label">Country</span>
                     </a>
-                </li>
+                </li> --}}
                 @endrole
                 @can('dev')
-                <li class="{{ env('APP_ENV') == 'production' ? 'd-none' : '' }}">
+                {{-- <li class="{{ env('APP_ENV') == 'production' ? 'd-none' : '' }}">
                     <h3>Dev Tools</h3>
                 </li>
                 <li class="slide">
@@ -300,7 +328,7 @@ use Illuminate\Support\Facades\Route;
                         <i class="fa-solid fa-image side-menu__icon"></i>
                         <span class="side-menu__label">Livewire</span>
                     </a>
-                </li>
+                </li> --}}
                 @endcan
                 <li class="slide">
                     <hr />

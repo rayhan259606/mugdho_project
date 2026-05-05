@@ -44,6 +44,15 @@ class DashboardController extends Controller
 
         file_put_contents(public_path('transactions/' . auth('web')->user()->slug . '.json'), json_encode($formatted_data));
 
-        return view('backend.layouts.dashboard');
+        $stats = [
+            'products' => \App\Models\Product::count(),
+            'courses' => \App\Models\Course::count(),
+            'banners' => \App\Models\Banner::count(),
+            'services' => \App\Models\Service::count(),
+            'enrollments' => \App\Models\CourseEnrollment::count(),
+            'service_requests' => \App\Models\ServiceRequest::count(),
+        ];
+
+        return view('backend.layouts.dashboard', compact('stats'));
     }
 }
