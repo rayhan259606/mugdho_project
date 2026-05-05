@@ -86,5 +86,13 @@
         border-color: #4e73df;
         box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.1);
     }
+    @media (max-width: 576px) {
+        .p-5 { padding: 1.5rem !important; }
+        .display-1 { font-size: 3.5rem !important; }
+        .display-6 { font-size: 1.5rem !important; }
+        .lead { font-size: 1rem !important; }
+        .py-5 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+        h2.fw-bold { font-size: 1.5rem !important; }
+    }
 </style>
 @endsection

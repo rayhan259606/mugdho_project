@@ -99,5 +99,12 @@
     .bg-primary-soft { background-color: rgba(99, 102, 241, 0.1); }
     .course-mini-card { transition: all 0.3s ease; }
     .course-mini-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important; }
+
+    @media (max-width: 576px) {
+        .display-4 { font-size: 2rem !important; }
+        .fs-5 { font-size: 1rem !important; }
+        .card.p-md-5 { padding: 1.5rem !important; }
+        .py-6 { padding-top: 3rem; padding-bottom: 3rem; }
+    }
 </style>
 @endsection

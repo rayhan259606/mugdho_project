@@ -9,7 +9,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <form class="d-flex mx-auto w-50" action="{{ route('home') }}" method="GET">
+                <form class="d-flex mx-auto my-3 my-lg-0 search-form" action="{{ route('home') }}" method="GET">
                     <input class="form-control me-2 rounded-pill border-light px-4 shadow-none" type="search" name="search" placeholder="Search products..." aria-label="Search" value="{{ request('search') }}">
                     <button class="btn btn-primary rounded-pill px-4" type="submit"><i class="fe fe-search"></i></button>
                 </form>
@@ -54,4 +54,14 @@
     .nav-link:hover { color: #4e73df !important; }
     .fw-500 { font-weight: 500; }
     .fs-20 { font-size: 20px; }
+
+    @media (min-width: 992px) {
+        .search-form { width: 50%; }
+    }
+    @media (max-width: 991px) {
+        .search-form { width: 100%; }
+        .navbar-nav { padding-top: 10px; }
+        .nav-item { width: 100%; text-align: center; }
+        .nav-item .btn { width: 100%; margin-top: 10px; }
+    }
 </style>

@@ -110,5 +110,12 @@
         font-size: 12px;
         vertical-align: middle;
     }
+    @media (max-width: 576px) {
+        .display-6 { font-size: 1.5rem !important; }
+        .lead { font-size: 1rem !important; }
+        .product-info-card { padding: 1.25rem !important; }
+        .order-form-box { padding: 1.25rem !important; }
+        .py-5 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+    }
 </style>
 @endsection

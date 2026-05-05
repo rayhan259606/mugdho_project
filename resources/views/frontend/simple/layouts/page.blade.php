@@ -38,5 +38,11 @@
         margin-bottom: 1rem;
         font-weight: 700;
     }
+    @media (max-width: 576px) {
+        .display-5 { font-size: 1.8rem !important; }
+        .card-body.p-5 { padding: 1.5rem !important; }
+        .lead { font-size: 1rem !important; }
+        .py-5 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+    }
 </style>
 @endsection

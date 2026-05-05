@@ -125,5 +125,17 @@
         background-color: rgba(78, 115, 223, 0.05);
         color: #4e73df;
     }
+    @media (max-width: 991px) {
+        .sticky-top { position: static !important; }
+        .display-4 { font-size: 2.2rem !important; }
+    }
+    @media (max-width: 576px) {
+        .display-4 { font-size: 1.8rem !important; }
+        .lead { font-size: 1rem !important; }
+        .fs-24 { font-size: 20px; }
+        .d-flex.align-items-center > div { margin-right: 1rem !important; }
+        .card.p-4 { padding: 1.25rem !important; }
+        .container.py-5 { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+    }
 </style>
 @endsection

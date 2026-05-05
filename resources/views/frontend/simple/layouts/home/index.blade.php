@@ -14,7 +14,7 @@
             @foreach($banners as $key => $banner)
             <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
                 <div class="banner-overlay"></div>
-                <img src="{{ asset($banner->image) }}" class="d-block w-100" alt="{{ $banner->title }}" style="height: 650px; object-fit: cover;">
+                <img src="{{ asset($banner->image) }}" class="d-block w-100 banner-img" alt="{{ $banner->title }}">
                 <div class="carousel-caption d-md-block text-start animate__animated animate__fadeInUp">
                     <div class="container">
                         <div class="col-lg-8">
@@ -157,7 +157,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="card border-0 glass-card p-4 p-md-5">
+                <div class="card border-0 glass-card p-3 p-md-5">
                     <h3 class="fw-bold mb-4 text-white">Send Your Request</h3>
                     <form action="{{ route('contact.store') }}" method="POST">
                         @csrf
@@ -218,6 +218,22 @@
         top: 0; left: 0; width: 100%; height: 100%;
         background: linear-gradient(to right, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.4) 100%);
         z-index: 1;
+    }
+    .banner-img {
+        height: 650px;
+        object-fit: cover;
+    }
+    @media (max-width: 991px) {
+        .banner-img { height: 450px; }
+        .main-title { font-size: 2.5rem !important; }
+        .sub-title { font-size: 1.1rem !important; }
+    }
+    @media (max-width: 576px) {
+        .banner-img { height: 350px; }
+        .main-title { font-size: 2rem !important; }
+        .display-4 { font-size: 1.8rem !important; }
+        .display-5 { font-size: 1.5rem !important; }
+        .py-6 { padding-top: 3rem; padding-bottom: 3rem; }
     }
     .main-title { text-shadow: 0 4px 12px rgba(0,0,0,0.3); }
     .explore-btn:hover { transform: translateY(-3px) scale(1.05); }

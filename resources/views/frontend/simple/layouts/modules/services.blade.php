@@ -115,5 +115,15 @@
         background: #0f172a;
         color: #fff;
     }
+
+    @media (max-width: 576px) {
+        .display-3 { font-size: 2.2rem !important; }
+        .display-6 { font-size: 1.8rem !important; }
+        .fs-4 { font-size: 1.1rem !important; }
+        .py-10 { padding-top: 4rem !important; padding-bottom: 4rem !important; }
+        .py-6 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+        .gap-4 { gap: 1rem !important; flex-direction: column !important; }
+        .card.p-md-5 { padding: 1.25rem !important; }
+    }
 </style>
 @endsection
