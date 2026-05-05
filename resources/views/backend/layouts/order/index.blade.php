@@ -3,16 +3,76 @@
 @section('title', 'Orders')
 
 @section('content')
-<div class="main-container container-fluid">
-    <div class="page-header">
-        <h1 class="page-title">Orders</h1>
-        <div>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Orders</li>
-            </ol>
-        </div>
+<!--app-content open-->
+<div class="app-content main-content mt-0">
+    <div class="side-app">
+        <div class="main-container container-fluid">
+            <div class="page-header">
+                <h1 class="page-title">Orders</h1>
+                <div>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Orders</li>
+                    </ol>
+                </div>
+            </div>
+
+    <!-- ROW-1 -->
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <div class="card bg-primary img-card box-primary-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ $totalOrders ?? 0 }}</h2>
+                            <p class="text-white mb-0">Total Orders</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fe fe-shopping-cart text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- COL END -->
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <div class="card bg-warning img-card box-secondary-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ $pendingOrders ?? 0 }}</h2>
+                            <p class="text-white mb-0">Pending Orders</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fe fe-clock text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- COL END -->
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <div class="card bg-success img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ $completedOrders ?? 0 }}</h2>
+                            <p class="text-white mb-0">Completed Orders</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fe fe-check-circle text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- COL END -->
+        <div class="col-sm-6 col-md-6 col-lg-3 col-xl-3">
+            <div class="card bg-info img-card box-info-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">৳{{ number_format($totalRevenue ?? 0, 2) }}</h2>
+                            <p class="text-white mb-0">Total Revenue</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fe fe-dollar-sign text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- COL END -->
     </div>
+    <!-- ROW-1 END -->
 
     <div class="row row-sm">
         <div class="col-lg-12">
@@ -40,17 +100,30 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
+</div>
+</div>
 </div>
 @endsection
 
-@push('script')
+@push('scripts')
 <script>
     $(document).ready(function() {
+        $.ajaxSetup({
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            }
+        });
+
         $('#datatable').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('admin.order.index') }}",
+            dom: "<'row justify-content-between table-topbar'<'col-md-4 col-sm-3'l><'col-md-8 col-sm-9 d-flex justify-content-end px-0'Bf>>tipr",
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false},
                 {data: 'product', name: 'product'},
@@ -64,6 +137,7 @@
     });
 
     function showStatusChangeAlert(id) {
+        event.preventDefault();
         Swal.fire({
             title: 'Change order status?',
             text: "This will toggle between Accept/Reject (or Pending).",
@@ -109,8 +183,26 @@
     }
 
     function deleteOrder(id) {
-        // Note: Order destroy route might not exist in the controller yet, let's check
-        toastr.info("Delete functionality coming soon or not implemented in controller.");
+        let url = "{{ route('admin.order.destroy', ':id') }}";
+        let csrfToken = '{{ csrf_token() }}';
+        $.ajax({
+            type: "DELETE",
+            url: url.replace(':id', id),
+            headers: {
+                'X-CSRF-TOKEN': csrfToken
+            },
+            success: function(resp) {
+                if (resp.status === 't-success') {
+                    toastr.success(resp.message);
+                    $('#datatable').DataTable().ajax.reload();
+                } else {
+                    toastr.error(resp.message);
+                }
+            },
+            error: function(error) {
+                toastr.error('Something went wrong.');
+            }
+        });
     }
 </script>
 @endpush

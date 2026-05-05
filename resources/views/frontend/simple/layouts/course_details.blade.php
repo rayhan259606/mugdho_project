@@ -30,7 +30,7 @@
                     <img src="{{ asset($course->image ?? 'default/course.jpg') }}" class="card-img-top" alt="{{ $course->title }}">
                     <div class="card-body p-4 bg-white text-dark text-center">
                         @if($course->price)
-                            <h2 class="fw-bold text-primary mb-3">${{ $course->price }}</h2>
+                            <h2 class="fw-bold text-primary mb-3">৳{{ $course->price }}</h2>
                         @endif
                         <a href="#enroll-form" class="btn btn-primary btn-lg w-100 rounded-pill py-3 fw-bold">Enroll in Course</a>
                         <p class="small text-muted mt-3 mb-0"><i class="fe fe-shield me-1"></i> 30-Day Money Back Guarantee</p>

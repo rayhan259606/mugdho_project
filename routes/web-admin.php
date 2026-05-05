@@ -116,6 +116,7 @@ Route::group(['middleware' => ['web-admin']], function () {
         Route::get('/', 'index')->name('index');
         Route::get('/show/{id}', 'show')->name('show');
         Route::get('/status/{id}', 'status')->name('status');
+        Route::delete('/delete/{id}', 'destroy')->name('destroy');
     });
 
     Route::controller(BookingController::class)->prefix('booking')->name('booking.')->group(function () {

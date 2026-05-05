@@ -80,7 +80,7 @@
                     <div class="card-body p-4">
                         <h5 class="fw-bold text-slate-800 mb-2">{{ $course->title }}</h5>
                         @if($course->price)
-                            <h6 class="fw-bold text-primary mb-3">${{ $course->price }}</h6>
+                            <h6 class="fw-bold text-primary mb-3">৳{{ $course->price }}</h6>
                         @endif
                         <p class="text-slate-500 small mb-4">{{ Str::limit(strip_tags($course->description), 100) }}</p>
                         <a href="{{ route('course.details', $course->id) }}" class="btn btn-outline-primary rounded-pill w-100">Learn More</a>

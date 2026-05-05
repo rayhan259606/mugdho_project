@@ -67,7 +67,7 @@
                     <div class="card-body p-4">
                         <h6 class="fw-bold text-slate-800 mb-2">{{ $product->title }}</h6>
                         <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-primary fw-bold">${{ $product->price - $product->discount }}</span>
+                            <span class="text-primary fw-bold">৳{{ $product->price - $product->discount }}</span>
                             <a href="{{ route('product.details', $product->slug) }}" class="btn btn-link text-decoration-none p-0">View <i class="fe fe-arrow-right"></i></a>
                         </div>
                     </div>

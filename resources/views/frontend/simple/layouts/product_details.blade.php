@@ -50,11 +50,11 @@
 
                     <div class="price-box mb-4">
                         @if($product->discount > 0)
-                            <h2 class="text-primary fw-bold mb-0">${{ $product->price - $product->discount }}</h2>
-                            <p class="text-muted text-decoration-line-through mb-0">Original Price: ${{ $product->price }}</p>
-                            <span class="badge bg-danger rounded-pill mt-2">Save ${{ $product->discount }} OFF</span>
+                            <h2 class="text-primary fw-bold mb-0">৳{{ $product->price - $product->discount }}</h2>
+                            <p class="text-muted text-decoration-line-through mb-0">Original Price: ৳{{ $product->price }}</p>
+                            <span class="badge bg-danger rounded-pill mt-2">Save ৳{{ $product->discount }} OFF</span>
                         @else
-                            <h2 class="text-primary fw-bold mb-0">${{ $product->price }}</h2>
+                            <h2 class="text-primary fw-bold mb-0">৳{{ $product->price }}</h2>
                         @endif
                     </div>
 

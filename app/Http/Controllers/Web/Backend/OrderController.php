@@ -27,8 +27,7 @@ class OrderController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('product', function ($data) {
-                    $title = $data->product->title ? Str::limit($data->product->title, 30) : 'N/A';
-                    return $title;
+                    return $data->product->title ?? 'Product Deleted';
                 })
                 ->addColumn('customer', function ($data) {
                     return $data->name . '<br><small>' . $data->phone . '</small>';
@@ -37,17 +36,25 @@ class OrderController extends Controller
                     return Str::limit($data->address, 30);
                 })
                 ->addColumn('total', function ($data) {
-                    return '$' . $data->total_amount;
+                    return '৳' . ($data->price + ($data->shipping_charge ?? 0));
                 })
                 ->addColumn('status', function ($data) {
-                    $badgeClass = $data->status == "accept" ? 'bg-success' : ($data->status == 'pending' ? 'bg-warning' : 'bg-danger');
-                    return '<span class="badge ' . $badgeClass . '">' . ucfirst($data->status) . '</span>';
+                    $backgroundColor = $data->status == "accepted" ? '#4CAF50' : ($data->status == "pending" ? '#ffc107' : '#ccc');
+                    $sliderTranslateX = $data->status == "accepted" ? '26px' : '2px';
+                    
+                    $status = '<div class="d-flex justify-content-center align-items-center">';
+                    $status .= '<div class="form-check form-switch" style="position: relative; width: 50px; height: 24px; background-color: ' . $backgroundColor . '; border-radius: 12px; transition: background-color 0.3s ease; cursor: pointer;">';
+                    $status .= '<input onclick="showStatusChangeAlert(' . $data->id . ')" type="checkbox" class="form-check-input" id="customSwitch' . $data->id . '" getAreaid="' . $data->id . '" name="status" style="position: absolute; width: 100%; height: 100%; opacity: 0; z-index: 2; cursor: pointer;">';
+                    $status .= '<span style="position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background-color: white; border-radius: 50%; transition: transform 0.3s ease; transform: translateX('.$sliderTranslateX.');"></span>';
+                    $status .= '<label for="customSwitch' . $data->id . '" class="form-check-label" style="margin-left: 10px;"></label>';
+                    $status .= '</div>';
+                    $status .= '<span class="ms-2 small text-muted">'.ucfirst($data->status).'</span>';
+                    $status .= '</div>';
+                
+                    return $status;
                 })
                 ->addColumn('action', function ($data) {
                     return '<div class="btn-group btn-group-sm" role="group">
-                                <a href="#" onclick="showStatusChangeAlert(' . $data->id . ')" class="btn btn-primary fs-14 text-white" title="Change Status">
-                                    <i class="fe fe-refresh-cw"></i>
-                                </a>
                                 <a href="#" onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-danger fs-14 text-white" title="Delete">
                                     <i class="fe fe-trash"></i>
                                 </a>
@@ -56,7 +63,31 @@ class OrderController extends Controller
                 ->rawColumns(['customer', 'status', 'action'])
                 ->make();
         }
-        return view("backend.layouts.order.index");
+        $totalOrders = Order::count();
+        $pendingOrders = Order::where('status', 'pending')->count();
+        $completedOrders = Order::where('status', 'accepted')->count();
+        $totalRevenue = Order::where('status', 'accepted')->get()->sum(function($order) {
+            return $order->price + ($order->shipping_charge ?? 0);
+        });
+
+        return view("backend.layouts.order.index", compact('totalOrders', 'pendingOrders', 'completedOrders', 'totalRevenue'));
+    }
+
+    public function destroy(int $id): JsonResponse
+    {
+        try {
+            $order = Order::findOrFail($id);
+            $order->delete();
+            return response()->json([
+                'status' => 't-success',
+                'message' => 'Order deleted successfully!',
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 't-error',
+                'message' => $e->getMessage(),
+            ]);
+        }
     }
     public function show(int $id)
     {
@@ -73,7 +104,7 @@ class OrderController extends Controller
                 'message' => 'Item not found.',
             ]);
         }
-        $data->status = $data->status === 'accept' ? 'reject' : 'accept';
+        $data->status = $data->status === 'accepted' ? 'pending' : 'accepted';
         $data->save();
         return response()->json([
             'status' => 't-success',

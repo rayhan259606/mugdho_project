@@ -50,7 +50,15 @@ class HomeController extends Controller
 
         if ($request->has('category')) {
             $query->whereHas('category', function($q) use ($request) {
-                $q->where('slug', $request->category);
+                if ($request->category == 'gadget') {
+                    $q->whereIn('slug', ['gadget', 'gadgets']);
+                } elseif ($request->category == 'digital') {
+                    $q->whereIn('slug', ['digital', 'digital-products', 'digitals']);
+                } elseif ($request->category == 'antique') {
+                    $q->whereIn('slug', ['antique', 'antiques', 'antique-collection']);
+                } else {
+                    $q->where('slug', $request->category);
+                }
             });
         }
 
@@ -130,7 +138,9 @@ class HomeController extends Controller
     {
         $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
         $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
-        $products = Product::whereHas('category', function($q) { $q->where('slug', 'gadget'); })->latest()->get();
+        $products = Product::whereHas('category', function($q) { 
+            $q->whereIn('slug', ['gadget', 'gadgets']); 
+        })->latest()->get();
         $title = 'Gadgets Collection';
         $socials = \App\Models\SocialLink::where('status', 'active')->get();
         return view("frontend.{$this->theme}.layouts.modules.products", compact('cms', 'products', 'title', 'socials'));
@@ -140,7 +150,9 @@ class HomeController extends Controller
     {
         $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
         $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
-        $products = Product::whereHas('category', function($q) { $q->where('slug', 'digital'); })->latest()->get();
+        $products = Product::whereHas('category', function($q) { 
+            $q->whereIn('slug', ['digital', 'digital-products', 'digitals']); 
+        })->latest()->get();
         $title = 'Digital Products';
         $socials = \App\Models\SocialLink::where('status', 'active')->get();
         return view("frontend.{$this->theme}.layouts.modules.products", compact('cms', 'products', 'title', 'socials'));
@@ -150,7 +162,9 @@ class HomeController extends Controller
     {
         $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
         $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
-        $products = Product::whereHas('category', function($q) { $q->where('slug', 'antique'); })->latest()->get();
+        $products = Product::whereHas('category', function($q) { 
+            $q->whereIn('slug', ['antique', 'antiques', 'antique-collection']); 
+        })->latest()->get();
         $title = 'Antique Collection';
         $socials = \App\Models\SocialLink::where('status', 'active')->get();
         return view("frontend.{$this->theme}.layouts.modules.products", compact('cms', 'products', 'title', 'socials'));

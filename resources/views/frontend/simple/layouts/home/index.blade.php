@@ -105,10 +105,10 @@
                         <div class="d-flex align-items-center justify-content-between mt-auto">
                             <div class="price-stack">
                                 @if($product->discount > 0)
-                                <span class="old-price text-secondary text-decoration-line-through small d-block">${{ $product->price }}</span>
-                                <span class="current-price text-dark fw-bold fs-5">${{ $product->price - $product->discount }}</span>
+                                <span class="old-price text-secondary text-decoration-line-through small d-block">৳{{ $product->price }}</span>
+                                <span class="current-price text-dark fw-bold fs-5">৳{{ $product->price - $product->discount }}</span>
                                 @else
-                                <span class="current-price text-dark fw-bold fs-5">${{ $product->price }}</span>
+                                <span class="current-price text-dark fw-bold fs-5">৳{{ $product->price }}</span>
                                 @endif
                             </div>
                             <a href="{{ route('product.details', $product->slug) }}" class="btn btn-navy-soft btn-icon rounded-circle">
