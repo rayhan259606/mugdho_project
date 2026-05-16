@@ -2,67 +2,100 @@
 
 @section('title', 'Service Requests')
 
-@section('content')
-<div class="main-container container-fluid">
-    <div class="page-header">
-        <h1 class="page-title">Service Requests</h1>
-        <div>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="javascript:void(0)">Lead Management</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Service Requests</li>
-            </ol>
-        </div>
-    </div>
+@push('styles')
+<link href="{{ asset('default/datatable.css') }}" rel="stylesheet" />
+<style>
+    /* Ensure the content doesn't hide behind sidebar */
+    .app-content {
+        min-height: calc(100-vh - 70px);
+    }
+</style>
+@endpush
 
-    <div class="row row-sm">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">All Service Requests</h3>
+@section('content')
+<!-- App-content starts -->
+<div class="app-content main-content mt-0">
+    <div class="side-app">
+        <!-- Container-fluid starts -->
+        <div class="main-container container-fluid">
+            
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Service Requests</h1>
+                <div>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)">Lead Management</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Service Requests</li>
+                    </ol>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="data-table" class="table table-bordered text-nowrap key-buttons border-bottom">
-                            <thead>
-                                <tr>
-                                    <th class="border-bottom-0">SL</th>
-                                    <th class="border-bottom-0">Service</th>
-                                    <th class="border-bottom-0">Name</th>
-                                    <th class="border-bottom-0">Phone</th>
-                                    <th class="border-bottom-0">Address</th>
-                                    <th class="border-bottom-0">Date</th>
-                                    <th class="border-bottom-0">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+            </div>
+
+            <!-- Table Row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header border-bottom">
+                            <h3 class="card-title">All Service Requests</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="data-table" class="table table-bordered text-nowrap key-buttons border-bottom w-100">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-bottom-0">SL</th>
+                                            <th class="border-bottom-0">Service</th>
+                                            <th class="border-bottom-0">Name</th>
+                                            <th class="border-bottom-0">Phone</th>
+                                            <th class="border-bottom-0">Address</th>
+                                            <th class="border-bottom-0">Image</th>
+                                            <th class="border-bottom-0">Date</th>
+                                            <th class="border-bottom-0">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- DataTables will fill this -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- End Row -->
+
         </div>
+        <!-- Container-fluid ends -->
     </div>
 </div>
+<!-- App-content ends -->
 @endsection
 
-@push('script')
+@push('scripts')
 <script>
     $(document).ready(function() {
-        $('#data-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('admin.lead.service-requests') }}",
-            columns: [
-                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
-                {data: 'service', name: 'service'},
-                {data: 'name', name: 'name'},
-                {data: 'phone', name: 'phone'},
-                {data: 'address', name: 'address'},
-                {data: 'created_at', name: 'created_at', render: function(data) {
-                    return new Date(data).toLocaleDateString();
-                }},
-                {data: 'action', name: 'action', orderable: false, searchable: false},
-            ]
-        });
+        if (!$.fn.DataTable.isDataTable('#data-table')) {
+            $('#data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('admin.lead.service-requests') }}",
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                    {data: 'service', name: 'service'},
+                    {data: 'name', name: 'name'},
+                    {data: 'phone', name: 'phone'},
+                    {data: 'address', name: 'address'},
+                    {data: 'image', name: 'image', orderable: false, searchable: false},
+                    {data: 'created_at', name: 'created_at', render: function(data) {
+                        return data ? new Date(data).toLocaleDateString() : 'N/A';
+                    }},
+                    {data: 'action', name: 'action', orderable: false, searchable: false},
+                ],
+                language: {
+                    searchPlaceholder: 'Search...',
+                    sSearch: '',
+                }
+            });
+        }
     });
 
     function showDeleteConfirm(id) {
@@ -82,7 +115,7 @@
     }
 
     function deleteServiceRequest(id) {
-        var url = "{{ route('admin.lead.service-requests.destroy', ':id') }}";
+        let url = "{{ route('admin.lead.service-requests.destroy', ':id') }}";
         url = url.replace(':id', id);
         
         $.ajax({
@@ -92,12 +125,15 @@
                 _token: "{{ csrf_token() }}"
             },
             success: function(response) {
-                if (response.status === 't-success') {
+                if (response.status === 't-success' || response.status === 'success') {
                     $('#data-table').DataTable().ajax.reload();
                     toastr.success(response.message);
                 } else {
                     toastr.error(response.message);
                 }
+            },
+            error: function() {
+                toastr.error("Something went wrong!");
             }
         });
     }

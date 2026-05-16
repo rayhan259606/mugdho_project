@@ -32,6 +32,31 @@ class LeadController extends Controller
         return view("backend.layouts.lead.enrollments");
     }
 
+    public function storeServiceRequest(Request $request)
+{
+    // Validation
+    $request->validate([
+        'service_id' => 'required|exists:services,id',
+        'name'       => 'required|string|max:255',
+        'phone'      => 'required|string|max:20',
+        'address'    => 'required|string|max:255',
+    ]);
+
+    // Data Save
+    try {
+        ServiceRequest::create([
+            'service_id' => $request->service_id,
+            'name'       => $request->name,
+            'phone'      => $request->phone,
+            'address'    => $request->address,
+        ]);
+
+        return back()->with('success', 'Your request has been submitted successfully!');
+    } catch (\Exception $e) {
+        return back()->with('error', 'Something went wrong. Please try again.');
+    }
+}
+
     public function serviceRequests(Request $request)
     {
         if ($request->ajax()) {
@@ -41,6 +66,9 @@ class LeadController extends Controller
                 ->addColumn('service', function ($data) {
                     return $data->service->title;
                 })
+                ->addColumn('image', function ($data) {
+                    return $data->image ? '<img src="' . asset($data->image) . '" style="max-width:80px; border-radius:4px;" />' : '';
+                })
                 ->addColumn('action', function ($data) {
                     return '<div class="btn-group btn-group-sm" role="group">
                                 <a href="#" onclick="showDeleteConfirm(' . $data->id . ', \'service-request\')" class="btn btn-danger fs-14 text-white" title="Delete">
@@ -48,7 +76,7 @@ class LeadController extends Controller
                                 </a>
                             </div>';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action','image'])
                 ->make();
         }
         return view("backend.layouts.lead.service_requests");

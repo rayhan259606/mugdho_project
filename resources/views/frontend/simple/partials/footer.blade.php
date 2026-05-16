@@ -1,126 +1,313 @@
-<footer class="footer bg-navy text-white pt-5 pb-3 position-relative overflow-hidden" style="background-color: #0f172a !important;">
-    <div class="footer-shape-1"></div>
-    <div class="container position-relative z-index-2">
-        <div class="row g-5">
-            <div class="col-lg-4 col-md-6 mb-4">
-                <h5 class="fw-bold mb-4 text-uppercase ls-1 text-white">Contact Info</h5>
-                <div class="contact-item mb-3 d-flex align-items-center">
-                    <div class="icon-circle me-3"><i class="fe fe-map-pin"></i></div>
-                    <span class="text-white opacity-75">{{ $systemSetting->address ?? 'Dhaka, Bangladesh' }}</span>
-                </div>
-                <div class="contact-item mb-3 d-flex align-items-center">
-                    <div class="icon-circle me-3"><i class="fe fe-phone"></i></div>
-                    <span class="text-white opacity-75">{{ $systemSetting->phone ?? '+880 1XXX XXXXXX' }}</span>
-                </div>
-                <div class="contact-item mb-4 d-flex align-items-center">
-                    <div class="icon-circle me-3"><i class="fe fe-mail"></i></div>
-                    <span class="text-white opacity-75">{{ $systemSetting->email ?? 'info@example.com' }}</span>
-                </div>
-                <div class="social-links d-flex">
-                    @foreach($socials as $social)
-                        <a href="{{ $social->link }}" class="social-btn me-2" title="{{ $social->name }}">
-                            <i class="fa fa-{{ strtolower($social->name) }}"></i>
-                        </a>
-                    @endforeach
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 mb-4 text-center text-md-start">
-                <h5 class="fw-bold mb-4 text-uppercase ls-1 text-white">Stay Updated</h5>
-                <p class="text-white opacity-75 mb-4">Subscribe to our newsletter for exclusive offers and news.</p>
-                <form action="{{ route('subscriber.data.store') }}" method="POST" class="newsletter-form">
-                    @csrf
-                    <div class="input-group shadow-sm">
-                        <input type="email" name="email" class="form-control border-0 px-4" placeholder="Your Email Address" required style="background: rgba(255,255,255,0.1) !important; color: #fff !important;">
-                        <button class="btn btn-primary px-4 fw-bold" type="submit">Join</button>
+<footer class="site-footer">
+    <div class="container">
+        <div class="row g-4 g-lg-5">
+            
+            <!-- কলাম ১: কোম্পানির নাম ও কন্ট্যাক্ট ইনফো -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="footer-block">
+                    <h4 class="footer-brand-name">
+                        {{ $systemSetting->name ?? env('APP_NAME') }}
+                    </h4>
+                    <p class="footer-description">
+                        We deliver premium digital assets, authenticated technical tools, and expert solutions designed to scale your operational workflow seamlessly.
+                    </p>
+                    
+                    <div class="footer-contact-info">
+                        <div class="contact-line">
+                            <i class="fe fe-map-pin contact-icon"></i>
+                            <span class="contact-text">{{ $systemSetting->address ?? 'Dhaka, Bangladesh' }}</span>
+                        </div>
+                        <div class="contact-line">
+                            <i class="fe fe-phone contact-icon"></i>
+                            <span class="contact-text">{{ $systemSetting->phone ?? '+880 1XXX XXXXXX' }}</span>
+                        </div>
+                        <div class="contact-line">
+                            <i class="fe fe-mail contact-icon"></i>
+                            <span class="contact-text text-truncate">{{ $systemSetting->email ?? 'info@example.com' }}</span>
+                        </div>
                     </div>
-                </form>
-            </div>
-            <div class="col-lg-4 mb-4">
-                <h5 class="fw-bold mb-4 text-uppercase ls-1 text-center text-lg-start text-white">Quick Links</h5>
-                <div class="row">
-                    <div class="col-6">
-                        <ul class="list-unstyled footer-links">
-                            <li><a href="{{ route('home') }}" class="text-white opacity-75"><i class="fe fe-chevron-right me-1 text-primary"></i> Home</a></li>
-                            <li><a href="{{ route('module.msm') }}" class="text-white opacity-75"><i class="fe fe-chevron-right me-1 text-primary"></i> Courses</a></li>
-                            <li><a href="{{ route('module.gadgets') }}" class="text-white opacity-75"><i class="fe fe-chevron-right me-1 text-primary"></i> Gadgets</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-6">
-                        <ul class="list-unstyled footer-links">
-                            <li><a href="{{ url('/page/privacy-policy') }}" class="text-white opacity-75"><i class="fe fe-chevron-right me-1 text-primary"></i> Privacy</a></li>
-                            <li><a href="{{ url('/page/terms-conditions') }}" class="text-white opacity-75"><i class="fe fe-chevron-right me-1 text-primary"></i> Terms</a></li>
-                            <li><a href="{{ route('post.index') }}" class="text-white opacity-75"><i class="fe fe-chevron-right me-1 text-primary"></i> Blog</a></li>
-                        </ul>
+
+                    <!-- সোশ্যাল মিডিয়া লিংক (ক্লিন ও সিম্পল) -->
+                    <div class="footer-social-links">
+                        @foreach($socials as $social)
+                            @php 
+                                $iconName = strtolower($social->name);
+                                if($iconName == 'facebook') $iconName = 'facebook-f';
+                                if($iconName == 'twitter' || $iconName == 'x') $iconName = 'twitter';
+                            @endphp
+                            <a href="{{ $social->link }}" target="_blank" rel="noopener noreferrer" class="social-link-item" title="{{ $social->name }}">
+                                <i class="fab fa-{{ $iconName }} fa-fw"></i>
+                            </a>
+                        @endforeach
                     </div>
                 </div>
             </div>
+
+            <!-- কলাম ২: কুইক লিংক (পর্যাপ্ত গ্যাপসহ) -->
+            <div class="col-6 col-md-6 col-lg-4 ps-lg-5">
+                <div class="footer-block">
+                    <h6 class="footer-section-title">Quick Links</h6>
+                    <ul class="list-unstyled footer-navigation-links">
+                        <li><a href="{{ route('home') }}">Home Masterpiece</a></li>
+                        <li><a href="{{ route('module.msm') }}">MSM Course</a></li>
+                        <li><a href="{{ route('module.gadgets') }}">Gadgets Hub</a></li>
+                        <li><a href="{{ url('/page/privacy-policy') }}">Privacy Matrix</a></li>
+                        <li><a href="{{ url('/page/terms-conditions') }}">Terms Matrix</a></li>
+                        <li><a href="{{ route('post.index') }}">Insights Blog</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- কলাম ৩: নিউজলেটার ফর্ম -->
+            <div class="col-12 col-md-12 col-lg-4">
+                <div class="footer-block">
+                    <h6 class="footer-section-title text-start">Stay Updated</h6>
+                    <p class="footer-description mb-4">
+                        Subscribe to our newsletter to receive exclusive offers, new product drops, and corporate updates.
+                    </p>
+                    
+                    <form action="{{ route('subscriber.data.store') }}" method="POST" class="simple-newsletter-form">
+                        @csrf
+                        <div class="custom-input-group">
+                            <input type="email" name="email" class="form-input-clean" placeholder="Your Email Address" required>
+                            <button type="submit" class="form-btn-clean">Join</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
         </div>
-        <hr class="my-5 opacity-10" style="border-color: rgba(255,255,255,0.1) !important;">
-        <div class="row align-items-center">
-            <div class="col-md-6 text-center text-md-start">
-                <p class="mb-0 text-white opacity-50">&copy; {{ date('Y') }} <span class="text-white fw-bold">{{ $systemSetting->name ?? env('APP_NAME') }}</span>. All rights reserved.</p>
-            </div>
-            <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
-                <img src="{{ asset('backend/images/brand/cards.png') }}" alt="Payments" height="30" class="opacity-75 grayscale-0">
-            </div>
-        </div>
+
+        <hr class="footer-simple-divider">
+
+        <!-- ফুটার বটম (সম্পূর্ণ রেসপন্সিভ) -->
+        <div class="row align-items-center footer-bottom-row g-3 justify-content-center text-center">
+    
+    <div class="col-12">
+        <p class="copyright-text mb-0">
+            &copy; {{ date('Y') }}
+            <span class="text-white fw-bold">
+                {{ $systemSetting->name ?? env('APP_NAME') }}
+            </span>.
+            All rights reserved.
+            Developed by
+            <a href="" class="visonsoft-link" target="_blank">
+                FC Tech Solutions
+            </a>
+        </p>
+    </div>
+
+</div>
     </div>
 </footer>
 
 <style>
-    .bg-navy { background-color: #0f172a !important; }
-    .footer-shape-1 {
-        position: absolute;
-        top: -50px;
-        right: -50px;
-        width: 200px;
-        height: 200px;
-        background: rgba(99, 102, 241, 0.1);
-        border-radius: 50%;
-        z-index: 1;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    /* সলিড কালার গাইডলাইন - হাই কন্ট্রাস্ট */
+    .site-footer {
+        background-color: #0f172a !important; /* সম্পূর্ণ সলিড ম্যাট ডার্ক ব্যাকগ্রাউন্ড */
+        color: #94a3b8 !important; /* হাই-কন্ট্রাস্ট রিডেবল টেক্সট কালার */
+        font-family: 'Inter', sans-serif;
+        padding-top: 80px;
+        padding-bottom: 40px;
+        border-top: 1px solid #1e293b;
     }
-    .icon-circle {
-        width: 35px;
-        height: 35px;
-        background: rgba(255,255,255,0.1);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #6366f1;
+
+    /* টেক্সট ও টাইটেল স্টাইলিং (স্পষ্ট এবং গ্যাপযুক্ত) */
+    .footer-brand-name {
+        color: #ffffff !important;
+        font-weight: 700;
+        font-size: 24px;
+        letter-spacing: -0.5px;
+        margin-bottom: 16px;
     }
-    .social-btn {
-        width: 40px;
-        height: 40px;
-        background: rgba(255,255,255,0.1);
-        color: #fff !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        transition: all 0.3s ease;
-    }
-    .social-btn:hover {
-        background: #6366f1;
-        color: #fff !important;
-        transform: translateY(-3px);
-    }
-    .footer-links li { margin-bottom: 12px; }
-    .footer-links a {
-        color: rgba(255,255,255,0.7) !important;
-        text-decoration: none;
-        transition: all 0.3s ease;
+
+    .footer-description {
+        color: #94a3b8 !important;
         font-size: 14px;
+        line-height: 1.6; /* লাইনের মাঝের স্পেস বাড়ানো হয়েছে */
+        margin-bottom: 24px;
     }
-    .footer-links a:hover {
-        color: #fff !important;
-        padding-left: 5px;
+
+    .footer-section-title {
+        color: #ffffff !important;
+        font-weight: 600;
+        font-size: 15px;
+        text-uppercase: none;
+        letter-spacing: 0.5px;
+        margin-bottom: 24px;
     }
-    .newsletter-form .form-control {
-        height: 50px;
-        background: rgba(255,255,255,0.1) !important;
-        color: #fff !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
+
+    /* কন্ট্যাক্ট লিস্ট (আইকন এবং লেখা আলাদা ও স্পষ্ট) */
+    .footer-contact-info {
+        margin-bottom: 24px;
     }
-    .newsletter-form .form-control::placeholder { color: rgba(255,255,255,0.5) !important; }
+
+    .contact-line {
+        display: flex;
+        align-items: center;
+        margin-bottom: 14px; /* প্রতি লাইনের মাঝে পর্যাপ্ত গ্যাপ */
+    }
+
+    .contact-icon {
+        color: #38bdf8 !important; /* স্পষ্ট স্কাই ব্লু কালার, যা ডার্ক ব্যাকগ্রাউন্ডে ফুটে ওঠে */
+        font-size: 16px;
+        margin-right: 12px;
+        width: 20px;
+        text-align: center;
+    }
+
+    .contact-text {
+        color: #cbd5e1 !important; /* লাইট গ্রে কালার সহজে পড়ার জন্য */
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    /* সোজা ও সিম্পল কুইক লিংক লিস্ট */
+    .footer-navigation-links li {
+        margin-bottom: 14px; /* প্রতিটা লিংকের মাঝে বড় স্পেসিফিকেশন গ্যাপ */
+    }
+
+    .footer-navigation-links a {
+        color: #94a3b8 !important;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.2s ease, padding-left 0.2s ease;
+    }
+
+    .footer-navigation-links a:hover {
+        color: #ffffff !important; /* হোভার করলে পুরোপুরি সাদা হয়ে যাবে */
+        padding-left: 4px;
+    }
+
+    /* সোজা সোশ্যাল আইকন */
+    .footer-social-links {
+        display: flex;
+        gap: 12px;
+    }
+
+    .social-link-item {
+        width: 38px;
+        height: 38px;
+        background-color: #1e293b;
+        color: #cbd5e1 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+        font-size: 15px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .social-link-item:hover {
+        background-color: #3b82f6;
+        color: #ffffff !important;
+    }
+
+    /* সিম্পল ও মিনিমাল নিউজলেটার ফর্ম */
+    .custom-input-group {
+        display: flex;
+        width: 100%;
+        border-radius: 6px;
+        overflow: hidden;
+        border: 1px solid #334155;
+    }
+
+    .form-input-clean {
+        flex: 1;
+        background-color: #1e293b !important;
+        border: none !important;
+        padding: 12px 16px;
+        font-size: 14px;
+        color: #ffffff !important;
+    }
+
+    .form-input-clean::placeholder {
+        color: #64748b;
+    }
+
+    .form-input-clean:focus {
+        outline: none;
+        background-color: #1e293b !important;
+    }
+
+    .form-btn-clean {
+        background-color: #2563eb;
+        color: #ffffff;
+        border: none;
+        padding: 0 20px;
+        font-weight: 600;
+        font-size: 14px;
+        transition: background-color 0.2s ease;
+    }
+
+    .form-btn-clean:hover {
+        background-color: #1d4ed8;
+    }
+
+    /* ডিভাইডার ও ফুটার বটম */
+    .footer-simple-divider {
+        border-color: #1e293b !important;
+        margin: 40px 0 24px 0;
+        opacity: 1;
+    }
+
+    .copyright-text {
+        font-size: 13px;
+        color: #64748b !important;
+        line-height: 1.5;
+    }
+
+    .visonsoft-link {
+        color: #3b82f6 !important;
+        font-weight: 600;
+    }
+    .visonsoft-link:hover {
+        text-decoration: underline !important;
+    }
+
+    .payment-cards-img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* সম্পূর্ণ রেসপন্সিভ ব্রেকপয়েন্ট (মোবাইল ও ট্যাবলেটের জন্য) */
+    @media (max-width: 991px) {
+        .site-footer {
+            padding-top: 50px;
+            padding-bottom: 30px;
+        }
+        .ps-lg-5 {
+            padding-left: 12px !important;
+        }
+        .footer-block {
+            margin-bottom: 10px;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .footer-brand-name, .footer-section-title {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .footer-description {
+            text-align: center;
+        }
+        .contact-line {
+            justify-content: center;
+        }
+        .footer-social-links {
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .footer-navigation-links {
+            text-align: center;
+        }
+        .custom-input-group {
+            max-width: 100%;
+        }
+    }
 </style>

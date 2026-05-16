@@ -12,6 +12,7 @@ class ServiceRequest extends Model
         'address',
         'phone',
         'status',
+        'image',
     ];
 
     public function service()

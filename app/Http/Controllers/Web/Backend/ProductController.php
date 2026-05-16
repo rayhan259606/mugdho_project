@@ -118,7 +118,7 @@ class ProductController extends Controller
 
             $product->title = $data['title'];
             $product->price = $data['price'];
-            $product->thumbnail = $data['thumbnail'];
+            $product->thumbnail = $data['thumbnail'] ?? null;
             $product->description = $data['description'];
             $product->category_id = $data['category_id'];
             $product->save();
@@ -175,7 +175,10 @@ class ProductController extends Controller
             $product = Product::findOrFail($id);
 
             if ($request->hasFile('thumbnail')) {
-                $validate['thumbnail'] = Helper::fileUpload($request->file('thumbnail'), 'product', time() . '_' . getFileName($request->file('thumbnail')));
+                if ($product->thumbnail && file_exists(public_path($product->thumbnail))) {
+                    Helper::fileDelete(public_path($product->thumbnail));
+                }
+                $data['thumbnail'] = Helper::fileUpload($request->file('thumbnail'), 'product', time() . '_' . getFileName($request->file('thumbnail')));
             }
 
             $product->title = $data['title'];

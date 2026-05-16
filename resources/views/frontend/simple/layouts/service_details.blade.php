@@ -42,6 +42,17 @@
                                 <h4 class="fw-bold mb-4">Request a Consultation</h4>
                                 <form action="{{ route('service.request') }}" method="POST">
                                     @csrf
+                                    @if(session('success'))
+                                    <div class="alert alert-success border-0 shadow-sm mb-4">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+
+                                @if(session('error'))
+                                    <div class="alert alert-danger border-0 shadow-sm mb-4">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
                                     <input type="hidden" name="service_id" value="{{ $service->id }}">
                                     <div class="row g-4">
                                         <div class="col-md-12">
@@ -78,6 +89,7 @@
         </div>
     </div>
 </section>
+
 
 <style>
     .fs-20 { font-size: 20px; }

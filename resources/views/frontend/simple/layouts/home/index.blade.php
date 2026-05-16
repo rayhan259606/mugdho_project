@@ -10,27 +10,55 @@
                 <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="{{ $key }}" class="{{ $key == 0 ? 'active' : '' }}" aria-current="true"></button>
             @endforeach
         </div>
-        <div class="carousel-inner">
-            @foreach($banners as $key => $banner)
-            <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
-                <div class="banner-overlay"></div>
-                <img src="{{ asset($banner->image) }}" class="d-block w-100 banner-img" alt="{{ $banner->title }}">
-                <div class="carousel-caption d-md-block text-start animate__animated animate__fadeInUp">
-                    <div class="container">
-                        <div class="col-lg-8">
-                            <h1 class="display-2 fw-bold mb-3 text-white main-title">{{ $banner->title }}</h1>
-                            <p class="fs-4 mb-5 text-light opacity-90 sub-title">{{ $banner->subtitle }}</p>
-                            @if($banner->link)
-                            <a href="{{ $banner->link }}" class="btn btn-primary btn-lg px-5 py-3 rounded-pill shadow-lg border-0 explore-btn">
-                                Explore Now <i class="fe fe-arrow-right ms-2"></i>
+<div class="carousel-inner custom-premium-slider">
+    @foreach($banners as $key => $banner)
+    <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+        
+        <!-- Premium Ambient Image Wrapper -->
+        <div class="banner-image-container">
+            <img src="{{ asset($banner->image) }}" class="d-block w-100 banner-img" alt="{{ $banner->title }}">
+            <!-- Semi-transparent cinematic dark overlay for text readability -->
+            <div class="banner-overlay-gradient"></div>
+        </div>
+        
+        <!-- Fully Fluid Responsive Caption Content -->
+        <div class="carousel-caption custom-caption-alignment animate__animated animate__fadeInUp">
+            <div class="container px-3 px-sm-4">
+                <div class="row">
+                    <div class="col-12 col-md-10 col-lg-8 text-start">
+                        
+                        <!-- Mini Welcome Badge -->
+                        {{-- <span class="badge bg-white-soft text-white fw-semibold px-3 py-2 rounded-pill mb-3 text-uppercase tracking-wider fs-11 border border-white-10 d-inline-flex align-items-center">
+                            <span class="pulse-dot me-2"></span> Exclusive Offer
+                        </span> --}}
+                        
+                        <!-- Main Strategic Heading Title -->
+                        <h1 class="display-3 fw-black mb-3 text-white main-title text-balance">
+                            {{ $banner->title }}
+                        </h1>
+                        
+                        <!-- Subtitle Description -->
+                        <p class="fs-5 mb-4 mb-md-5 text-white-90 sub-title max-w-600">
+                            {{ $banner->subtitle }}
+                        </p>
+                        
+                        <!-- Action Trigger CTA Button -->
+                        @if($banner->link)
+                        <div class="cta-wrapper">
+                            <a href="{{ $banner->link }}" class="btn btn-premium-white rounded-pill px-4 py-3 fw-bold shadow-premium hover-scale d-inline-flex align-items-center gap-2">
+                                Explore Now <i class="fe fe-arrow-right fs-16 transition-arrow"></i>
                             </a>
-                            @endif
                         </div>
+                        @endif
+                        
                     </div>
                 </div>
             </div>
-            @endforeach
         </div>
+        
+    </div>
+    @endforeach
+</div>
     </div>
 </section>
 @endif
@@ -133,57 +161,196 @@
 </section>
 
 <!-- QUICK REQUEST FORM SECTION -->
-<section class="py-6 bg-navy text-white position-relative overflow-hidden">
-    <div class="footer-glow"></div>
+<section class="custom-sourcing-section py-5 py-lg-6 position-relative overflow-hidden">
     <div class="container position-relative z-index-2">
-        <div class="row align-items-center g-5">
-            <div class="col-lg-6">
-                <h6 class="text-primary text-uppercase fw-bold ls-2 mb-3">Custom Sourcing</h6>
-                <h2 class="display-4 fw-bold mb-4">Still searching for <span class="text-primary">something?</span></h2>
-                <p class="fs-5 text-white-50 mb-5">Tell us what you need. Our team will hunt down the perfect gadget, course, or antique for you.</p>
-                <div class="row g-4">
-                    <div class="col-sm-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fe fe-zap text-primary fs-24 me-3"></i>
-                            <span class="fw-bold">Fast Response</span>
+        <div class="row align-items-center g-4 g-lg-5">
+            
+            <!-- LEFT SIDE: TEXT CONTENT -->
+            <div class="col-12 col-lg-6">
+                <div class="sourcing-content-wrapper text-center text-lg-start">
+                    <h6 class="text-accent-blue text-uppercase fw-bold tracking-wider mb-2">
+                        Custom Sourcing
+                    </h6>
+                    <h2 class="display-5 fw-extrabold text-slate-900 mb-3">
+                        Still searching for <span class="text-accent-blue">something?</span>
+                    </h2>
+                    <p class="fs-16 text-slate-600 mb-4 max-w-xl mx-auto mx-lg-0">
+                        Tell us what you need. Our team will hunt down the perfect gadget, course, or antique for you.
+                    </p>
+                    
+                    <!-- Feature Indicators with Balanced Gaps -->
+                    <div class="row g-3 justify-content-center justify-content-lg-start mt-2">
+                        <div class="col-6 col-sm-5 col-md-4 col-lg-5">
+                            <div class="feature-badge-item d-flex align-items-center justify-content-center justify-content-lg-start">
+                                <div class="badge-icon-box me-2"><i class="fe fe-zap"></i></div>
+                                <span class="fw-bold text-slate-800 fs-15">Fast Response</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="d-flex align-items-center">
-                            <i class="fe fe-shield text-primary fs-24 me-3"></i>
-                            <span class="fw-bold">Verified Items</span>
+                        <div class="col-6 col-sm-5 col-md-4 col-lg-5">
+                            <div class="feature-badge-item d-flex align-items-center justify-content-center justify-content-lg-start">
+                                <div class="badge-icon-box me-2"><i class="fe fe-shield"></i></div>
+                                <span class="fw-bold text-slate-800 fs-15">Verified Items</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="card border-0 glass-card p-3 p-md-5">
-                    <h3 class="fw-bold mb-4 text-white">Send Your Request</h3>
+            
+            <!-- RIGHT SIDE: CLEAN FORM CARD WITH BOX SHADOW -->
+            <div class="col-12 col-lg-6 mt-4 mt-lg-0">
+                <div class="clean-white-card p-4 p-md-5">
+                    <h3 class="fw-bold text-slate-900 mb-4 text-center text-md-start fs-22">
+                        Send Your Request
+                    </h3>
+                    
                     <form action="{{ route('contact.store') }}" method="POST">
                         @csrf
                         <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold opacity-75">Your Name</label>
-                                <input type="text" name="name" class="form-control glass-input" placeholder="Enter name" required>
+                            <div class="col-12 col-md-6">
+                                <label class="clean-form-label mb-1">Your Name</label>
+                                <input type="text" name="name" class="form-control clean-input" placeholder="Enter name" required>
                             </div>
-                            <div class="col-md-6">
-                                <label class="form-label small fw-bold opacity-75">Phone Number</label>
-                                <input type="text" name="phone" class="form-control glass-input" placeholder="01XXXXXXXXX" required>
+                            <div class="col-12 col-md-6">
+                                <label class="clean-form-label mb-1">Phone Number</label>
+                                <input type="text" name="phone" class="form-control clean-input" placeholder="01XXXXXXXXX" required>
                             </div>
                             <div class="col-12">
-                                <label class="form-label small fw-bold opacity-75">Item Description</label>
-                                <textarea name="message" class="form-control glass-input" rows="3" placeholder="Tell us what you are looking for..." required></textarea>
+                                <label class="clean-form-label mb-1">Item Description</label>
+                                <textarea name="message" class="form-control clean-input" rows="4" placeholder="Tell us what you are looking for..." required></textarea>
                             </div>
                             <div class="col-12 mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill py-3 fw-bold shadow-lg shadow-primary-50">Submit Inquiry</button>
+                                <button type="submit" class="btn-clean-submit w-100 py-3 fw-bold">
+                                    Submit Inquiry
+                                </button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
+
         </div>
     </div>
 </section>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    :root {
+        --bg-light-gray: #f8fafc; 
+        --slate-900: #0f172a;    
+        --slate-800: #1e293b;    
+        --slate-600: #475569;    
+        --accent-blue: #2563eb;  
+        --accent-blue-hover: #1d4ed8;
+    }
+
+    .custom-sourcing-section {
+        background-color: var(--bg-light-gray) !important;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        border-top: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .fw-extrabold { font-weight: 800 !important; }
+    .tracking-wider { letter-spacing: 1px; }
+    .text-slate-900 { color: var(--slate-900) !important; }
+    .text-slate-800 { color: var(--slate-800) !important; }
+    .text-slate-600 { color: var(--slate-600) !important; }
+    .text-accent-blue { color: var(--accent-blue) !important; }
+    
+    .fs-15 { font-size: 15px; }
+    .fs-16 { font-size: 16px; line-height: 1.6; }
+    .fs-22 { font-size: 22px; }
+    .max-w-xl { max-width: 520px; }
+    .z-index-2 { z-index: 2; }
+
+    .badge-icon-box {
+        color: var(--accent-blue);
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+    }
+
+    /* PREMIUM BOX SHADOW ADDED HERE */
+    .clean-white-card {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        /* মাল্টি-লেয়ার প্রফেশনাল শ্যাডো যা কার্ডটিকে চমৎকার গভীরতা দেয় */
+        box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03), 
+                    0 20px 40px -4px rgba(15, 23, 42, 0.06) !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* হালকা মাউস হোভার ইফেক্ট */
+    .clean-white-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03), 
+                    0 24px 48px -4px rgba(15, 23, 42, 0.09) !important;
+    }
+
+    .clean-form-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--slate-800);
+    }
+
+    .clean-input {
+        background-color: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: var(--slate-900) !important;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 12px 16px;
+        border-radius: 8px !important;
+        transition: all 0.2s ease;
+    }
+
+    .clean-input::placeholder {
+        color: #94a3b8;
+    }
+
+    .clean-input:focus {
+        border-color: var(--accent-blue) !important;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1) !important;
+        outline: none;
+    }
+
+    .btn-clean-submit {
+        background-color: var(--accent-blue);
+        color: #ffffff;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: 700;
+        transition: all 0.2s ease;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    }
+
+    .btn-clean-submit:hover {
+        background-color: var(--accent-blue-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+    }
+
+    @media (max-width: 991px) {
+        .sourcing-content-wrapper {
+            margin-bottom: 20px;
+        }
+        .feature-badge-item {
+            margin-bottom: 5px;
+        }
+    }
+
+    @media (max-width: 575px) {
+        .display-5 {
+            font-size: 28px !important;
+        }
+        .clean-white-card {
+            padding: 24px 16px !important;
+        }
+    }
+</style>
 
 <style>
     :root {
@@ -354,6 +521,119 @@
         width: 400px; height: 400px;
         background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
         pointer-events: none;
+    }
+</style>
+
+<!-- Premium Global Banner Layout Architecture Styles -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    /* Design Token System */
+    .custom-premium-slider {
+        font-family: 'Plus Jakarta Sans', sans-serif !important;
+    }
+    .fw-black { font-weight: 800; }
+    .text-white-90 { color: rgba(255, 255, 255, 0.9) !important; }
+    .bg-white-soft { background-color: rgba(255, 255, 255, 0.12) !important; }
+    .border-white-10 { border-color: rgba(255, 255, 255, 0.18) !important; }
+    .tracking-wider { letter-spacing: 0.05em; }
+    .fs-11 { font-size: 11px; }
+    .fs-16 { font-size: 16px; }
+    .max-w-600 { max-width: 600px; }
+    .text-balance { text-wrap: balance; }
+
+    /* ==========================================================================
+       Banners Image Shield (ব্যাকএন্ডের ইমেজ পারফেক্ট রাখার মূল সিক্রেট)
+       ========================================================================== */
+    .banner-image-container {
+        position: relative;
+        width: 100%;
+        height: 620px; /* Desktop Perfect Standard Aspect Ratio Frame */
+        background-color: #0f172a; /* Fallback skeleton color */
+    }
+    
+    .banner-img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important; /* ইমেজ চ্যাপ্টা না করে পুরো কন্টেইনারে নিখুঁতভাবে ফিট করবে */
+        object-position: center !important; /* ফোকাস সবসময় ইমেজের মাঝখানে রাখবে */
+    }
+
+    /* Cinematic Dark Gradient Mask Overlay (টেক্সট ফুটিয়ে তোলার জন্য) */
+    .banner-overlay-gradient {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: linear-gradient(90deg, rgba(15, 23, 42, 0.75) 0%, rgba(15, 23, 42, 0.4) 50%, rgba(15, 23, 42, 0.1) 100%);
+        pointer-events: none;
+    }
+
+    /* Modern Layout Captions Restyling */
+    .custom-caption-alignment {
+        top: 0; left: 0; right: 0; bottom: 0;
+        padding: 0 !important;
+        margin: 0 !important;
+        display: flex;
+        align-items: center; /* Vertically Centers text alignment on all screens */
+    }
+
+    /* Premium Clean White Glass Button */
+    .btn-premium-white {
+        background-color: #ffffff;
+        color: #0f172a !important;
+        border: 1px solid #ffffff;
+        font-size: 15px;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-premium-white:hover {
+        background-color: transparent;
+        color: #ffffff !important;
+    }
+    
+    /* Micro Animations */
+    .transition-arrow { transition: transform 0.2s ease; display: inline-block; }
+    .btn-premium-white:hover .transition-arrow { transform: translateX(4px); }
+    .hover-scale { transition: transform 0.2s ease; }
+    .hover-scale:hover { transform: translateY(-2px); }
+
+    .pulse-dot {
+        width: 6px; height: 6px; background-color: #22c55e; border-radius: 50%;
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+        animation: active-pulse 2s infinite;
+    }
+    @keyframes active-pulse {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 5px rgba(34, 197, 94, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+
+    /* ==========================================================================
+       Ultra Responsive Mobile Fluid Matrix (মোবাইলে ব্যানার সুন্দর করার নিয়ম)
+       ========================================================================== */
+    @media (max-width: 991.98px) {
+        .banner-image-container { height: 480px; } /* Tablet View Frame Aspect */
+        .display-3 { font-size: 2.5rem !important; }
+    }
+
+    @media (max-width: 576px) {
+        .banner-image-container { 
+            height: 380px; /* Mobile View Compact Frame Aspect */
+        }
+        .banner-overlay-gradient {
+            background: rgba(15, 23, 42, 0.65); /* Full dark mask layer on small phone monitors */
+        }
+        .display-3 { 
+            font-size: 1.85rem !important; 
+            line-height: 1.25 !important;
+        }
+        .sub-title { 
+            font-size: 0.95rem !important; 
+            line-height: 1.5 !important;
+            opacity: 0.85;
+        }
+        .btn-premium-white {
+            padding: 0.65rem 1.25rem !important;
+            font-size: 14px;
+        }
     }
 </style>
 @endsection
