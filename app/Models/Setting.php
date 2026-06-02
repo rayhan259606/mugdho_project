@@ -38,4 +38,10 @@ class Setting extends Model
         return $value;
     }
     
+    protected static function booted()
+    {
+        static::saved(function ($setting) {
+            \Illuminate\Support\Facades\Cache::forget('settings');
+        });
+    }
 }

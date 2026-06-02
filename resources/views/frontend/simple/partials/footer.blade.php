@@ -44,7 +44,7 @@
             </div>
 
             <!-- কলাম ২: কুইক লিংক (পর্যাপ্ত গ্যাপসহ) -->
-            <div class="col-6 col-md-6 col-lg-4 ps-lg-5">
+            <div class="col-12 col-md-6 col-lg-4 ps-lg-5">
                 <div class="footer-block">
                     <h6 class="footer-section-title">Quick Links</h6>
                     <ul class="list-unstyled footer-navigation-links">

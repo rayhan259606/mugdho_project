@@ -118,8 +118,8 @@ class PostController extends Controller
             'title'             => 'required|max:250',
             'content'           => 'required|string',
             'thumbnail'         => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
-            'category_id'       => 'required|exists:categories,id',
-            'subcategory_id'    => 'required|exists:subcategories,id',
+            'category_id'       => 'nullable|exists:categories,id',
+            'subcategory_id'    => 'nullable|exists:subcategories,id',
             'images'            => 'nullable|array|max:3',
             'images.*'          => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120',
         ]);
@@ -142,10 +142,10 @@ class PostController extends Controller
             $post->slug = Helper::makeSlug(Post::class, $data['title']);
 
             $post->title = $data['title'];
-            $post->thumbnail = $data['thumbnail'];
+            $post->thumbnail = $data['thumbnail'] ?? null;
             $post->content = $data['content'];
-            $post->category_id = $data['category_id'];
-            $post->subcategory_id = $data['subcategory_id'];
+            $post->category_id = $data['category_id'] ?? Category::first()->id ?? 1;
+            $post->subcategory_id = $data['subcategory_id'] ?? Subcategory::first()->id ?? 1;
             $post->save();
 
             if (isset($request['images']) && count($request['images']) > 0 && count($request['images']) <= 3) {
@@ -204,8 +204,8 @@ class PostController extends Controller
             'title'             => 'required|max:250',
             'content'           => 'required|string',
             'thumbnail'         => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
-            'category_id'       => 'required|exists:categories,id',
-            'subcategory_id'    => 'required|exists:subcategories,id',
+            'category_id'       => 'nullable|exists:categories,id',
+            'subcategory_id'    => 'nullable|exists:subcategories,id',
             'images'            => 'nullable|array|max:3',
             'images.*'          => 'image|mimes:jpeg,png,jpg,gif,svg|max:5120',
         ]);
@@ -220,14 +220,14 @@ class PostController extends Controller
             $post = Post::findOrFail($id);
 
             if ($request->hasFile('thumbnail')) {
-                $validate['thumbnail'] = Helper::fileUpload($request->file('thumbnail'), 'post', time() . '_' . getFileName($request->file('thumbnail')));
+                $data['thumbnail'] = Helper::fileUpload($request->file('thumbnail'), 'post', time() . '_' . getFileName($request->file('thumbnail')));
             }
 
             $post->title = $data['title'];
             $post->thumbnail = $data['thumbnail'] ?? $post->thumbnail;
             $post->content = $data['content'];
-            $post->category_id = $data['category_id'];
-            $post->subcategory_id = $data['subcategory_id'];
+            $post->category_id = $data['category_id'] ?? $post->category_id;
+            $post->subcategory_id = $data['subcategory_id'] ?? $post->subcategory_id;
             $post->save();
 
             //image insert

@@ -9,15 +9,20 @@
                 <span class="ms-3 fw-black text-slate-900 fs-22 tracking-tight">{{ $systemSetting->name ?? env('APP_NAME') }}</span>
             </a>
 
-            <!-- Mobile Toggler -->
-<button class="navbar-toggler border-0 shadow-none p-2" 
-        type="button" 
-        data-bs-toggle="collapse" 
-        data-bs-target="#navbarNav">
-
-    <i class="fe fe-home text-white fs-5"></i>
-
-</button>
+            <!-- Mobile Toggler (Modern Hamburger) -->
+            <button class="navbar-toggler border-0 shadow-none collapsed" 
+                    type="button" 
+                    data-bs-toggle="collapse" 
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <div class="hamburger-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
 
             <!-- Main Menu -->
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -38,11 +43,11 @@
 
                 <!-- Navigation Links (With perfect spacing from search) -->
                 <ul class="navbar-nav ms-lg-4 align-items-lg-center gap-lg-1">
-                    <li class="nav-item"><a class="nav-link-premium" href="{{ route('module.msm') }}">MSM Course</a></li>
-                    <li class="nav-item"><a class="nav-link-premium" href="{{ route('module.gadgets') }}">Gadgets</a></li>
-                    <li class="nav-item"><a class="nav-link-premium" href="{{ route('module.digital') }}">Digital</a></li>
-                    <li class="nav-item"><a class="nav-link-premium" href="{{ route('module.antique') }}">Antique</a></li>
-                    <li class="nav-item"><a class="nav-link-premium" href="{{ route('module.services') }}">Services</a></li>
+                    <li class="nav-item"><a class="nav-link-premium d-flex align-items-center justify-content-between" href="{{ route('module.msm') }}"><span>MSM Course</span><i class="fe fe-chevron-right d-lg-none text-muted opacity-60 fs-14"></i></a></li>
+                    <li class="nav-item"><a class="nav-link-premium d-flex align-items-center justify-content-between" href="{{ route('module.gadgets') }}"><span>Gadgets</span><i class="fe fe-chevron-right d-lg-none text-muted opacity-60 fs-14"></i></a></li>
+                    <li class="nav-item"><a class="nav-link-premium d-flex align-items-center justify-content-between" href="{{ route('module.digital') }}"><span>Digital</span><i class="fe fe-chevron-right d-lg-none text-muted opacity-60 fs-14"></i></a></li>
+                    <li class="nav-item"><a class="nav-link-premium d-flex align-items-center justify-content-between" href="{{ route('module.antique') }}"><span>Antique</span><i class="fe fe-chevron-right d-lg-none text-muted opacity-60 fs-14"></i></a></li>
+                    <li class="nav-item"><a class="nav-link-premium d-flex align-items-center justify-content-between" href="{{ route('module.services') }}"><span>Services</span><i class="fe fe-chevron-right d-lg-none text-muted opacity-60 fs-14"></i></a></li>
 
                     {{-- @auth
                         <li class="nav-item ms-lg-3">
@@ -308,24 +313,51 @@
 
     /* Toggler */
 .navbar-toggler {
-    background: #797670;
+    background: rgba(79, 70, 229, 0.06) !important;
     border-radius: 12px;
     width: 44px;
     height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(79, 70, 229, 0.15) !important;
 }
 
 .navbar-toggler:hover {
     transform: scale(1.05);
-    background: #dad8df;
+    background: rgba(79, 70, 229, 0.12) !important;
 }
 
-.navbar-toggler i {
-    font-size: 20px;
-    color: #fff;
+.hamburger-menu {
+    width: 20px;
+    height: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.hamburger-menu span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #4f46e5, #06b6d4);
+    border-radius: 4px;
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+/* Animate the hamburger when opened */
+.navbar-toggler:not(.collapsed) .hamburger-menu span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.navbar-toggler:not(.collapsed) .hamburger-menu span:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar-toggler:not(.collapsed) .hamburger-menu span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
 }
 
     /* Mobile menu */
@@ -336,6 +368,8 @@
         padding: 18px;
         box-shadow: 0 10px 30px rgba(0,0,0,0.06);
         animation: smoothDropdown 0.3s ease;
+        max-height: calc(100vh - 100px);
+        overflow-y: auto;
     }
 
     @keyframes smoothDropdown {
@@ -383,8 +417,8 @@
         width: 100%;
         display: flex;
         align-items: center;
-        justify-content: center;
-        padding: 15px 18px !important;
+        justify-content: space-between;
+        padding: 15px 20px !important;
         border-radius: 16px;
         background: #f8fafc;
         font-size: 15px;
@@ -458,16 +492,22 @@
 @media (max-width: 380px) {
 
     .navbar-brand span {
-        display: none;
+        display: inline-block !important;
+        font-size: 13px !important;
+        max-width: 130px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
     }
 
     .logo-img {
-        height: 30px;
+        height: 28px;
     }
 
     .navbar-toggler {
-        width: 38px;
-        height: 38px;
+        width: 36px;
+        height: 36px;
     }
 
     .nav-link-premium {

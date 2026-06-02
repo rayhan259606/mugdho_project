@@ -11,7 +11,7 @@ class PageController extends Controller
 
     public function __construct()
     {
-        $this->theme = env('THEME');
+        $this->theme = env('THEME', 'simple');
     }
     
     public function index($slug)

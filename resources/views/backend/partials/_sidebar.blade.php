@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
     <div class="app-sidebar" style="overflow: scroll">
         <div class="side-header">
             <a class="header-brand1" href="{{ route('admin.dashboard') }}">
-                <img src="{{ asset(settings('logo') ?? 'default/logo.svg') }}" id="header-brand-logo" alt="logo" width="{{ settings('logo_width') ?? 67 }}" height="{{ settings('logo_height') ?? 67 }}">
+                <img src="{{ asset(settings('logo') ?? 'default/logo.svg') }}" id="header-brand-logo" alt="logo" style="height: 50px; width: auto; max-width: 160px; object-fit: contain;">
             </a>
         </div>
         <div class="main-sidemenu">
@@ -167,7 +167,7 @@ use Illuminate\Support\Facades\Route;
                 <li>
                     <h3>Components</h3>
                 </li>
-                {{-- <li class="slide">
+                <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.contact.*') ? 'has-link active' : '' }}" href="{{ route('admin.contact.index') }}">
                         <i class="fa-solid fa-address-card side-menu__icon"></i>
                         <span class="side-menu__label">Contact</span>
@@ -179,7 +179,7 @@ use Illuminate\Support\Facades\Route;
                         <span class="side-menu__label">Subscriber</span>
                     </a>
                 </li>
-                <li class="slide">
+                {{-- <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.chat.*') ? 'has-link active' : '' }}" href="{{ route('admin.chat.index') }}">
                         <i class="fa-brands fa-rocketchat side-menu__icon"></i>
                         <span class="side-menu__label">Chat</span>

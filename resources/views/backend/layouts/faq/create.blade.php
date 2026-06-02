@@ -36,7 +36,7 @@
                                 @csrf
                                 <div class="row mb-4">
 
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="category" class="form-label">Category:</label>
@@ -45,7 +45,7 @@
                                                     @foreach($categories as $category)
                                                     <option value="{{ $category }}" {{ old('category') == $category ? 'selected' : '' }}>
                                                         {{ $category }}
-                                                    </option>
+                                                     </option>
                                                     @endforeach
                                                 </select>
                                                 @error('category')
@@ -53,7 +53,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="row">
                                         <div class="col-md-12">

@@ -36,7 +36,7 @@
                                 @csrf
                                 <div class="row mb-4">
 
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="category" class="form-label">Category:</label>
@@ -51,7 +51,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="row">
                                         <div class="col-md-12">

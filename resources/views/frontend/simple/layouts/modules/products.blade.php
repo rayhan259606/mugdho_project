@@ -45,14 +45,39 @@
                         <h3 class="fw-bold text-slate-900 mb-1">Quick Order / Inquiry</h3>
                         <p class="text-slate-600 small mb-0">Drop your info and we will get back shortly.</p>
                     </div>
+
+                    @if(session('t-success'))
+                        <div class="alert alert-success alert-dismissible fade show rounded-3" role="alert" style="background-color: #d1fae5; color: #065f46; border-color: #a7f3d0;">
+                            <strong>Success!</strong> {{ session('t-success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if(session('t-error'))
+                        <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert" style="background-color: #fee2e2; color: #991b1b; border-color: #fecaca;">
+                            <strong>Error!</strong> {{ session('t-error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    @if($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert" style="background-color: #fee2e2; color: #991b1b; border-color: #fecaca;">
+                            <ul class="mb-0">
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
                     
                     <form action="{{ route('product.order') }}" method="POST">
                         @csrf
                         <div class="row g-3">
                             <div class="col-12">
-                                <label class="form-label text-slate-700 fw-semibold small">Select Item (Optional)</label>
+                                <label class="form-label text-slate-700 fw-semibold small">Select Item</label>
                                 <div class="input-group-custom">
-                                    <select name="product_id" class="form-select custom-input text-slate-800">
+                                    <select name="product_id" class="form-select custom-input text-slate-800" required>
                                         @foreach($products as $product)
                                             <option value="{{ $product->id }}">{{ $product->title }}</option>
                                         @endforeach
@@ -61,15 +86,15 @@
                             </div>
                             <div class="col-12">
                                 <label class="form-label text-slate-700 fw-semibold small">Your Name</label>
-                                <input type="text" name="name" class="form-control custom-input" placeholder="Full Name" required>
+                                <input type="text" name="name" class="form-control custom-input" placeholder="Full Name" value="{{ old('name') }}" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-slate-700 fw-semibold small">Phone</label>
-                                <input type="text" name="phone" class="form-control custom-input" placeholder="01XXXXXXXXX" required>
+                                <input type="text" name="phone" class="form-control custom-input" placeholder="01XXXXXXXXX" value="{{ old('phone') }}" required>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label text-slate-700 fw-semibold small">Address</label>
-                                <input type="text" name="address" class="form-control custom-input" placeholder="Shipping Address" required>
+                                <input type="text" name="address" class="form-control custom-input" placeholder="Shipping Address" value="{{ old('address') }}" required>
                             </div>
                             <div class="col-12 mt-4">
                                 <button type="submit" class="btn btn-gradient-primary w-100 rounded-pill py-3 fw-bold text-white shadow-md hover-scale">

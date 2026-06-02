@@ -23,7 +23,7 @@ class HomeController extends Controller
 
     public function __construct()
     {
-        $this->theme = env('THEME');
+        $this->theme = env('THEME', 'simple');
     }
     
     public function index(Request $request)
@@ -63,8 +63,9 @@ class HomeController extends Controller
         }
 
         $products = $query->latest()->take(50)->get();
+        $faqs = \App\Models\FAQ::where('status', 'active')->latest()->get();
 
-        return view("frontend.{$this->theme}.layouts.home.index", compact('cms', 'posts', 'types', 'projects', 'products', 'socials', 'banners'));
+        return view("frontend.{$this->theme}.layouts.home.index", compact('cms', 'posts', 'types', 'projects', 'products', 'socials', 'banners', 'faqs'));
     }
 
     public function posts()

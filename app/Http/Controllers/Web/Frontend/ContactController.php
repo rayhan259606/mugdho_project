@@ -13,17 +13,26 @@ class ContactController extends Controller
     {
         $request->validate([
             'name'      => 'required|string|max:50',
-            'email'     => 'required|email|max:100|exists:subscribers,email',
-            'subject'   => 'required|string|max:100',
+            'phone'     => 'nullable|string|max:20',
+            'email'     => 'nullable|email|max:100',
+            'subject'   => 'nullable|string|max:100',
             'message'   => 'required|string|max:1000'
         ]);
 
+        $email = $request->input('email') ?? ($request->input('phone') ? $request->input('phone') . '@sourcing.com' : 'sourcing@stackmaster.com');
+        $subject = $request->input('subject') ?? ($request->input('phone') ? 'Sourcing Inquiry (Phone: ' . $request->input('phone') . ')' : 'Sourcing Inquiry');
+
         try {
-            Contact::create($request->only('name', 'email', 'subject', 'message'));
+            Contact::create([
+                'name' => $request->name,
+                'email' => $email,
+                'subject' => $subject,
+                'message' => $request->message,
+            ]);
         } catch (Exception $e) {
-            return redirect()->back()->with('t-error', 'Something went wrong. Please try again.');
+            return redirect()->back()->with('t-error', 'Something went wrong. Please try again.')->withInput();
         }
 
-        return redirect()->back()->with('t-success', 'Message sent successfully');
+        return redirect()->back()->with('t-success', 'Your inquiry has been submitted successfully!');
     }
 }

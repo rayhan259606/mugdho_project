@@ -37,11 +37,15 @@ class ContactController extends Controller
                 })
                 ->addColumn('action', function ($data) {
                     return '<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-
-                                <a href="#" type="button" onclick="#" class="btn btn-primary fs-14 text-white delete-icn" title="Delete">
-                                    <i class="fe fe-edit"></i>
-                                </a>
-
+                                <button type="button" 
+                                    onclick="viewContactDetails(this)" 
+                                    data-name="' . e($data->name) . '" 
+                                    data-email="' . e($data->email) . '" 
+                                    data-subject="' . e($data->subject) . '" 
+                                    data-message="' . e($data->message) . '" 
+                                    class="btn btn-primary fs-14 text-white" title="View Details">
+                                    <i class="fe fe-eye"></i>
+                                </button>
                             </div>';
                 })
                 ->rawColumns(['status', 'action'])

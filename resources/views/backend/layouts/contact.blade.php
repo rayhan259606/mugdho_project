@@ -44,8 +44,10 @@
                                 <table class="table table-bordered text-nowrap border-bottom" id="datatable">
                                     <thead>
                                         <tr>
-                                            <th class="bg-transparent border-bottom-0 wp-15">ID</th>
-                                            <th class="bg-transparent border-bottom-0 wp-15">Subject</th>
+                                            <th class="bg-transparent border-bottom-0">ID</th>
+                                            <th class="bg-transparent border-bottom-0">Name</th>
+                                            <th class="bg-transparent border-bottom-0">Email / Phone</th>
+                                            <th class="bg-transparent border-bottom-0">Subject</th>
                                             <th class="bg-transparent border-bottom-0">Status</th>
                                             <th class="bg-transparent border-bottom-0">Action</th>
                                         </tr>
@@ -112,6 +114,18 @@
                         searchable: false
                     },
                     {
+                        data: 'name',
+                        name: 'name',
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
+                        data: 'email',
+                        name: 'email',
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
                         data: 'subject',
                         name: 'subject',
                         orderable: true,
@@ -171,5 +185,74 @@
             }
         });
     }
+
+    // View Details Modal Trigger Function
+    function viewContactDetails(button) {
+        let name = $(button).attr('data-name');
+        let email = $(button).attr('data-email');
+        let subject = $(button).attr('data-subject');
+        let message = $(button).attr('data-message');
+
+        $('#modalName').text(name);
+        $('#modalEmail').text(email);
+        $('#modalSubject').text(subject);
+        $('#modalMessage').html(message.replace(/\n/g, '<br>'));
+
+        let myModal = new bootstrap.Modal(document.getElementById('contactDetailsModal'));
+        myModal.show();
+    }
 </script>
+
+<!-- View Contact Details Modal -->
+<div class="modal fade" id="contactDetailsModal" tabindex="-1" aria-labelledby="contactDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 rounded-16 shadow-lg">
+            <div class="modal-header bg-primary text-white border-0 py-3 rounded-top-16">
+                <h5 class="modal-title fw-bold" id="contactDetailsModalLabel">
+                    <i class="fe fe-mail me-2"></i> Inquiry Details
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="filter: brightness(0) invert(1);"></button>
+            </div>
+            <div class="modal-body p-4 bg-light">
+                <div class="card border-0 shadow-sm rounded-12 p-4">
+                    <div class="row g-4">
+                        <div class="col-md-6 border-bottom pb-3">
+                            <span class="text-secondary small d-block mb-1">Sender Name</span>
+                            <span id="modalName" class="fw-bold text-dark fs-16">N/A</span>
+                        </div>
+                        <div class="col-md-6 border-bottom pb-3">
+                            <span class="text-secondary small d-block mb-1">Email / Phone</span>
+                            <span id="modalEmail" class="fw-bold text-dark fs-16">N/A</span>
+                        </div>
+                        <div class="col-12 border-bottom pb-3">
+                            <span class="text-secondary small d-block mb-1">Subject</span>
+                            <span id="modalSubject" class="fw-semibold text-slate-800 fs-15">N/A</span>
+                        </div>
+                        <div class="col-12">
+                            <span class="text-secondary small d-block mb-1">Message Description</span>
+                            <div id="modalMessage" class="p-3 rounded bg-light border text-slate-700 fs-14" style="white-space: pre-wrap; line-height: 1.6; max-height: 250px; overflow-y: auto;">
+                                N/A
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer border-0 bg-light py-3 rounded-bottom-16">
+                <button type="button" class="btn btn-secondary rounded-8 px-4" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .rounded-16 { border-radius: 16px !important; }
+    .rounded-12 { border-radius: 12px !important; }
+    .rounded-top-16 { border-top-left-radius: 16px !important; border-top-right-radius: 16px !important; }
+    .rounded-bottom-16 { border-bottom-left-radius: 16px !important; border-bottom-right-radius: 16px !important; }
+    .rounded-8 { border-radius: 8px !important; }
+    .fs-15 { font-size: 15px; }
+    .fs-16 { font-size: 16px; }
+    .text-slate-800 { color: #1e293b; }
+    .text-slate-700 { color: #334155; }
+</style>
 @endpush

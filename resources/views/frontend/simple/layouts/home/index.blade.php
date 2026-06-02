@@ -202,21 +202,57 @@
                     <h3 class="fw-bold text-slate-900 mb-4 text-center text-md-start fs-22">
                         Send Your Request
                     </h3>
+
+                    <!-- Alert Notifications -->
+                    @if(session('t-success'))
+                        <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm rounded-12 mb-4 d-flex align-items-center animate__animated animate__fadeIn" role="alert" style="background-color: #ecfdf5; color: #065f46; border-radius: 12px;">
+                            <div class="me-2 d-flex align-items-center justify-content-center rounded-circle" style="width: 32px; height: 32px; background-color: #d1fae5;">
+                                <i class="fe fe-check-circle fs-16" style="color: #10b981;"></i>
+                            </div>
+                            <div class="small">
+                                <strong>Success!</strong> {{ session('t-success') }}
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="filter: invert(30%) sepia(20%) saturate(1000%) hue-rotate(120deg);"></button>
+                        </div>
+                    @endif
+
+                    @if(session('t-error'))
+                        <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm rounded-12 mb-4 d-flex align-items-center animate__animated animate__fadeIn" role="alert" style="background-color: #fef2f2; color: #991b1b; border-radius: 12px;">
+                            <div class="me-2 d-flex align-items-center justify-content-center rounded-circle" style="width: 32px; height: 32px; background-color: #fee2e2;">
+                                <i class="fe fe-alert-circle fs-16" style="color: #ef4444;"></i>
+                            </div>
+                            <div class="small">
+                                <strong>Error!</strong> {{ session('t-error') }}
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="filter: invert(30%) sepia(20%) saturate(1000%) hue-rotate(340deg);"></button>
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm rounded-12 mb-4 animate__animated animate__fadeIn" role="alert" style="background-color: #fef2f2; color: #991b1b; border-radius: 12px;">
+                            <ul class="mb-0 ps-3 small">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="filter: invert(30%) sepia(20%) saturate(1000%) hue-rotate(340deg);"></button>
+                        </div>
+                    @endif
                     
                     <form action="{{ route('contact.store') }}" method="POST">
                         @csrf
                         <div class="row g-3">
                             <div class="col-12 col-md-6">
                                 <label class="clean-form-label mb-1">Your Name</label>
-                                <input type="text" name="name" class="form-control clean-input" placeholder="Enter name" required>
+                                <input type="text" name="name" class="form-control clean-input" placeholder="Enter name" value="{{ old('name') }}" required>
                             </div>
                             <div class="col-12 col-md-6">
                                 <label class="clean-form-label mb-1">Phone Number</label>
-                                <input type="text" name="phone" class="form-control clean-input" placeholder="01XXXXXXXXX" required>
+                                <input type="text" name="phone" class="form-control clean-input" placeholder="01XXXXXXXXX" value="{{ old('phone') }}" required>
                             </div>
                             <div class="col-12">
                                 <label class="clean-form-label mb-1">Item Description</label>
-                                <textarea name="message" class="form-control clean-input" rows="4" placeholder="Tell us what you are looking for..." required></textarea>
+                                <textarea name="message" class="form-control clean-input" rows="4" placeholder="Tell us what you are looking for..." required>{{ old('message') }}</textarea>
                             </div>
                             <div class="col-12 mt-4">
                                 <button type="submit" class="btn-clean-submit w-100 py-3 fw-bold">
@@ -231,6 +267,89 @@
         </div>
     </div>
 </section>
+
+<!-- DYNAMIC COLLAPSIBLE FAQ SECTION -->
+@if(count($faqs) > 0)
+<section class="py-6 bg-white position-relative overflow-hidden faq-section border-top">
+    <div class="container position-relative z-index-2">
+        <div class="text-center mb-6">
+            <h6 class="text-primary text-uppercase fw-bold ls-2 mb-3">Frequently Asked Questions</h6>
+            <h2 class="display-5 fw-extrabold text-slate-900">Have any <span class="text-accent-blue">Questions?</span></h2>
+            <div class="title-line mx-auto mt-3"></div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div class="accordion accordion-flush premium-faq-accordion" id="faqAccordion">
+                    @foreach($faqs as $key => $faq)
+                    <div class="accordion-item mb-3 border-0 rounded-16 shadow-sm overflow-hidden">
+                        <h2 class="accordion-header" id="headingFAQ{{ $faq->id }}">
+                            <button class="accordion-button {{ $key == 0 ? '' : 'collapsed' }} fw-bold text-slate-800" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFAQ{{ $faq->id }}" aria-expanded="{{ $key == 0 ? 'true' : 'false' }}" aria-controls="collapseFAQ{{ $faq->id }}">
+                                {{ $faq->question }}
+                            </button>
+                        </h2>
+                        <div id="collapseFAQ{{ $faq->id }}" class="accordion-collapse collapse {{ $key == 0 ? 'show' : '' }}" aria-labelledby="headingFAQ{{ $faq->id }}" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-slate-600 bg-slate-50 fs-15">
+                                {!! $faq->answer !!}
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Additional Custom FAQ styling -->
+<style>
+    .faq-section {
+        background-color: #ffffff !important;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    .premium-faq-accordion .accordion-item {
+        border: 1px solid #e2e8f0 !important;
+        transition: all 0.3s ease;
+    }
+
+    .premium-faq-accordion .accordion-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.05), 
+                    0 4px 6px -2px rgba(15, 23, 42, 0.05) !important;
+        border-color: var(--primary) !important;
+    }
+
+    .premium-faq-accordion .accordion-button {
+        padding: 20px 24px;
+        font-size: 16px;
+        background-color: #ffffff !important;
+        color: var(--slate-900) !important;
+        box-shadow: none !important;
+        transition: all 0.3s ease;
+    }
+
+    .premium-faq-accordion .accordion-button:not(.collapsed) {
+        color: var(--accent-blue) !important;
+        background-color: rgba(37, 99, 235, 0.03) !important;
+    }
+
+    .premium-faq-accordion .accordion-button::after {
+        background-size: 14px;
+        transition: transform 0.3s ease;
+    }
+
+    .premium-faq-accordion .accordion-body {
+        padding: 24px;
+        line-height: 1.7;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .rounded-16 {
+        border-radius: 16px !important;
+    }
+</style>
+@endif
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');

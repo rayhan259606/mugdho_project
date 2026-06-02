@@ -20,40 +20,59 @@
                     </ol>
                 </nav>
 
-                <!-- High-End Hero Header Frame -->
-                <div class="post-meta-header mb-4">
-                    <h1 class="display-5 fw-black text-slate-900 mb-3 lh-sm text-balance">
-                        {{ $post->title }}
-                    </h1>
+                <!-- Unified Content Canvas -->
+                <div class="card border-0 bg-white rounded-32 shadow-premium p-4 p-md-5 mb-5 animate__animated animate__fadeInUp">
                     
-                    <div class="d-flex align-items-center flex-wrap gap-3 text-slate-500 fs-14 border-bottom border-slate-200 pb-4">
-                        <div class="d-flex align-items-center bg-white px-3 py-1.5 rounded-pill shadow-premium border border-slate-100">
-                            <i class="fe fe-calendar text-primary me-2"></i>
-                            <span class="fw-medium text-slate-700">{{ $post->created_at->format('M d, Y') }}</span>
+                    <!-- High-End Hero Header Frame -->
+                    <div class="post-meta-header mb-4">
+                        <h1 class="display-5 fw-black text-slate-900 mb-4 lh-sm text-balance text-center text-md-start">
+                            {{ $post->title }}
+                        </h1>
+                        
+                        <div class="d-flex align-items-center justify-content-center justify-content-md-start flex-wrap gap-3 text-slate-500 fs-14 pb-4">
+                            <div class="d-flex align-items-center bg-premium-light-gray px-3 py-1.5 rounded-pill border border-slate-100">
+                                <i class="fe fe-calendar text-primary me-2"></i>
+                                <span class="fw-medium text-slate-700">{{ $post->created_at->format('M d, Y') }}</span>
+                            </div>
+                            <div class="d-flex align-items-center bg-premium-light-gray px-3 py-1.5 rounded-pill border border-slate-100">
+                                <i class="fe fe-user text-primary me-2"></i>
+                                <span class="fw-medium text-slate-700">By Admin</span>
+                            </div>
                         </div>
-                        <div class="d-flex align-items-center bg-white px-3 py-1.5 rounded-pill shadow-premium border border-slate-100">
-                            <i class="fe fe-user text-primary me-2"></i>
-                            <span class="fw-medium text-slate-700">By Admin</span>
-                        </div>
-                        {{-- <div class="d-flex align-items-center bg-white px-3 py-1.5 rounded-pill shadow-premium border border-slate-100 ms-sm-auto">
-                            <i class="fe fe-clock text-primary me-2"></i>
-                            <span class="fw-medium text-slate-700">5 Min Read</span>
-                        </div> --}}
                     </div>
-                </div>
 
-                <!-- Premium Main Feature Image Display -->
-                <div class="card border-0 shadow-premium rounded-28 overflow-hidden bg-white p-2 border border-slate-100 mb-5 animate__animated animate__zoomIn">
-                    <div class="position-relative card-main-hero-wrap rounded-24 overflow-hidden">
-                        <img src="{{ asset($post->thumbnail) }}" class="w-100 h-100 object-fit-cover" alt="{{ $post->title }}">
-                        <div class="img-ambient-darkener"></div>
+                    <!-- Premium Main Feature Image Display -->
+                    <div class="post-featured-image-wrapper animate__animated animate__zoomIn">
+                        <div class="card-main-hero-wrap">
+                            <img src="{{ asset($post->thumbnail) }}" alt="{{ $post->title }}">
+                            <div class="img-ambient-darkener"></div>
+                        </div>
                     </div>
+                    
+                    <!-- Editorial Standard Rich Text Content Container -->
+                    <article class="post-content-typography text-slate-800">
+                        {!! $post->content !!}
+                    </article>
+
+                    <!-- Additional Post Gallery Images -->
+                    @if($post->images && $post->images->count() > 0)
+                    <div class="post-gallery mt-5 pt-4 border-top border-slate-100">
+                        <h4 class="fw-bold text-slate-900 mb-4 fs-18">Post Gallery</h4>
+                        <div class="row g-3">
+                            @foreach($post->images as $image)
+                            <div class="col-sm-6 col-md-4">
+                                <a href="{{ asset($image->path) }}" target="_blank" class="gallery-item d-block rounded-16 overflow-hidden position-relative shadow-sm">
+                                    <img src="{{ asset($image->path) }}" alt="Gallery Image" class="w-100 object-fit-cover transition-transform" style="height: 200px;">
+                                    <div class="gallery-overlay d-flex align-items-center justify-content-center">
+                                        <i class="fe fe-zoom-in text-white fs-4"></i>
+                                    </div>
+                                </a>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
                 </div>
-                
-                <!-- Editorial Standard Rich Text Content Container -->
-                <article class="post-content-typography text-slate-800 mb-5 px-1 px-md-3">
-                    {!! $post->description !!}
-                </article>
 
                 <!-- Modern Conversational Share & Engagement Box -->
                 <div class="share-box p-3 p-sm-4 bg-white border border-slate-100 rounded-24 shadow-premium d-flex flex-column flex-sm-row align-items-center justify-content-between gap-3 mb-5">
@@ -143,12 +162,50 @@
     .hover-primary:hover { color: var(--primary-color) !important; }
 
     /* Media Hero Framework */
+    .post-featured-image-wrapper {
+        border-radius: 20px;
+        overflow: hidden;
+        margin-bottom: 2.5rem;
+    }
     .card-main-hero-wrap {
-        height: 480px;
+        width: 100%;
+        height: 380px;
+        border-radius: 18px;
+        overflow: hidden;
+        position: relative;
+    }
+    .card-main-hero-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .post-featured-image-wrapper:hover .card-main-hero-wrap img {
+        transform: scale(1.04);
     }
     .img-ambient-darkener {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(15, 23, 42, 0.01); pointer-events: none;
+        background: linear-gradient(180deg, rgba(15,23,42,0) 60%, rgba(15,23,42,0.15) 100%);
+        pointer-events: none;
+    }
+    
+    /* Additional Gallery Grid */
+    .fs-18 { font-size: 18px; }
+    .gallery-item img {
+        transition: transform 0.5s ease;
+    }
+    .gallery-item:hover img {
+        transform: scale(1.08);
+    }
+    .gallery-overlay {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(15, 23, 42, 0.4);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    .gallery-item:hover .gallery-overlay {
+        opacity: 1;
     }
 
     /* ==========================================================================
@@ -236,14 +293,15 @@
 
     /* Fluid Responsiveness Matrix Overrides */
     @media (max-width: 991.98px) {
-        .card-main-hero-wrap { height: 360px; }
+        .card-main-hero-wrap { height: 300px; }
         .display-5 { font-size: 2rem !important; }
     }
     
     @media (max-width: 576px) {
         .py-md-6 { padding-top: 2rem; padding-bottom: 2rem; }
         .display-5 { font-size: 1.6rem !important; }
-        .card-main-hero-wrap { height: 240px; }
+        .card-main-hero-wrap { height: 220px; }
+        .post-featured-image-wrapper { border-radius: 16px; margin-bottom: 1.5rem; }
         .post-content-typography { font-size: 1.1rem !important; line-height: 1.85 !important; }
         .post-content-typography h2 { font-size: 1.45rem; }
         .custom-modern-breadcrumb { font-size: 12px; padding: 6px 14px !important; }
