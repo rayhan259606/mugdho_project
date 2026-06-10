@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\Backend\BannerController;
+use App\Http\Controllers\Web\Backend\HomeMediaController;
 use App\Http\Controllers\Web\Backend\ServiceController;
 use App\Http\Controllers\Web\Backend\LeadController;
 use App\Http\Controllers\Web\Backend\Access\PermissionController;
@@ -444,6 +445,16 @@ Route::group(['middleware' => ['web-admin']], function () {
     });
 
     Route::controller(BannerController::class)->prefix('banner')->name('banner.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::post('/update/{id}', 'update')->name('update');
+        Route::delete('/delete/{id}', 'destroy')->name('destroy');
+        Route::get('/status/{id}', 'status')->name('status');
+    });
+
+    Route::controller(HomeMediaController::class)->prefix('home-media')->name('home_media.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');

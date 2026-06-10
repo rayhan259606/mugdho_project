@@ -61,6 +61,12 @@ use Illuminate\Support\Facades\Route;
                     </a>
                 </li>
                 <li class="slide">
+                    <a class="side-menu__item {{  request()->routeIs('admin.home_media.*') ? 'has-link active' : '' }}" href="{{ route('admin.home_media.index') }}">
+                        <i class="fa-solid fa-photo-film side-menu__icon"></i>
+                        <span class="side-menu__label">Home Media</span>
+                    </a>
+                </li>
+                <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.service.*') ? 'has-link active' : '' }}" href="{{ route('admin.service.index') }}">
                         <i class="fa-solid fa-handshake side-menu__icon"></i>
                         <span class="side-menu__label">Service</span>

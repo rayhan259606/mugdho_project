@@ -98,65 +98,78 @@
     </div>
 </section>
 
-<!-- PRODUCTS GRID -->
+<!-- MEDIA HIGHLIGHTS SECTION -->
 <section class="py-6 bg-slate-50">
     <div class="container">
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5">
-            <div class="mb-4 mb-md-0">
-                <h2 class="fw-bold text-dark display-6 mb-1">Featured Items</h2>
-                <p class="text-secondary mb-0">Handpicked items just for you</p>
+        @if($posters->count() > 0 || $videos->count() > 0)
+            <div class="text-center mb-6">
+                <h6 class="text-primary text-uppercase fw-bold ls-2 mb-3">Featured Highlights</h6>
+                <h2 class="display-5 fw-bold text-slate-900">Posters & Videos</h2>
+                <div class="title-line mx-auto mt-3"></div>
             </div>
-            <div class="filter-pills d-flex overflow-auto pb-2">
-                <a href="{{ route('home') }}" class="pill {{ !request('category') ? 'active' : '' }}">All Items</a>
-                @foreach($cats as $cat)
-                    <a href="{{ route('home', ['category' => $cat['slug']]) }}" class="pill {{ request('category') == $cat['slug'] ? 'active' : '' }}">{{ $cat['name'] }}</a>
+
+            <!-- Posters Row -->
+            @if($posters->count() > 0)
+            <div class="row g-4 mb-5 justify-content-center">
+                @foreach($posters as $poster)
+                <div class="col-12 col-md-6">
+                    <div class="card border-0 shadow-sm overflow-hidden premium-media-card rounded-24">
+                        <div class="media-img-wrapper position-relative" style="height: 380px; overflow: hidden; border-radius: 24px;">
+                            @if($poster->link)
+                                <a href="{{ $poster->link }}" target="_blank">
+                            @endif
+                            <img src="{{ asset($poster->file_path) }}" class="w-100 h-100" alt="{{ $poster->title }}" style="object-fit: cover; transition: transform 0.5s ease;">
+                            @if($poster->title)
+                                <div class="media-title-overlay position-absolute bottom-0 start-0 w-100 p-4" style="background: linear-gradient(to top, rgba(15, 23, 42, 0.9) 0%, transparent 100%);">
+                                    <h4 class="text-white fw-bold mb-0">{{ $poster->title }}</h4>
+                                </div>
+                            @endif
+                            @if($poster->link)
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </div>
                 @endforeach
             </div>
-        </div>
+            @endif
 
-        <div class="row g-4">
-            @forelse($products as $product)
-            <div class="col-md-6 col-lg-3">
-                <div class="card h-100 border-0 shadow-sm product-card">
-                    <div class="product-img-wrapper">
-                        <img src="{{ asset($product->thumbnail) }}" class="card-img-top" alt="{{ $product->title }}">
-                        @if($product->discount > 0)
-                        <span class="badge-discount">-${{ $product->discount }}</span>
-                        @endif
-                        <div class="product-overlay">
-                            <a href="{{ route('product.details', $product->slug) }}" class="btn btn-light btn-sm rounded-pill px-3 shadow-sm">View Details</a>
+            <!-- Videos Row -->
+            @if($videos->count() > 0)
+            <div class="row g-4 justify-content-center">
+                @foreach($videos as $video)
+                <div class="col-12 col-md-6">
+                    <div class="card border-0 shadow-sm overflow-hidden premium-media-card rounded-24 bg-white p-3">
+                        <div class="video-wrapper position-relative rounded-16 overflow-hidden" style="height: 320px; background: #0f172a; border-radius: 16px;">
+                            <video class="w-100 h-100" controls style="object-fit: cover;">
+                                <source src="{{ asset($video->file_path) }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
                         </div>
-                    </div>
-                    <div class="card-body p-4">
-                        <p class="text-primary small fw-bold mb-1">{{ $product->category->name ?? 'Collection' }}</p>
-                        <h5 class="card-title fw-bold text-dark mb-3 text-truncate-2">{{ $product->title }}</h5>
-                        <div class="d-flex align-items-center justify-content-between mt-auto">
-                            <div class="price-stack">
-                                @if($product->discount > 0)
-                                <span class="old-price text-secondary text-decoration-line-through small d-block">৳{{ $product->price }}</span>
-                                <span class="current-price text-dark fw-bold fs-5">৳{{ $product->price - $product->discount }}</span>
-                                @else
-                                <span class="current-price text-dark fw-bold fs-5">৳{{ $product->price }}</span>
-                                @endif
+                        @if($video->title)
+                            <div class="pt-3">
+                                <h5 class="fw-bold text-slate-900 mb-1 px-1">{{ $video->title }}</h5>
                             </div>
-                            <a href="{{ route('product.details', $product->slug) }}" class="btn btn-navy-soft btn-icon rounded-circle">
-                                <i class="fe fe-shopping-bag"></i>
-                            </a>
-                        </div>
+                        @endif
                     </div>
                 </div>
+                @endforeach
             </div>
-            @empty
+            @endif
+        @else
+            <div class="text-center mb-6">
+                <h6 class="text-primary text-uppercase fw-bold ls-2 mb-3">Featured Highlights</h6>
+                <h2 class="display-5 fw-bold text-slate-900">Posters & Videos</h2>
+                <div class="title-line mx-auto mt-3"></div>
+            </div>
             <div class="col-12 text-center py-6">
                 <div class="empty-state">
-                    <i class="fe fe-package display-1 text-slate-200 mb-4"></i>
-                    <h3 class="text-slate-800 fw-bold">Nothing found here</h3>
-                    <p class="text-slate-500 mb-4">We couldn't find any items matching your selection.</p>
-                    <a href="{{ route('home') }}" class="btn btn-primary rounded-pill px-5 py-3">View All Products</a>
+                    <i class="fe fe-video display-1 text-slate-200 mb-4"></i>
+                    <h3 class="text-slate-800 fw-bold">No Media Found</h3>
+                    <p class="text-slate-500 mb-4">Please add posters and videos from the admin panel to display them here.</p>
                 </div>
             </div>
-            @endforelse
-        </div>
+        @endif
     </div>
 </section>
 
@@ -753,6 +766,28 @@
             padding: 0.65rem 1.25rem !important;
             font-size: 14px;
         }
+    }
+
+    /* Premium Media Card Styles */
+    .premium-media-card {
+        border-radius: 24px !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03), 
+                    0 20px 40px -4px rgba(15, 23, 42, 0.06) !important;
+    }
+    .premium-media-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.05), 
+                    0 24px 48px -4px rgba(15, 23, 42, 0.09) !important;
+    }
+    .media-img-wrapper:hover img {
+        transform: scale(1.05);
+    }
+    .rounded-24 {
+        border-radius: 24px !important;
+    }
+    .rounded-16 {
+        border-radius: 16px !important;
     }
 </style>
 @endsection

@@ -65,7 +65,10 @@ class HomeController extends Controller
         $products = $query->latest()->take(50)->get();
         $faqs = \App\Models\FAQ::where('status', 'active')->latest()->get();
 
-        return view("frontend.{$this->theme}.layouts.home.index", compact('cms', 'posts', 'types', 'projects', 'products', 'socials', 'banners', 'faqs'));
+        $posters = \App\Models\HomeMedia::where('type', 'poster')->where('status', 'active')->latest()->take(2)->get();
+        $videos = \App\Models\HomeMedia::where('type', 'video')->where('status', 'active')->latest()->take(2)->get();
+
+        return view("frontend.{$this->theme}.layouts.home.index", compact('cms', 'posts', 'types', 'projects', 'products', 'socials', 'banners', 'faqs', 'posters', 'videos'));
     }
 
     public function posts()
