@@ -383,11 +383,32 @@
         }
     }
 
-    /* Search bar */
+    /* Staggered nav item animation — fade in one by one using Bootstrap .show */
+    .navbar-nav .nav-item {
+        opacity: 0;
+        transition: opacity 0.4s ease;
+    }
+
+    .navbar-collapse.show .navbar-nav .nav-item:nth-child(1) { opacity: 1; transition-delay: 0.05s; }
+    .navbar-collapse.show .navbar-nav .nav-item:nth-child(2) { opacity: 1; transition-delay: 0.16s; }
+    .navbar-collapse.show .navbar-nav .nav-item:nth-child(3) { opacity: 1; transition-delay: 0.27s; }
+    .navbar-collapse.show .navbar-nav .nav-item:nth-child(4) { opacity: 1; transition-delay: 0.38s; }
+    .navbar-collapse.show .navbar-nav .nav-item:nth-child(5) { opacity: 1; transition-delay: 0.49s; }
+    .navbar-collapse.show .navbar-nav .nav-item:nth-child(6) { opacity: 1; transition-delay: 0.60s; }
+
+    /* Search bar — with open animation */
     .search-form {
         width: 100%;
         max-width: 100%;
         margin: 0 0 18px 0 !important;
+        opacity: 0;
+        transform: translateY(12px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .navbar-collapse.show .search-form {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 0.02s;
     }
 
     .input-group-premium {
@@ -402,11 +423,14 @@
         padding: 12px;
     }
 
-    /* Nav items */
+    /* Nav items — vertical column layout (down to down) */
     .navbar-nav {
+        display: flex !important;
+        flex-direction: column !important;
         gap: 10px;
         padding-top: 0;
         border-top: none;
+        width: 100%;
     }
 
     .nav-item {
@@ -420,15 +444,24 @@
         justify-content: space-between;
         padding: 15px 20px !important;
         border-radius: 16px;
-        background: #f8fafc;
+        background: #f1f5f9;
         font-size: 15px;
         font-weight: 800 !important;
-        transition: all 0.3s ease;
+        color: #0f172a !important;   /* Force visible dark text */
+        text-decoration: none;
+        transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .nav-link-premium span {
+        color: #0f172a !important;   /* Ensure span text is dark */
     }
 
     .nav-link-premium:hover {
-        background: rgba(79, 70, 229, 0.08);
-        transform: translateY(-2px);
+        background: rgba(79, 70, 229, 0.10);
+        color: #4f46e5 !important;
+    }
+    .nav-link-premium:hover span {
+        color: #4f46e5 !important;
     }
 
     /* Buttons */

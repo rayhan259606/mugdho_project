@@ -78,8 +78,7 @@
                     ['name' => 'MSM Course', 'icon' => 'fe-book-open', 'route' => 'module.msm', 'slug' => 'msm-course', 'color' => '#6366f1'],
                     ['name' => 'Gadgets', 'icon' => 'fe-smartphone', 'route' => 'module.gadgets', 'slug' => 'gadget', 'color' => '#10b981'],
                     ['name' => 'Digital', 'icon' => 'fe-cpu', 'route' => 'module.digital', 'slug' => 'digital', 'color' => '#0ea5e9'],
-                    ['name' => 'Antique', 'icon' => 'fe-package', 'route' => 'module.antique', 'slug' => 'antique', 'color' => '#f59e0b'],
-                    ['name' => 'Services', 'icon' => 'fe-briefcase', 'route' => 'module.services', 'slug' => 'business-services', 'color' => '#ef4444'],
+                    ['name' => 'Antique', 'icon' => 'fe-package', 'route' => 'module.antique', 'slug' => 'antique', 'color' => '#f59e0b']
                 ];
             @endphp
             @foreach($cats as $cat)
