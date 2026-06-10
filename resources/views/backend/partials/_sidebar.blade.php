@@ -47,12 +47,12 @@ use Illuminate\Support\Facades\Route;
                 </li>
                 @endrole
                 @role('admin')
-                <li class="slide">
-                    <a class="side-menu__item {{  request()->routeIs('admin.subcategory.*') ? 'has-link active' : '' }}" href="{{ route('admin.subcategory.index') }}">
-                        <i class="fa-solid fa-list-check side-menu__icon"></i>
-                        <span class="side-menu__label">Sub Category</span>
-                    </a>
-                </li>
+                <!--<li class="slide">-->
+                <!--    <a class="side-menu__item {{  request()->routeIs('admin.subcategory.*') ? 'has-link active' : '' }}" href="{{ route('admin.subcategory.index') }}">-->
+                <!--        <i class="fa-solid fa-list-check side-menu__icon"></i>-->
+                <!--        <span class="side-menu__label">Sub Category</span>-->
+                <!--    </a>-->
+                <!--</li>-->
                 @endrole
                 <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.banner.*') ? 'has-link active' : '' }}" href="{{ route('admin.banner.index') }}">
@@ -75,12 +75,12 @@ use Illuminate\Support\Facades\Route;
                         <span class="side-menu__label">Course</span>
                     </a>
                 </li>
-                <li class="slide">
-                    <a class="side-menu__item {{  request()->routeIs('admin.blog.*') ? 'has-link active' : '' }}" href="{{ route('admin.blog.index') }}">
-                        <i class="fa-solid fa-book side-menu__icon"></i>
-                        <span class="side-menu__label">Blog</span>
-                    </a>
-                </li>
+                <!--<li class="slide">-->
+                <!--    <a class="side-menu__item {{  request()->routeIs('admin.blog.*') ? 'has-link active' : '' }}" href="{{ route('admin.blog.index') }}">-->
+                <!--        <i class="fa-solid fa-book side-menu__icon"></i>-->
+                <!--        <span class="side-menu__label">Blog</span>-->
+                <!--    </a>-->
+                <!--</li>-->
                 <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.post.*') ? 'has-link active' : '' }}" href="{{ route('admin.post.index') }}">
                         <i class="fa-solid fa-blog side-menu__icon"></i>
@@ -151,12 +151,12 @@ use Illuminate\Support\Facades\Route;
                     <h3>Portfolio</h3>
                 </li>
                 @role('admin')
-                <li class="slide">
-                    <a class="side-menu__item {{  request()->routeIs('admin.type.*') ? 'has-link active' : '' }}" href="{{ route('admin.type.index') }}">
-                        <i class="fa-solid fa-list side-menu__icon"></i>
-                        <span class="side-menu__label">Type</span>
-                    </a>
-                </li>
+                <!--<li class="slide">-->
+                <!--    <a class="side-menu__item {{  request()->routeIs('admin.type.*') ? 'has-link active' : '' }}" href="{{ route('admin.type.index') }}">-->
+                <!--        <i class="fa-solid fa-list side-menu__icon"></i>-->
+                <!--        <span class="side-menu__label">Type</span>-->
+                <!--    </a>-->
+                <!--</li>-->
                 @endrole
                 <li class="slide">
                     <a class="side-menu__item {{  request()->routeIs('admin.project.*') ? 'has-link active' : '' }}" href="{{ route('admin.project.index') }}">
@@ -197,8 +197,8 @@ use Illuminate\Support\Facades\Route;
 
                     <ul class="slide-menu">
                         <li><a href="{{ route('admin.users.index') }}" class="slide-item">User</a></li>
-                        <li><a href="{{ route('admin.roles.index') }}" class="slide-item">Roll</a></li>
-                        <li><a href="{{ route('admin.permissions.index') }}" class="slide-item">Permission</a></li>
+                        <!--<li><a href="{{ route('admin.roles.index') }}" class="slide-item">Roll</a></li>-->
+                        <!--<li><a href="{{ route('admin.permissions.index') }}" class="slide-item">Permission</a></li>-->
                     </ul>
                 </li>
                 @endrole
@@ -215,15 +215,15 @@ use Illuminate\Support\Facades\Route;
                         <li><a href="{{ route('admin.setting.env.index') }}" class="slide-item">Environment Settings</a></li>
                         <li><a href="{{ route('admin.setting.logo.index') }}" class="slide-item">Logo Settings</a></li>
                         <li><a href="{{ route('admin.setting.profile.index') }}" class="slide-item">Profile Settings</a></li>
-                        <li><a href="{{ route('admin.setting.mail.index') }}" class="slide-item">Mail Settings</a></li>
-                        <li><a href="{{ route('admin.setting.stripe.index') }}" class="slide-item">Stripe Settings</a></li>
-                        <li><a href="{{ route('admin.setting.firebase.index') }}" class="slide-item">Firebase Settings</a></li>
-                        <li><a href="{{ route('admin.setting.social.index') }}" class="slide-item">Social Settings</a></li>
-                        <li><a href="{{ route('admin.setting.google.map.index') }}" class="slide-item">Google Map Settings</a></li>
-                        <li><a href="{{ route('admin.setting.captcha.index') }}" class="slide-item">Captcha Settings</a></li>
-                        <li><a href="{{ route('admin.setting.signature.index') }}" class="slide-item">Signature Settings</a></li>
-                        <li><a href="{{ route('admin.setting.other.index') }}" class="slide-item">Other Settings</a></li>
-                        <li><a href="{{ route('plugins.index') }}" class='slide-item'>Manage Plugins</a></li>
+                        <!--<li><a href="{{ route('admin.setting.mail.index') }}" class="slide-item">Mail Settings</a></li>-->
+                        <!--<li><a href="{{ route('admin.setting.stripe.index') }}" class="slide-item">Stripe Settings</a></li>-->
+                        <!--<li><a href="{{ route('admin.setting.firebase.index') }}" class="slide-item">Firebase Settings</a></li>-->
+                        <!--<li><a href="{{ route('admin.setting.social.index') }}" class="slide-item">Social Settings</a></li>-->
+                        <!--<li><a href="{{ route('admin.setting.google.map.index') }}" class="slide-item">Google Map Settings</a></li>-->
+                        <!--<li><a href="{{ route('admin.setting.captcha.index') }}" class="slide-item">Captcha Settings</a></li>-->
+                        <!--<li><a href="{{ route('admin.setting.signature.index') }}" class="slide-item">Signature Settings</a></li>-->
+                        <!--<li><a href="{{ route('admin.setting.other.index') }}" class="slide-item">Other Settings</a></li>-->
+                        <!--<li><a href="{{ route('plugins.index') }}" class='slide-item'>Manage Plugins</a></li>-->
                     </ul>
                 </li>
                 @endrole

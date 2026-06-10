@@ -31,7 +31,7 @@
 <body class="ltr app sidebar-mini">
     @include('backend.partials._switcher')
 
-    @include('backend.partials._loader')
+    <!--@include('backend.partials._loader')-->
 
     <!-- PAGE -->
     <div class="page">
