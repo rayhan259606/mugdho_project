@@ -171,6 +171,10 @@
                         'submit_label' => 'Complete Enrollment'
                     ])
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Advanced Professional Styles -->
 <style>

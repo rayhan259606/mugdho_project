@@ -154,6 +154,14 @@
     .page-dynamic-typography p {
         margin-bottom: 1.5rem !important;
     }
+    .page-dynamic-typography ul, 
+    .page-dynamic-typography ol {
+        margin-bottom: 1.5rem !important;
+        padding-left: 1.5rem !important;
+    }
+    .page-dynamic-typography li {
+        margin-bottom: 0.5rem !important;
+    }
     .page-dynamic-typography h2, 
     .page-dynamic-typography h3, 
     .page-dynamic-typography h4 {
