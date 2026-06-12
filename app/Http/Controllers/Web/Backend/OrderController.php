@@ -23,11 +23,20 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Order::with(['product'])->orderBy('id', 'desc')->get();
+            $data = Order::with(['product', 'antiqueProduct', 'digitalProduct', 'gadget'])->orderBy('id', 'desc')->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('product', function ($data) {
-                    return $data->product->title ?? 'Product Deleted';
+                    if ($data->product_id) {
+                        return $data->product->title ?? 'Product Deleted';
+                    } elseif ($data->antique_product_id) {
+                        return ($data->antiqueProduct->title ?? 'Antique Product Deleted') . ' (Antique)';
+                    } elseif ($data->digital_product_id) {
+                        return ($data->digitalProduct->title ?? 'Digital Product Deleted') . ' (Digital)';
+                    } elseif ($data->gadget_id) {
+                        return ($data->gadget->title ?? 'Gadget Deleted') . ' (Gadget)';
+                    }
+                    return 'N/A';
                 })
                 ->addColumn('customer', function ($data) {
                     return $data->name . '<br><small>' . $data->phone . '</small>';

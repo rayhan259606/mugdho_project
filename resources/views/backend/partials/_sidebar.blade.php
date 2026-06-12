@@ -81,6 +81,24 @@ use Illuminate\Support\Facades\Route;
                         <span class="side-menu__label">Course</span>
                     </a>
                 </li>
+                <li class="slide">
+                    <a class="side-menu__item {{  request()->routeIs('admin.antique_product.*') ? 'has-link active' : '' }}" href="{{ route('admin.antique_product.index') }}">
+                        <i class="fa-solid fa-gem side-menu__icon"></i>
+                        <span class="side-menu__label">Antique Collection</span>
+                    </a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item {{  request()->routeIs('admin.digital_product.*') ? 'has-link active' : '' }}" href="{{ route('admin.digital_product.index') }}">
+                        <i class="fa-solid fa-download side-menu__icon"></i>
+                        <span class="side-menu__label">Digital Products</span>
+                    </a>
+                </li>
+                <li class="slide">
+                    <a class="side-menu__item {{  request()->routeIs('admin.gadget.*') ? 'has-link active' : '' }}" href="{{ route('admin.gadget.index') }}">
+                        <i class="fa-solid fa-laptop side-menu__icon"></i>
+                        <span class="side-menu__label">Gadgets</span>
+                    </a>
+                </li>
                 <!--<li class="slide">-->
                 <!--    <a class="side-menu__item {{  request()->routeIs('admin.blog.*') ? 'has-link active' : '' }}" href="{{ route('admin.blog.index') }}">-->
                 <!--        <i class="fa-solid fa-book side-menu__icon"></i>-->

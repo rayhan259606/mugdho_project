@@ -39,6 +39,9 @@ use App\Http\Controllers\Web\Backend\PageController;
 use App\Http\Controllers\Web\Backend\PostController;
 use App\Http\Controllers\Web\Backend\ReviewController;
 use App\Http\Controllers\Web\Backend\ProductController;
+use App\Http\Controllers\Web\Backend\AntiqueProductController;
+use App\Http\Controllers\Web\Backend\DigitalProductController;
+use App\Http\Controllers\Web\Backend\GadgetController;
 use App\Http\Controllers\Web\Backend\PropertyController;
 use App\Http\Controllers\Web\Backend\Settings\CaptchaController;
 use App\Http\Controllers\Web\Backend\Settings\EnvController;
@@ -448,6 +451,42 @@ Route::group(['middleware' => ['web-admin']], function () {
         Route::post('/update/{id}', 'update')->name('update');
         Route::delete('/delete/{id}', 'destroy')->name('destroy');
         Route::get('/status/{id}', 'status')->name('status');
+    });
+
+    # Antique Collection CMS & CRUD
+    Route::controller(AntiqueProductController::class)->prefix('antique-product')->name('antique_product.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::match(['POST', 'PUT'], '/update/{id}', 'update')->name('update');
+        Route::delete('/delete/{id}', 'destroy')->name('destroy');
+        Route::get('/status/{id}', 'status')->name('status');
+        Route::put('/cms/update', 'updateCms')->name('cms.update');
+    });
+
+    # Digital Products CMS & CRUD
+    Route::controller(DigitalProductController::class)->prefix('digital-product')->name('digital_product.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::match(['POST', 'PUT'], '/update/{id}', 'update')->name('update');
+        Route::delete('/delete/{id}', 'destroy')->name('destroy');
+        Route::get('/status/{id}', 'status')->name('status');
+        Route::put('/cms/update', 'updateCms')->name('cms.update');
+    });
+
+    # Gadgets CMS & CRUD
+    Route::controller(GadgetController::class)->prefix('gadget')->name('gadget.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::match(['POST', 'PUT'], '/update/{id}', 'update')->name('update');
+        Route::delete('/delete/{id}', 'destroy')->name('destroy');
+        Route::get('/status/{id}', 'status')->name('status');
+        Route::put('/cms/update', 'updateCms')->name('cms.update');
     });
 
     Route::controller(CurriculumController::class)->prefix('curriculum')->name('curriculum.')->group(function () {

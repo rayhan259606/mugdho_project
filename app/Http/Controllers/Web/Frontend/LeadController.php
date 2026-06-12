@@ -91,11 +91,24 @@ class LeadController extends Controller
 
     public function order(Request $request)
     {
+        $moduleType = $request->input('module_type');
+        $productTable = 'products';
+        if ($moduleType === 'antique') {
+            $productTable = 'antique_products';
+        } elseif ($moduleType === 'digital') {
+            $productTable = 'digital_products';
+        } elseif ($moduleType === 'gadget') {
+            $productTable = 'gadgets';
+        }
+
         $validator = Validator::make($request->all(), [
-            'product_id' => 'required|exists:products,id',
-            'name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'phone' => ['required', 'regex:/^01[3-9]\d{8}$/'],
+            'product_id'     => "required|exists:{$productTable},id",
+            'name'           => 'required|string|max:255',
+            'address'        => 'required|string|max:255',
+            'phone'          => ['required', 'regex:/^01[3-9]\d{8}$/'],
+            'email'          => 'required|email|max:255',
+            'payment_method' => 'nullable|string|in:bkash,nagad',
+            'transaction_id' => 'required_with:payment_method|nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -103,32 +116,76 @@ class LeadController extends Controller
         }
 
         try {
-            $product = Product::findOrFail($request->product_id);
-            
-            $order = Order::create([
-                'uid' => 'ORD-' . strtoupper(Str::random(10)),
-                'user_id' => auth()->id() ?? 1, 
-                'product_id' => $product->id,
-                'price' => $product->price - ($product->discount ?? 0),
-                'name' => $request->name,
-                'address' => $request->address,
-                'phone' => $request->phone,
-                'shipping_charge' => 0, // This can be dynamic later
-                'status' => 'pending',
-            ]);
+            $product = null;
+            $orderData = [
+                'uid'             => 'ORD-' . strtoupper(Str::random(10)),
+                'user_id'         => auth()->id() ?? 1, 
+                'name'            => $request->name,
+                'address'         => $request->address,
+                'phone'           => $request->phone,
+                'email'           => $request->email,
+                'payment_method'  => $request->payment_method ?? null,
+                'transaction_id'  => $request->transaction_id ?? null,
+                'shipping_charge' => 0,
+                'status'          => 'pending',
+            ];
+
+            if ($moduleType === 'antique') {
+                $product = \App\Models\AntiqueProduct::findOrFail($request->product_id);
+                $orderData['antique_product_id'] = $product->id;
+            } elseif ($moduleType === 'digital') {
+                $product = \App\Models\DigitalProduct::findOrFail($request->product_id);
+                $orderData['digital_product_id'] = $product->id;
+            } elseif ($moduleType === 'gadget') {
+                $product = \App\Models\Gadget::findOrFail($request->product_id);
+                $orderData['gadget_id'] = $product->id;
+            } else {
+                $product = Product::findOrFail($request->product_id);
+                $orderData['product_id'] = $product->id;
+            }
+
+            $orderData['price'] = $product->price - ($product->discount ?? 0);
+
+            $paidTo = null;
+            if (!empty($request->payment_method)) {
+                $setting = Setting::first();
+                if ($request->payment_method == 'bkash') {
+                    $paidTo = $setting->bkash_number ?? null;
+                } elseif ($request->payment_method == 'nagad') {
+                    $paidTo = $setting->nagad_number ?? null;
+                }
+            }
+            $orderData['paid_to'] = $paidTo;
+
+            $order = Order::create($orderData);
 
             $mailData = [
                 'product_title' => $product->title,
-                'price' => $order->price,
-                'name' => $request->name,
-                'phone' => $request->phone,
-                'address' => $request->address,
+                'price'         => $order->price,
+                'name'          => $request->name,
+                'phone'         => $request->phone,
+                'address'       => $request->address,
             ];
 
             $adminEmail = Setting::first()->email ?? env('MAIL_FROM_ADDRESS');
-            Mail::to($adminEmail)->send(new OrderMail($mailData));
+            try {
+                Mail::to($adminEmail)->send(new OrderMail($mailData));
+            } catch (Exception $mailError) {
+                // Keep processing even if mail fails
+            }
 
-            return redirect()->back()->with('t-success', 'Order placed successfully!');
+            $paymentDetails = null;
+            if (!empty($order->payment_method) && !empty($order->paid_to)) {
+                $paymentDetails = [
+                    'method' => $order->payment_method == 'bkash' ? 'bKash' : 'Nagad',
+                    'number' => $order->paid_to,
+                    'trx_id' => $order->transaction_id
+                ];
+            }
+
+            return redirect()->back()
+                ->with('t-success', 'Thank you! Your order/inquiry has been submitted successfully.')
+                ->with('payment_success_details', $paymentDetails);
         } catch (Exception $e) {
             return redirect()->back()->with('t-error', $e->getMessage());
         }

@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Models\CMS;
 use App\Models\Post;
 use App\Models\Product;
+use App\Models\AntiqueProduct;
+use App\Models\DigitalProduct;
+use App\Models\Gadget;
 use App\Models\SocialLink;
 use Modules\Portfolio\Models\Project;
 use Modules\Portfolio\Models\Type;
@@ -143,36 +146,36 @@ class HomeController extends Controller
     {
         $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
         $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
-        $products = Product::whereHas('category', function($q) { 
-            $q->whereIn('slug', ['gadget', 'gadgets']); 
-        })->latest()->get();
-        $title = 'Gadgets Collection';
+        $products = Gadget::where('status', 'active')->orderBy('position', 'asc')->orderBy('id', 'desc')->get();
+        $pageCms = CMS::where('page', 'gadgets')->where('section', 'hero')->first();
+        $title = $pageCms->title ?? 'Gadgets Collection';
+        $module_type = 'gadget';
         $socials = \App\Models\SocialLink::where('status', 'active')->get();
-        return view("frontend.{$this->theme}.layouts.modules.products", compact('cms', 'products', 'title', 'socials'));
+        return view("frontend.{$this->theme}.layouts.modules.products", compact('cms', 'products', 'title', 'socials', 'pageCms', 'module_type'));
     }
 
     public function digital()
     {
         $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
         $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
-        $products = Product::whereHas('category', function($q) { 
-            $q->whereIn('slug', ['digital', 'digital-products', 'digitals']); 
-        })->latest()->get();
-        $title = 'Digital Products';
+        $products = DigitalProduct::where('status', 'active')->orderBy('position', 'asc')->orderBy('id', 'desc')->get();
+        $pageCms = CMS::where('page', 'digital_products')->where('section', 'hero')->first();
+        $title = $pageCms->title ?? 'Digital Products';
+        $module_type = 'digital';
         $socials = \App\Models\SocialLink::where('status', 'active')->get();
-        return view("frontend.{$this->theme}.layouts.modules.products", compact('cms', 'products', 'title', 'socials'));
+        return view("frontend.{$this->theme}.layouts.modules.products", compact('cms', 'products', 'title', 'socials', 'pageCms', 'module_type'));
     }
 
     public function antique()
     {
         $cmsData = CMSData::all()->makeHidden(['created_at', 'updated_at']);
         $cms = ['home' => $cmsData->where('page', PageEnum::HOME), 'common' => $cmsData->where('page', PageEnum::COMMON)];
-        $products = Product::whereHas('category', function($q) { 
-            $q->whereIn('slug', ['antique', 'antiques', 'antique-collection']); 
-        })->latest()->get();
-        $title = 'Antique Collection';
+        $products = AntiqueProduct::where('status', 'active')->orderBy('position', 'asc')->orderBy('id', 'desc')->get();
+        $pageCms = CMS::where('page', 'antique_collection')->where('section', 'hero')->first();
+        $title = $pageCms->title ?? 'Antique Collection';
+        $module_type = 'antique';
         $socials = \App\Models\SocialLink::where('status', 'active')->get();
-        return view("frontend.{$this->theme}.layouts.modules.products", compact('cms', 'products', 'title', 'socials'));
+        return view("frontend.{$this->theme}.layouts.modules.products", compact('cms', 'products', 'title', 'socials', 'pageCms', 'module_type'));
     }
 
     public function services()
