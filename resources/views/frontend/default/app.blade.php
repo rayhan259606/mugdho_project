@@ -78,8 +78,21 @@
   @yield('content')
 
   <!-- WhatsApp Floating Button -->
-  @if(!empty(settings('whatsapp_number_1')))
-    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', settings('whatsapp_number_1')) }}" 
+  @php
+    $activeNum = settings('whatsapp_active') ?? 1;
+    $activeWhatsapp = '';
+    if ($activeNum == 1) {
+        $activeWhatsapp = settings('whatsapp_number_1');
+    } elseif ($activeNum == 2) {
+        $activeWhatsapp = settings('whatsapp_number_2');
+    } elseif ($activeNum == 3) {
+        $activeWhatsapp = settings('whatsapp_number_3');
+    } elseif ($activeNum == 4) {
+        $activeWhatsapp = settings('whatsapp_number_4');
+    }
+  @endphp
+  @if(!empty($activeWhatsapp))
+    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $activeWhatsapp) }}" 
        target="_blank" 
        class="whatsapp-float animate__animated animate__fadeInUp animate__delay-1s" 
        title="Chat with us on WhatsApp">

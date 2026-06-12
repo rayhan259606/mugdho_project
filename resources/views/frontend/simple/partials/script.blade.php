@@ -1,6 +1,16 @@
 <!-- WhatsApp Floating Button -->
 @php
-    $activeWhatsapp = $systemSetting->whatsapp_number_1 ?? '';
+    $activeNum = $systemSetting->whatsapp_active ?? 1;
+    $activeWhatsapp = '';
+    if ($activeNum == 1) {
+        $activeWhatsapp = $systemSetting->whatsapp_number_1 ?? '';
+    } elseif ($activeNum == 2) {
+        $activeWhatsapp = $systemSetting->whatsapp_number_2 ?? '';
+    } elseif ($activeNum == 3) {
+        $activeWhatsapp = $systemSetting->whatsapp_number_3 ?? '';
+    } elseif ($activeNum == 4) {
+        $activeWhatsapp = $systemSetting->whatsapp_number_4 ?? '';
+    }
 @endphp
 @if(!empty($activeWhatsapp))
     <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $activeWhatsapp) }}" 
