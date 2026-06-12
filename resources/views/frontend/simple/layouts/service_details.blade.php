@@ -39,47 +39,14 @@
 
                                 <hr class="my-5 opacity-10">
 
-                                <h4 class="fw-bold mb-4">Request a Consultation</h4>
-                                <form action="{{ route('service.request') }}" method="POST">
-                                    @csrf
-                                    @if(session('success'))
-                                    <div class="alert alert-success border-0 shadow-sm mb-4">
-                                        {{ session('success') }}
-                                    </div>
-                                @endif
-
-                                @if(session('error'))
-                                    <div class="alert alert-danger border-0 shadow-sm mb-4">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
-                                    <input type="hidden" name="service_id" value="{{ $service->id }}">
-                                    <div class="row g-4">
-                                        <div class="col-md-12">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" name="name" class="form-control border-light rounded-12" id="floatingName" placeholder="John Doe" required>
-                                                <label for="floatingName">Full Name</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" name="phone" class="form-control border-light rounded-12" id="floatingPhone" placeholder="01XXXXXXXXX" required>
-                                                <label for="floatingPhone">Phone Number</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-floating mb-3">
-                                                <input type="text" name="address" class="form-control border-light rounded-12" id="floatingAddress" placeholder="Dhaka, Bangladesh" required>
-                                                <label for="floatingAddress">City/Area</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12">
-                                            <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill py-3 fw-bold shadow-lg mt-3">
-                                                Submit Request <i class="fe fe-send ms-2"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                                @include('frontend.simple.partials.submission_form', [
+                                    'action' => route('service.request'),
+                                    'type' => 'service',
+                                    'item' => $service,
+                                    'form_title' => 'Request a Consultation',
+                                    'form_subtitle' => 'Fill up the form below to request a service callback.',
+                                    'submit_label' => 'Submit Request'
+                                ])
                                 <p class="text-center text-muted small mt-4">We typically respond within 24 hours.</p>
                             </div>
                         </div>

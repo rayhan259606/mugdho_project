@@ -114,36 +114,16 @@
                     <hr class="hr-modern mb-4">
 
                     <!-- Seamless Order Form Inlay -->
-                    <div class="order-form-box p-3 p-sm-4 bg-slate-50 border border-slate-100 rounded-24" id="order-inquiry-box">
-                        <h4 class="fw-bold text-slate-900 mb-3 fs-18 d-flex align-items-center">
-                            <span class="form-indicator-pulse me-2"></span>
-                            Fast Checkout Order
-                        </h4>
-                        
-                        <form action="{{ route('product.order') }}" method="POST">
-                            @csrf
-                            <input type="hidden" name="product_id" value="{{ $product->id }}">
-                            
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label small text-slate-700 fw-semibold">Your Full Name</label>
-                                    <input type="text" name="name" class="form-control rounded-pill custom-form-input px-4" placeholder="Enter full name" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label small text-slate-700 fw-semibold">Active Phone Number</label>
-                                    <input type="text" name="phone" class="form-control rounded-pill custom-form-input px-4" placeholder="01XXXXXXXXX" required>
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label small text-slate-700 fw-semibold">Delivery Address</label>
-                                    <textarea name="address" class="form-control rounded-20 custom-form-input px-4 py-3" rows="2" placeholder="Write full delivery details..." required></textarea>
-                                </div>
-                                <div class="col-12 mt-3">
-                                    <button type="submit" class="btn btn-gradient-primary btn-lg w-100 rounded-pill py-3 fw-bold text-white shadow-md hover-scale d-flex align-items-center justify-content-center gap-2">
-                                        <i class="fe fe-zap fs-16"></i> Confirm Cash On Delivery
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                    <div id="order-inquiry-box">
+                        @include('frontend.simple.partials.submission_form', [
+                            'action' => route('product.order'),
+                            'type' => 'product',
+                            'item' => $product,
+                            'module_type' => $module_type ?? null,
+                            'form_title' => 'Fast Checkout Order',
+                            'form_subtitle' => 'Fill up the form below to order or make an inquiry.',
+                            'submit_label' => 'Confirm Order'
+                        ])
                     </div>
                 </div>
             </div>
