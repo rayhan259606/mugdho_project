@@ -16,7 +16,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <table class="table table-bordered text-nowrap border-bottom" id="datatable">
+                             <table class="table table-bordered text-nowrap border-bottom" id="datatable">
                                 <thead>
                                     <tr>
                                         <th>SN</th>
@@ -24,6 +24,9 @@
                                         <th>Name</th>
                                         <th>Phone</th>
                                         <th>Email</th>
+                                        <th>Payment Method</th>
+                                        <th>Paid To</th>
+                                        <th>Transaction ID</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -51,6 +54,9 @@
                 {data: 'name', name: 'name'},
                 {data: 'phone', name: 'phone'},
                 {data: 'email', name: 'email'},
+                {data: 'payment_method', name: 'payment_method'},
+                {data: 'paid_to', name: 'paid_to'},
+                {data: 'transaction_id', name: 'transaction_id'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},
             ]
         });

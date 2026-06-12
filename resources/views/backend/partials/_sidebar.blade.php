@@ -266,6 +266,12 @@ use Illuminate\Support\Facades\Route;
                         <span class="side-menu__label">FAQ</span>
                     </a>
                 </li>
+                <li class="slide">
+                    <a class="side-menu__item {{  request()->routeIs('admin.msm_faq.*') ? 'has-link active' : '' }}" href="{{ route('admin.msm_faq.index') }}">
+                        <i class="fa-solid fa-graduation-cap side-menu__icon"></i>
+                        <span class="side-menu__label">MSM Course FAQ</span>
+                    </a>
+                </li>
                 {{-- <li class="slide">
                     <a class="side-menu__item" data-bs-toggle="slide" href="#">
                         <i class="fa-solid fa-desktop side-menu__icon"></i>

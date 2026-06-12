@@ -1,4 +1,4 @@
-@extends('backend.app', ['title' => 'Create Faq'])
+@extends('backend.app', ['title' => 'Create MSM Course Faq'])
 
 @section('content')
 
@@ -16,7 +16,7 @@
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url("admin/dashboard") }}"><i class="fe fe-home me-2 fs-14"></i>Home</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Faq</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">MSM Course Faq</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Create</li>
                     </ol>
                 </div>
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="card-body border-0">
-                            <form class="form form-horizontal" method="POST" action="{{ route('admin.faq.store') }}" enctype="multipart/form-data">
+                            <form class="form form-horizontal" method="POST" action="{{ route('admin.msm_faq.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row mb-4">
 
@@ -103,7 +103,7 @@
     $(document).ready(function() {
         // Initialize Select2 with tags functionality
         $('#category').select2({
-            placeholder: "Select or type a new position",
+            placeholder: "Select or type a new category",
             allowClear: true,
             width: '100%',
             tags: true,

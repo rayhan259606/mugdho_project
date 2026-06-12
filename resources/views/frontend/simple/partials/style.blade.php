@@ -66,5 +66,33 @@
     .navbar-light .navbar-nav .nav-link:hover {
         color: #6366f1 !important;
     }
+
+    /* WhatsApp Floating Button Styling */
+    .whatsapp-float {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #25d366;
+        color: #fff !important;
+        width: 50px;
+        height: 50px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        z-index: 9999;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        text-decoration: none !important;
+    }
+    .whatsapp-float:hover {
+        background-color: #128c7e;
+        transform: scale(1.15) translateY(-3px);
+        box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+    }
+    .whatsapp-float svg {
+        width: 28px;
+        height: 28px;
+    }
 </style>
 @stack('style')

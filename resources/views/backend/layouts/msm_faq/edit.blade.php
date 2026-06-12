@@ -1,4 +1,4 @@
-@extends('backend.app', ['title' => 'Create Faq'])
+@extends('backend.app', ['title' => 'Update MSM Course FAQ'])
 
 @section('content')
 
@@ -16,8 +16,8 @@
                 <div class="ms-auto pageheader-btn">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url("admin/dashboard") }}"><i class="fe fe-home me-2 fs-14"></i>Home</a></li>
-                        <li class="breadcrumb-item"><a href="javascript:void(0);">Faq</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Create</li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">MSM Course FAQ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Update</li>
                     </ol>
                 </div>
             </div>
@@ -26,13 +26,13 @@
                 <div class="col-lg-12">
                     <div class="card post-sales-main">
                         <div class="card-header border-bottom">
-                            <h3 class="card-title mb-0">Create</h3>
+                            <h3 class="card-title mb-0">Update</h3>
                             <div class="card-options">
                                 <a href="javascript:window.history.back()" class="btn btn-sm btn-primary">Back</a>
                             </div>
                         </div>
                         <div class="card-body border-0">
-                            <form class="form form-horizontal" method="POST" action="{{ route('admin.faq.store') }}" enctype="multipart/form-data">
+                            <form class="form form-horizontal" method="POST" action="{{ route('admin.msm_faq.update', $faq->id) }}">
                                 @csrf
                                 <div class="row mb-4">
 
@@ -43,9 +43,7 @@
                                                 <select class="form-control select2 @error('category') is-invalid @enderror" name="category" id="category">
                                                     <option value="">Select Category</option>
                                                     @foreach($categories as $category)
-                                                    <option value="{{ $category }}" {{ old('category') == $category ? 'selected' : '' }}>
-                                                        {{ $category }}
-                                                     </option>
+                                                    <option value="{{ $category }}" {{ $faq->category == $category ? 'selected' : '' }}>{{ $category }}</option>
                                                     @endforeach
                                                 </select>
                                                 @error('category')
@@ -59,7 +57,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="question" class="form-label">Question:</label>
-                                                <input type="text" class="form-control @error('question') is-invalid @enderror" name="question" placeholder="Enter here question" id="question" value="{{ old('question') ?? '' }}">
+                                                <input type="text" class="form-control @error('question') is-invalid @enderror" name="question" placeholder="Enter here question" id="question" value="{{ $faq->question ?? '' }}">
                                                 @error('question')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -71,7 +69,7 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <label for="answer" class="form-label">Answer:</label>
-                                                <textarea class="summernote form-control @error('answer') is-invalid @enderror" name="answer" id="answer" placeholder="Enter here answer" rows="3">{{ old('answer') ?? '' }}</textarea>
+                                                <textarea class="summernote form-control @error('answer') is-invalid @enderror" name="answer" id="answer" placeholder="Enter here answer" rows="3">{{ $faq->answer ?? '' }}</textarea>
                                                 @error('answer')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -103,7 +101,7 @@
     $(document).ready(function() {
         // Initialize Select2 with tags functionality
         $('#category').select2({
-            placeholder: "Select or type a new position",
+            placeholder: "Select or type a new category",
             allowClear: true,
             width: '100%',
             tags: true,

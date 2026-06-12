@@ -13,6 +13,9 @@ class CourseEnrollment extends Model
         'phone',
         'email',
         'status',
+        'payment_method',
+        'paid_to',
+        'transaction_id',
     ];
 
     public function course()

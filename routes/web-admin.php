@@ -30,6 +30,7 @@ use App\Http\Controllers\Web\Backend\Settings\GoogleMapController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\Backend\DashboardController;
 use App\Http\Controllers\Web\Backend\FaqController;
+use App\Http\Controllers\Web\Backend\MsmFaqController;
 use App\Http\Controllers\Web\Backend\ImageController;
 use App\Http\Controllers\Web\Backend\LivewireController;
 use App\Http\Controllers\Web\Backend\MenuController;
@@ -162,6 +163,17 @@ Route::group(['middleware' => ['web-admin']], function () {
     });
 
     Route::controller(FaqController::class)->prefix('faq')->name('faq.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/show/{id}', 'show')->name('show');
+        Route::get('/edit/{id}', 'edit')->name('edit');
+        Route::post('/update/{id}', 'update')->name('update');
+        Route::delete('/delete/{id}', 'destroy')->name('destroy');
+        Route::get('/status/{id}', 'status')->name('status');
+    });
+
+    Route::controller(MsmFaqController::class)->prefix('msm-faq')->name('msm_faq.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');

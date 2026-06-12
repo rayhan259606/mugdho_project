@@ -128,6 +128,80 @@
                                         @enderror
                                     </div>
 
+                                    <div class="card border mt-4 mb-4">
+                                        <div class="card-header bg-light">
+                                            <h4 class="card-title mb-0">WhatsApp Settings</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 form-group">
+                                                    <label for="whatsapp_number_1" class="form-label">WhatsApp Number 1:</label>
+                                                    <input type="text" class="form-control @error('whatsapp_number_1') is-invalid @enderror"
+                                                        name="whatsapp_number_1" placeholder="e.g. 8801700000000" id="whatsapp_number_1"
+                                                        value="{{ $setting->whatsapp_number_1 ?? old('whatsapp_number_1') ?? '' }}">
+                                                    @error('whatsapp_number_1')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label for="whatsapp_number_2" class="form-label">WhatsApp Number 2:</label>
+                                                    <input type="text" class="form-control @error('whatsapp_number_2') is-invalid @enderror"
+                                                        name="whatsapp_number_2" placeholder="e.g. 8801700000000" id="whatsapp_number_2"
+                                                        value="{{ $setting->whatsapp_number_2 ?? old('whatsapp_number_2') ?? '' }}">
+                                                    @error('whatsapp_number_2')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label for="whatsapp_number_3" class="form-label">WhatsApp Number 3:</label>
+                                                    <input type="text" class="form-control @error('whatsapp_number_3') is-invalid @enderror"
+                                                        name="whatsapp_number_3" placeholder="e.g. 8801700000000" id="whatsapp_number_3"
+                                                        value="{{ $setting->whatsapp_number_3 ?? old('whatsapp_number_3') ?? '' }}">
+                                                    @error('whatsapp_number_3')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label for="whatsapp_number_4" class="form-label">WhatsApp Number 4:</label>
+                                                    <input type="text" class="form-control @error('whatsapp_number_4') is-invalid @enderror"
+                                                        name="whatsapp_number_4" placeholder="e.g. 8801700000000" id="whatsapp_number_4"
+                                                        value="{{ $setting->whatsapp_number_4 ?? old('whatsapp_number_4') ?? '' }}">
+                                                    @error('whatsapp_number_4')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card border mt-4 mb-4">
+                                        <div class="card-header bg-light">
+                                            <h4 class="card-title mb-0">Payment Settings</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 form-group">
+                                                    <label for="bkash_number" class="form-label">bKash Personal Number:</label>
+                                                    <input type="text" class="form-control @error('bkash_number') is-invalid @enderror"
+                                                        name="bkash_number" placeholder="e.g. 01700000000" id="bkash_number"
+                                                        value="{{ $setting->bkash_number ?? old('bkash_number') ?? '' }}">
+                                                    @error('bkash_number')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-6 form-group">
+                                                    <label for="nagad_number" class="form-label">Nagad Personal Number:</label>
+                                                    <input type="text" class="form-control @error('nagad_number') is-invalid @enderror"
+                                                        name="nagad_number" placeholder="e.g. 01700000000" id="nagad_number"
+                                                        value="{{ $setting->nagad_number ?? old('nagad_number') ?? '' }}">
+                                                    @error('nagad_number')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">

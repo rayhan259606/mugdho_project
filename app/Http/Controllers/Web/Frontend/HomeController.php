@@ -135,7 +135,8 @@ class HomeController extends Controller
         $courses = \App\Models\Course::where('status', 'active')->latest()->get();
         $featured_course = $courses->first();
         $socials = \App\Models\SocialLink::where('status', 'active')->get();
-        return view("frontend.{$this->theme}.layouts.modules.msm_course", compact('cms', 'courses', 'featured_course', 'socials'));
+        $faqs = \App\Models\MsmFaq::where('status', 'active')->latest()->get();
+        return view("frontend.{$this->theme}.layouts.modules.msm_course", compact('cms', 'courses', 'featured_course', 'socials', 'faqs'));
     }
 
     public function gadgets()

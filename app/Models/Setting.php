@@ -8,7 +8,9 @@ class Setting extends Model
 {
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function getLogoAttribute($value): string | null
+    protected $appends = ['active_whatsapp'];
+
+    public function getLogoAttribute($value): string|null
     {
         if (filter_var($value, FILTER_VALIDATE_URL)) {
             return $value;
@@ -23,7 +25,7 @@ class Setting extends Model
         return $value;
     }
 
-    public function getFaviconAttribute($value): string | null
+    public function getFaviconAttribute($value): string|null
     {
         if (filter_var($value, FILTER_VALIDATE_URL)) {
             return $value;
@@ -37,7 +39,13 @@ class Setting extends Model
         // Return only the path for web requests
         return $value;
     }
-    
+
+    public function getActiveWhatsappAttribute(): string|null
+    {
+        $index = $this->whatsapp_active ?? 1;
+        return $this->{"whatsapp_number_" . $index} ?? null;
+    }
+
     protected static function booted()
     {
         static::saved(function ($setting) {

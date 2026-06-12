@@ -43,6 +43,13 @@ class SettingController extends Controller
             'address'        => 'nullable|string|max:255',
             'favicon'        => 'nullable|image|mimes:png,jpg,jpeg,webp|max:5120',
             'thumbnail'      => 'nullable|image|mimes:png,jpg,jpeg,webp|max:5120',
+            'whatsapp_number_1' => 'nullable|string|max:20',
+            'whatsapp_number_2' => 'nullable|string|max:20',
+            'whatsapp_number_3' => 'nullable|string|max:20',
+            'whatsapp_number_4' => 'nullable|string|max:20',
+            'whatsapp_active'   => 'nullable|integer|in:1,2,3,4',
+            'bkash_number'      => 'nullable|string|max:20',
+            'nagad_number'      => 'nullable|string|max:20',
         ]);
 
         try {

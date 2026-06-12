@@ -19,6 +19,17 @@ class LeadController extends Controller
                 ->addColumn('course', function ($data) {
                     return $data->course->title;
                 })
+                ->addColumn('payment_method', function ($data) {
+                    if (!$data->payment_method) return '<span class="badge bg-secondary">N/A</span>';
+                    $badgeClass = $data->payment_method == 'bkash' ? 'bg-danger text-white' : 'bg-warning text-dark';
+                    return '<span class="badge ' . $badgeClass . '">' . ($data->payment_method == 'bkash' ? 'bKash' : 'Nagad') . '</span>';
+                })
+                ->addColumn('paid_to', function ($data) {
+                    return $data->paid_to ?? '<span class="text-muted">N/A</span>';
+                })
+                ->addColumn('transaction_id', function ($data) {
+                    return $data->transaction_id ? '<code class="text-dark fw-bold">' . $data->transaction_id . '</code>' : '<span class="text-muted">N/A</span>';
+                })
                 ->addColumn('action', function ($data) {
                     return '<div class="btn-group btn-group-sm" role="group">
                                 <a href="#" onclick="showDeleteConfirm(' . $data->id . ', \'enrollment\')" class="btn btn-danger fs-14 text-white" title="Delete">
@@ -26,7 +37,7 @@ class LeadController extends Controller
                                 </a>
                             </div>';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'payment_method', 'paid_to', 'transaction_id'])
                 ->make();
         }
         return view("backend.layouts.lead.enrollments");
