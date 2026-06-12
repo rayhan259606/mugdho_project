@@ -18,7 +18,7 @@
                     {{ $pageCms?->title ?? $title }}
                 </h1>
                 <p class="lead text-slate-700 mb-5 fw-medium animate__animated animate__fadeInUp animate__delay-1s">
-                    {{ $pageCms?->description ?? "Explore our handpicked selection of high-quality items. Whether you're looking for the latest tech or rare finds, we have something special for you." }}
+                    {!! $pageCms?->description ?? "Explore our handpicked selection of high-quality items. Whether you're looking for the latest tech or rare finds, we have something special for you." !!}
                 </p>
                 
                 <!-- Trust Badges -->
