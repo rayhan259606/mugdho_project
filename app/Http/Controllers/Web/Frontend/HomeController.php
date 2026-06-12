@@ -100,9 +100,30 @@ class HomeController extends Controller
             'common' => $cmsData->where('page', PageEnum::COMMON),
         ];
 
-        $product = Product::with(['category', 'user'])->where('slug', $slug)->where('status', 'active')->firstOrFail();
+        $product = null;
+        $module_type = null;
+
+        // Search in each table until found
+        if ($p = Product::with(['category', 'user'])->where('slug', $slug)->where('status', 'active')->first()) {
+            $product = $p;
+            $module_type = null; // standard product
+        } elseif ($p = AntiqueProduct::where('slug', $slug)->where('status', 'active')->first()) {
+            $product = $p;
+            $module_type = 'antique';
+        } elseif ($p = DigitalProduct::where('slug', $slug)->where('status', 'active')->first()) {
+            $product = $p;
+            $module_type = 'digital';
+        } elseif ($p = Gadget::where('slug', $slug)->where('status', 'active')->first()) {
+            $product = $p;
+            $module_type = 'gadget';
+        }
+
+        if (!$product) {
+            abort(404);
+        }
+
         $socials = \App\Models\SocialLink::where('status', 'active')->get();
-        return view("frontend.{$this->theme}.layouts.product_details", compact('cms', 'product', 'socials'));
+        return view("frontend.{$this->theme}.layouts.product_details", compact('cms', 'product', 'module_type', 'socials'));
     }
 
     public function course($id)
