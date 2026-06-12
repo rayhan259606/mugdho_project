@@ -89,6 +89,8 @@
                                     <th>Product</th>
                                     <th>Customer</th>
                                     <th>Address</th>
+                                    <th>Payment</th>
+                                    <th>Trx ID</th>
                                     <th>Total</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -129,6 +131,8 @@
                 {data: 'product', name: 'product'},
                 {data: 'customer', name: 'customer'},
                 {data: 'address', name: 'address'},
+                {data: 'payment', name: 'payment', orderable: false, searchable: false},
+                {data: 'trx_id', name: 'trx_id', orderable: false},
                 {data: 'total', name: 'total'},
                 {data: 'status', name: 'status'},
                 {data: 'action', name: 'action', orderable: false, searchable: false},

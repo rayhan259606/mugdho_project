@@ -62,14 +62,28 @@ class OrderController extends Controller
                 
                     return $status;
                 })
+                ->addColumn('payment', function ($data) {
+                    if (!$data->payment_method) return '<span class="badge bg-secondary">COD</span>';
+                    $label = strtoupper($data->payment_method);
+                    $badge = $data->payment_method === 'bkash' ? 'bg-danger' : 'bg-warning text-dark';
+                    $paidTo = $data->paid_to ? '<br><small class="text-muted">' . $data->paid_to . '</small>' : '';
+                    return '<span class="badge ' . $badge . '">' . $label . '</span>' . $paidTo;
+                })
+                ->addColumn('trx_id', function ($data) {
+                    if (!$data->transaction_id) return '<span class="text-muted">—</span>';
+                    return '<code class="small">' . $data->transaction_id . '</code>';
+                })
                 ->addColumn('action', function ($data) {
                     return '<div class="btn-group btn-group-sm" role="group">
+                                <a href="' . route('admin.order.show', $data->id) . '" class="btn btn-info fs-14 text-white" title="View">
+                                    <i class="fe fe-eye"></i>
+                                </a>
                                 <a href="#" onclick="showDeleteConfirm(' . $data->id . ')" class="btn btn-danger fs-14 text-white" title="Delete">
                                     <i class="fe fe-trash"></i>
                                 </a>
                             </div>';
                 })
-                ->rawColumns(['customer', 'status', 'action'])
+                ->rawColumns(['customer', 'payment', 'trx_id', 'status', 'action'])
                 ->make();
         }
         $totalOrders = Order::count();
@@ -100,7 +114,7 @@ class OrderController extends Controller
     }
     public function show(int $id)
     {
-        $order = Order::with(['product', 'user'])->where('id', $id)->first();
+        $order = Order::with(['product', 'antiqueProduct', 'digitalProduct', 'gadget'])->findOrFail($id);
         return view('backend.layouts.order.show', compact('order'));
     }
 
