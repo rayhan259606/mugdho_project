@@ -2,7 +2,7 @@
 
 @section('content')
 <!-- Course Header / Hero Section -->
-<section class="py-5 py-lg-7 bg-premium-dark position-relative overflow-hidden text-white">
+<section class="py-5 py-lg-7 bg-premium-dark position-relative overflow-hidden text-slate-900">
     <!-- Sophisticated Ambient Light Blurs -->
     <div class="dark-decor-blur-1"></div>
     <div class="dark-decor-blur-2"></div>
@@ -11,42 +11,42 @@
         <div class="row align-items-center g-4 g-lg-5">
             <!-- Left Content -->
             <div class="col-lg-7 text-center text-lg-start">
-                <span class="badge bg-primary-soft text-primary-light fw-semibold px-3 py-2 rounded-pill mb-3 text-uppercase tracking-wider fs-12 border border-primary-800 animate__animated animate__fadeInDown">
+                <span class="badge bg-primary-soft text-primary fw-semibold px-3 py-2 rounded-pill mb-3 text-uppercase tracking-wider fs-12 border border-primary-200 animate__animated animate__fadeInDown">
                     <i class="fe fe-award me-1"></i> Specialization Track
                 </span>
-                <h1 class="display-4 fw-black mb-3 lh-sm text-white animate__animated animate__fadeInUp">
+                <h1 class="display-4 fw-black mb-3 lh-sm text-slate-900 animate__animated animate__fadeInUp">
                     {{ $course->title }}
                 </h1>
-                <p class="lead text-slate-300 mb-4 px-2 px-lg-0 mx-auto mx-lg-0 max-w-600 fw-medium animate__animated animate__fadeInUp animate__delay-1s">
+                <p class="lead text-slate-600 mb-4 px-2 px-lg-0 mx-auto mx-lg-0 max-w-600 fw-medium animate__animated animate__fadeInUp animate__delay-1s">
                     {{ Str::limit(strip_tags($course->description), 180) }}
                 </p>
                 
                 <!-- Quick Features Info -->
                 <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3 gap-sm-4 animate__animated animate__fadeInUp animate__delay-2s">
-                    <div class="d-flex align-items-center bg-white-05 px-3 py-2 rounded-12 border border-white-05">
-                        <div class="feature-icon-sm bg-primary-soft text-primary-light me-2">
+                    <div class="d-flex align-items-center bg-white-60 px-3 py-2 rounded-12 border border-white-80 shadow-sm">
+                        <div class="feature-icon-sm bg-primary-soft text-primary me-2">
                             <i class="fe fe-users"></i>
                         </div>
-                        <span class="fw-semibold text-white fs-14">Interactive Curriculum</span>
+                        <span class="fw-semibold text-slate-700 fs-14">Interactive Curriculum</span>
                     </div>
-                    <div class="d-flex align-items-center bg-white-05 px-3 py-2 rounded-12 border border-white-05">
+                    <div class="d-flex align-items-center bg-white-60 px-3 py-2 rounded-12 border border-white-80 shadow-sm">
                         <div class="feature-icon-sm bg-success-soft text-success me-2">
                             <i class="fe fe-clock"></i>
                         </div>
-                        <span class="fw-semibold text-white fs-14">Self-paced Learning</span>
+                        <span class="fw-semibold text-slate-700 fs-14">Self-paced Learning</span>
                     </div>
-                    <div class="d-flex align-items-center bg-white-05 px-3 py-2 rounded-12 border border-white-05">
+                    <div class="d-flex align-items-center bg-white-60 px-3 py-2 rounded-12 border border-white-80 shadow-sm">
                         <div class="feature-icon-sm bg-warning-soft text-warning me-2">
                             <i class="fe fe-award"></i>
                         </div>
-                        <span class="fw-semibold text-white fs-14">Verified Certificate</span>
+                        <span class="fw-semibold text-slate-700 fs-14">Verified Certificate</span>
                     </div>
                 </div>
             </div>
             
             <!-- Right Media Card -->
             <div class="col-lg-5 animate__animated animate__fadeInRight">
-                <div class="card border-0 bg-slate-900-80 glass-card-dark rounded-32 overflow-hidden shadow-xl max-w-450 mx-auto">
+                <div class="card border-0 glass-card-dark rounded-32 overflow-hidden shadow-xl max-w-450 mx-auto">
                     <div class="position-relative card-img-wrapper-detail">
                         <!-- Background Blurring for Image Consistency -->
                         <div class="card-bg-blur" style="background-image: url('{{ asset($course->image ?? 'default/course.jpg') }}');"></div>
@@ -56,14 +56,14 @@
                     <div class="card-body p-4 text-center">
                         @if($course->price)
                             <div class="mb-3">
-                                <span class="text-slate-400 small fw-medium d-block mb-1">Course Investment</span>
+                                <span class="text-slate-500 small fw-medium d-block mb-1">Course Investment</span>
                                 <h2 class="fw-black text-gradient-primary mb-0 fs-36">৳{{ number_format($course->price) }}</h2>
                             </div>
                         @endif
                         <a href="#enroll-form" class="btn btn-gradient-primary w-100 rounded-pill py-3 fw-bold text-white shadow-md hover-scale">
                             <i class="fe fe-shopping-bag me-2"></i> Enroll in Course
                         </a>
-                        <p class="small text-slate-400 mt-3 mb-0 d-flex align-items-center justify-content-center">
+                        <p class="small text-slate-500 mt-3 mb-0 d-flex align-items-center justify-content-center">
                             <i class="fe fe-shield text-success me-2 fs-16"></i> Secured Payment Gateway
                         </p>
                     </div>
@@ -216,23 +216,24 @@
     .fs-36 { font-size: 36px; }
     .bg-slate-50 { background-color: #f8fafc !important; }
     
-    /* Premium Dark Header Gradient */
+    /* Premium Light/Pastel Header Gradient (Comfortable for Eyes) */
     .bg-premium-dark {
-        background: linear-gradient(135deg, #090d16 0%, #0f172a 100%) !important;
+        background: linear-gradient(135deg, #f0f3ff 0%, #f7f5ff 50%, #faf3ff 100%) !important;
+        border-bottom: 1px solid rgba(99, 102, 241, 0.08);
     }
     .bg-premium-light-gray {
         background: #f8fafc;
     }
 
-    /* Ambient Glowing Light Elements (Gorgeous Theme) */
+    /* Ambient Glowing Light Elements (Gorgeous Eye-Comfort Theme) */
     .dark-decor-blur-1 {
         position: absolute;
         top: -20%;
         left: -10%;
         width: 500px;
         height: 500px;
-        background: rgba(99, 102, 241, 0.07);
-        filter: blur(130px);
+        background: rgba(99, 102, 241, 0.08);
+        filter: blur(100px);
         border-radius: 50%;
         pointer-events: none;
     }
@@ -242,8 +243,8 @@
         right: -10%;
         width: 500px;
         height: 500px;
-        background: rgba(124, 58, 237, 0.06);
-        filter: blur(130px);
+        background: rgba(168, 85, 247, 0.06);
+        filter: blur(100px);
         border-radius: 50%;
         pointer-events: none;
     }
@@ -263,12 +264,18 @@
         background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
         color: white;
     }
-    .bg-primary-soft { background-color: rgba(99, 102, 241, 0.12) !important; }
-    .bg-success-soft { background-color: rgba(34, 197, 94, 0.12) !important; }
-    .bg-warning-soft { background-color: rgba(245, 158, 11, 0.12) !important; }
-    .border-primary-800 { border-color: rgba(99, 102, 241, 0.3) !important; }
-    .bg-white-05 { background-color: rgba(255, 255, 255, 0.05); }
-    .border-white-05 { border-color: rgba(255, 255, 255, 0.08) !important; }
+    .bg-primary-soft { background-color: rgba(99, 102, 241, 0.08) !important; }
+    .bg-success-soft { background-color: rgba(34, 197, 94, 0.08) !important; }
+    .bg-warning-soft { background-color: rgba(245, 158, 11, 0.08) !important; }
+    .border-primary-800 { border-color: rgba(99, 102, 241, 0.15) !important; }
+    .bg-white-60 {
+        background-color: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    .border-white-80 {
+        border-color: rgba(99, 102, 241, 0.12) !important;
+    }
 
     .feature-icon-sm {
         width: 32px;
@@ -282,13 +289,16 @@
 
     /* Detail Hero Right Card Overlay */
     .glass-card-dark {
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        background: rgba(255, 255, 255, 0.85) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 20px 50px rgba(79, 70, 229, 0.06) !important;
+        border: 1px solid rgba(255, 255, 255, 0.9) !important;
     }
     .card-img-wrapper-detail {
         position: relative;
         height: 280px;
-        background-color: #090d16;
+        background-color: #f1f5f9;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -299,7 +309,7 @@
         background-size: cover;
         background-position: center;
         filter: blur(15px);
-        opacity: 0.65;
+        opacity: 0.15;
         transform: scale(1.1);
         z-index: 1;
     }
@@ -313,7 +323,7 @@
     .img-gradient-overlay {
         position: absolute;
         bottom: 0; left: 0; width: 100%; height: 40%;
-        background: linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,0.6) 100%);
+        background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 100%);
     }
 
     /* Content Styling & Titles */
