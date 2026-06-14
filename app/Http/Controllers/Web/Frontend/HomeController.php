@@ -71,7 +71,99 @@ class HomeController extends Controller
         $posters = \App\Models\HomeMedia::where('type', 'poster')->where('status', 'active')->latest()->take(2)->get();
         $videos = \App\Models\HomeMedia::where('type', 'video')->where('status', 'active')->latest()->take(2)->get();
 
-        return view("frontend.{$this->theme}.layouts.home.index", compact('cms', 'posts', 'types', 'projects', 'products', 'socials', 'banners', 'faqs', 'posters', 'videos'));
+        // Search across all models if search is active
+        $searchResults = collect();
+        $searchQuery = $request->get('search');
+        if ($request->filled('search')) {
+            // Standard products
+            $foundProducts = Product::where('status', 'active')
+                ->where(function($q) use ($searchQuery) {
+                    $q->where('title', 'like', '%' . $searchQuery . '%')
+                      ->orWhere('description', 'like', '%' . $searchQuery . '%');
+                })->latest()->take(20)->get()->map(function($item) {
+                    $item->search_type = 'Product';
+                    $item->search_badge_color = 'bg-primary text-white';
+                    $item->detail_url = route('product.details', $item->slug);
+                    $item->display_image = $item->thumbnail;
+                    $item->display_price = '৳' . number_format($item->price - $item->discount);
+                    return $item;
+                });
+
+            // Gadgets
+            $foundGadgets = Gadget::where('status', 'active')
+                ->where(function($q) use ($searchQuery) {
+                    $q->where('title', 'like', '%' . $searchQuery . '%')
+                      ->orWhere('description', 'like', '%' . $searchQuery . '%');
+                })->latest()->take(20)->get()->map(function($item) {
+                    $item->search_type = 'Gadget';
+                    $item->search_badge_color = 'bg-success text-white';
+                    $item->detail_url = route('product.details', $item->slug);
+                    $item->display_image = $item->thumbnail;
+                    $item->display_price = '৳' . number_format($item->price - $item->discount);
+                    return $item;
+                });
+
+            // Digital products
+            $foundDigitals = DigitalProduct::where('status', 'active')
+                ->where(function($q) use ($searchQuery) {
+                    $q->where('title', 'like', '%' . $searchQuery . '%')
+                      ->orWhere('description', 'like', '%' . $searchQuery . '%');
+                })->latest()->take(20)->get()->map(function($item) {
+                    $item->search_type = 'Digital';
+                    $item->search_badge_color = 'bg-info text-white';
+                    $item->detail_url = route('product.details', $item->slug);
+                    $item->display_image = $item->thumbnail;
+                    $item->display_price = '৳' . number_format($item->price - $item->discount);
+                    return $item;
+                });
+
+            // Antique products
+            $foundAntiques = AntiqueProduct::where('status', 'active')
+                ->where(function($q) use ($searchQuery) {
+                    $q->where('title', 'like', '%' . $searchQuery . '%')
+                      ->orWhere('description', 'like', '%' . $searchQuery . '%');
+                })->latest()->take(20)->get()->map(function($item) {
+                    $item->search_type = 'Antique';
+                    $item->search_badge_color = 'bg-warning text-dark';
+                    $item->detail_url = route('product.details', $item->slug);
+                    $item->display_image = $item->thumbnail;
+                    $item->display_price = '৳' . number_format($item->price - $item->discount);
+                    return $item;
+                });
+
+            // Courses
+            $foundCourses = \App\Models\Course::where('status', 'active')
+                ->where(function($q) use ($searchQuery) {
+                    $q->where('title', 'like', '%' . $searchQuery . '%')
+                      ->orWhere('description', 'like', '%' . $searchQuery . '%');
+                })->latest()->take(20)->get()->map(function($item) {
+                    $item->search_type = 'Course';
+                    $item->search_badge_color = 'bg-indigo text-white';
+                    $item->detail_url = route('course.details', $item->id);
+                    $item->display_image = 'default/no image.webp';
+                    $item->display_price = 'Premium Course';
+                    return $item;
+                });
+
+            // Services
+            $foundServices = \App\Models\Service::where('status', 'active')
+                ->where(function($q) use ($searchQuery) {
+                    $q->where('title', 'like', '%' . $searchQuery . '%')
+                      ->orWhere('description', 'like', '%' . $searchQuery . '%');
+                })->latest()->take(20)->get()->map(function($item) {
+                    $item->search_type = 'Service';
+                    $item->search_badge_color = 'bg-secondary text-white';
+                    $item->detail_url = route('service.details', $item->id);
+                    $item->display_image = $item->image ?? 'default/no image.webp';
+                    $item->display_price = 'Inquiry Only';
+                    return $item;
+                });
+
+            // Merge everything
+            $searchResults = $foundProducts->concat($foundGadgets)->concat($foundDigitals)->concat($foundAntiques)->concat($foundCourses)->concat($foundServices);
+        }
+
+        return view("frontend.{$this->theme}.layouts.home.index", compact('cms', 'posts', 'types', 'projects', 'products', 'socials', 'banners', 'faqs', 'posters', 'videos', 'searchResults', 'searchQuery'));
     }
 
     public function posts()

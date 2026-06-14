@@ -5,7 +5,7 @@
             <!-- Logo & Brand -->
             <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                 <img src="{{ asset($systemSetting->logo ?? 'default/logo.svg') }}" alt="Logo" class="logo-img">
-                <span class="brand-text ms-2 fw-extrabold tracking-tight">{{ $systemSetting->name ?? env('APP_NAME') }}</span>
+
             </a>
 
             <!-- Search Bar (Desktop: Visible, Mobile: Hidden) -->
@@ -13,8 +13,7 @@
                 <div class="input-group-premium">
                     <span class="input-group-text-premium">
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-                            class="search-icon-svg">
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="search-icon-svg">
                             <circle cx="11" cy="11" r="8"></circle>
                             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                         </svg>
@@ -60,24 +59,24 @@
                     </li>
 
                     {{-- @auth
-                        <li class="nav-item ms-2">
-                            <a class="btn-nav-action btn-nav-primary" href="{{ route('admin.dashboard') }}">
-                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
-                                    stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="me-1">
-                                    <rect x="3" y="3" width="7" height="7"></rect>
-                                    <rect x="14" y="3" width="7" height="7"></rect>
-                                    <rect x="14" y="14" width="7" height="7"></rect>
-                                    <rect x="3" y="14" width="7" height="7"></rect>
-                                </svg>
-                                Dashboard
-                            </a>
-                        </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn-nav-action btn-nav-primary" href="{{ route('admin.dashboard') }}">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"
+                                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="me-1">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                            Dashboard
+                        </a>
+                    </li>
                     @else
-                        <li class="nav-item ms-2">
-                            <a class="btn-nav-action btn-nav-outline" href="{{ route('login') }}">
-                                Login
-                            </a>
-                        </li>
+                    <li class="nav-item ms-2">
+                        <a class="btn-nav-action btn-nav-outline" href="{{ route('login') }}">
+                            Login
+                        </a>
+                    </li>
                     @endauth --}}
                 </ul>
             </div>
@@ -102,8 +101,10 @@
     <div class="mobile-drawer" id="mobileDrawer">
         <div class="drawer-header d-flex align-items-center justify-content-between">
             <a class="d-flex align-items-center" href="{{ url('/') }}">
-                <img src="{{ asset($systemSetting->logo ?? 'default/logo.svg') }}" alt="Logo" class="logo-img-mobile">
-                <span class="brand-text-mobile ms-2 fw-extrabold tracking-tight">{{ $systemSetting->name ?? env('APP_NAME') }}</span>
+                <img src="{{ asset($systemSetting->favicon ?? $systemSetting->logo ?? 'default/logo.svg') }}" alt="Logo"
+                    class="logo-img-mobile">
+                <span
+                    class="brand-text-mobile ms-2 fw-extrabold tracking-tight">{{ $systemSetting->name ?? env('APP_NAME') }}</span>
             </a>
             <button type="button" class="drawer-close" id="mobileDrawerClose" aria-label="Close menu">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"
@@ -251,14 +252,20 @@
 
         {{-- <div class="drawer-footer animate-item" style="--item-index: 6">
             @auth
-                <a class="btn-nav-action btn-nav-primary w-100" href="{{ route('admin.dashboard') }}">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="me-2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                    Dashboard
-                </a>
+            <a class="btn-nav-action btn-nav-primary w-100" href="{{ route('admin.dashboard') }}">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round" class="me-2">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+                Dashboard
+            </a>
             @else
-                <a class="btn-nav-action btn-nav-outline w-100" href="{{ route('login') }}">
-                    Login to Account
-                </a>
+            <a class="btn-nav-action btn-nav-outline w-100" href="{{ route('login') }}">
+                Login to Account
+            </a>
             @endauth
         </div> --}}
     </div>

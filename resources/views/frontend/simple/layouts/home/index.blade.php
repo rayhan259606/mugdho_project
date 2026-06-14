@@ -1,6 +1,84 @@
 @extends('frontend.simple.app')
 
 @section('content')
+@if(!empty($searchQuery))
+<!-- SEARCH RESULTS SECTION -->
+<section class="py-6 py-lg-8 bg-slate-50 min-vh-80 position-relative overflow-hidden" style="min-height: 70vh;">
+    <!-- Abstract Ambient Blurs -->
+    <div class="decor-blur-1" style="position: absolute; top: -10%; left: -5%; width: 400px; height: 400px; background: rgba(99, 102, 241, 0.08); filter: blur(100px); border-radius: 50%; pointer-events: none;"></div>
+    <div class="decor-blur-2" style="position: absolute; bottom: -10%; right: 5%; width: 500px; height: 500px; background: rgba(124, 58, 237, 0.06); filter: blur(120px); border-radius: 50%; pointer-events: none;"></div>
+    
+    <div class="container position-relative z-index-2">
+        <!-- Title & Info -->
+        <div class="text-center mb-5 animate__animated animate__fadeInDown">
+            <span class="badge bg-primary-soft text-primary fw-semibold px-3 py-2 rounded-pill mb-3 text-uppercase tracking-wider fs-11 border border-primary-100" style="background-color: rgba(99, 102, 241, 0.08); border-color: rgba(99, 102, 241, 0.15) !important;">
+                <i class="fe fe-search me-1"></i> Search Query
+            </span>
+            <h1 class="display-5 fw-extrabold text-slate-900 mb-2">
+                Search Results for <span class="text-primary" style="color: #6366f1 !important;">"{{ $searchQuery }}"</span>
+            </h1>
+            <p class="text-muted small">We found {{ $searchResults->count() }} matches for your search query.</p>
+            <a href="{{ route('home') }}" class="btn btn-outline-custom rounded-pill btn-sm px-4 py-2 mt-2 fw-bold shadow-sm">
+                <i class="fe fe-arrow-left me-1"></i> Clear Search
+            </a>
+            <div class="title-line mx-auto mt-4"></div>
+        </div>
+
+        @if($searchResults->count() > 0)
+            <div class="row g-4 justify-content-start">
+                @foreach($searchResults as $result)
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3 animate__animated animate__fadeInUp">
+                    <div class="card h-100 border-0 modern-product-card bg-white rounded-24 overflow-hidden shadow-sm">
+                        <!-- Image Wrapper with Badges and Dual blur + object-fit contain display -->
+                        <div class="position-relative overflow-hidden card-img-wrapper" style="height: 220px; background-color: #0f172a; display: flex; align-items: center; justify-content: center;">
+                            <div class="card-bg-blur" style="background-image: url('{{ asset($result->display_image) }}'); position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(15px); opacity: 0.65; transform: scale(1.1); z-index: 1;"></div>
+                            <img src="{{ asset($result->display_image) }}" class="card-img-top-custom" alt="{{ $result->title }}" style="position: relative; max-width: 100%; max-height: 100%; object-fit: contain; z-index: 2; transition: transform 0.5s ease;">
+                            
+                            <!-- Search Type Badge -->
+                            <span class="badge {{ $result->search_badge_color }} discount-tag fw-bold shadow-sm" style="position: absolute; top: 15px; left: 15px; padding: 6px 12px; border-radius: 8px; font-size: 0.78rem; letter-spacing: 0.02em; z-index: 2;">
+                                {{ $result->search_type }}
+                            </span>
+                        </div>
+                        
+                        <!-- Content Details -->
+                        <div class="card-body p-4 d-flex flex-column">
+                            <h6 class="fw-bold text-slate-800 mb-2 line-clamp-2 h-40px" style="height: auto; min-height: 40px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">{{ $result->title }}</h6>
+                            <p class="text-muted small text-truncate-2 mb-3" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 13px;">{{ strip_tags($result->description ?? '') }}</p>
+                            
+                            <div class="d-flex justify-content-between align-items-center mt-auto pt-2">
+                                <div class="d-flex flex-column">
+                                    <span class="text-primary fw-bold fs-16" style="color: #6366f1 !important;">{{ $result->display_price }}</span>
+                                </div>
+                                <a href="{{ $result->detail_url }}" class="btn btn-outline-custom rounded-pill btn-sm px-3 fw-semibold transition-all">
+                                    View Details <i class="fe fe-arrow-right ms-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        @else
+            <!-- Empty State -->
+            <div class="text-center py-6 animate__animated animate__fadeIn">
+                <div class="empty-state max-w-450 mx-auto" style="max-width: 450px;">
+                    <div class="d-flex align-items-center justify-content-center bg-white rounded-circle shadow-premium mx-auto mb-4" style="width: 80px; height: 80px; box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04) !important;">
+                        <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #94a3b8;">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <h3 class="text-slate-800 fw-bold">No Matches Found</h3>
+                    <p class="text-slate-500 mb-4 small" style="font-size: 14px;">We couldn't find any products, gadgets, antiques, courses, or services matching your query. Try checking for typos or searching other terms.</p>
+                    <a href="{{ route('home') }}" class="btn btn-primary rounded-pill px-4 py-2 fw-bold shadow-premium" style="background-color: #6366f1; border-color: #6366f1; font-weight: 700;">
+                        Go Back Home
+                    </a>
+                </div>
+            </div>
+        @endif
+    </div>
+</section>
+@else
 <!-- BANNER SLIDER -->
 @if(count($banners) > 0)
 <section class="banner-slider position-relative overflow-hidden">
@@ -362,7 +440,7 @@
     }
 </style>
 @endif
-
+@endif
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
