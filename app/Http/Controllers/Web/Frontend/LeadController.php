@@ -26,7 +26,7 @@ class LeadController extends Controller
         $validator = Validator::make($request->all(), [
             'course_id'      => 'required|exists:courses,id',
             'name'           => 'required|string|max:255',
-            'address'        => 'required|string|max:255',
+            'address'        => 'nullable|string|max:255',
             'phone'          => ['required', 'regex:/^01[3-9]\d{8}$/'], // Bangladesh 11 digit validation
             'email'          => 'required|email|max:255',
             'payment_method' => 'nullable|string|in:bkash,nagad',
@@ -104,7 +104,7 @@ class LeadController extends Controller
         $validator = Validator::make($request->all(), [
             'product_id'     => "required|exists:{$productTable},id",
             'name'           => 'required|string|max:255',
-            'address'        => 'required|string|max:255',
+            'address'        => 'nullable|string|max:255',
             'phone'          => ['required', 'regex:/^01[3-9]\d{8}$/'],
             'email'          => 'required|email|max:255',
             'payment_method' => 'nullable|string|in:bkash,nagad',
@@ -196,7 +196,7 @@ class LeadController extends Controller
         $validator = Validator::make($request->all(), [
             'service_id' => 'required|exists:services,id',
             'name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
+            'address' => 'nullable|string|max:255',
             'phone' => ['required', 'regex:/^01[3-9]\d{8}$/'],
         ]);
 

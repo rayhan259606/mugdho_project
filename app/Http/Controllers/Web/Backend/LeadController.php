@@ -50,7 +50,7 @@ class LeadController extends Controller
         'service_id' => 'required|exists:services,id',
         'name'       => 'required|string|max:255',
         'phone'      => 'required|string|max:20',
-        'address'    => 'required|string|max:255',
+        'address'    => 'nullable|string|max:255',
     ]);
 
     // Data Save

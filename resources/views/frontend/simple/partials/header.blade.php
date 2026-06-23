@@ -51,12 +51,12 @@
                             <span>Antique</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link-premium {{ request()->routeIs('module.services') ? 'active' : '' }}"
                             href="{{ route('module.services') }}">
                             <span>Services</span>
                         </a>
-                    </li>
+                    </li> -->
 
                     {{-- @auth
                     <li class="nav-item ms-2">
