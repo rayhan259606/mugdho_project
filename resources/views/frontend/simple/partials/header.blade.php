@@ -3,10 +3,17 @@
         <div class="container">
 
             <!-- Logo & Brand -->
-            <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+            <!-- <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
                 <img src="{{ asset($systemSetting->logo ?? 'default/logo.svg') }}" alt="Logo" class="logo-img">
 
+            </a> -->
+            <a class="d-flex align-items-center" href="{{ url('/') }}">
+                <img src="{{ asset($systemSetting->favicon ?? $systemSetting->logo ?? 'default/logo.svg') }}" alt="Logo"
+                    class="logo-img-mobile">
+                <span
+                    class="brand-text-mobile ms-2 fw-extrabold tracking-tight">{{ $systemSetting->name ?? env('APP_NAME') }}</span>
             </a>
+
 
             <!-- Search Bar (Desktop: Visible, Mobile: Hidden) -->
             <form class="search-form d-none d-lg-block mx-auto" action="{{ route('home') }}" method="GET">
