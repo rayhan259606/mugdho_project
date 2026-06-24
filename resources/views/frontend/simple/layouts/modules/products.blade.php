@@ -179,14 +179,14 @@
                             <label class="form-label text-slate-700 fw-semibold small"><i class="fe fe-mail me-1 text-primary"></i> Email Address</label>
                             <input type="email" name="email" class="form-control custom-input" placeholder="email@example.com" value="{{ old('email') }}" required>
                         </div>
-                        <div class="col-md-6 text-start">
-                            <label class="form-label text-slate-700 fw-semibold small"><i class="fe fe-phone me-1 text-primary"></i> Phone Number</label>
+                        <div class="col-12 text-start">
+                            <label class="form-label text-slate-700 fw-semibold small"><i class="fe fe-phone me-1 text-primary"></i>  Payment Number</label>
                             <input type="text" name="phone" class="form-control custom-input" placeholder="01XXXXXXXXX" value="{{ old('phone') }}" required>
                         </div>
-                        <div class="col-md-6 text-start">
+                        <!-- <div class="col-md-6 text-start">
                             <label class="form-label text-slate-700 fw-semibold small"><i class="fe fe-map-pin me-1 text-primary"></i> Shipping Address</label>
                             <input type="text" name="address" class="form-control custom-input" placeholder="Your Address" value="{{ old('address') }}" required>
-                        </div>
+                        </div> -->
 
                         <!-- Integrated Payment Fields -->
                         @php
