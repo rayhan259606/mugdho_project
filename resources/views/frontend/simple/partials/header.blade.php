@@ -224,7 +224,7 @@
                             </svg>
                         </a>
                     </li>
-                    <li class="drawer-nav-item animate-item" style="--item-index: 5">
+                    <!-- <li class="drawer-nav-item animate-item" style="--item-index: 5">
                         <a class="drawer-nav-link {{ request()->routeIs('module.services') ? 'active' : '' }}"
                             href="{{ route('module.services') }}">
                             <div class="drawer-link-content">
@@ -245,7 +245,7 @@
                                 <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </nav>
         </div>

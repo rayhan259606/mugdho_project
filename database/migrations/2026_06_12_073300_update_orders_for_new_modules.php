@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             // Drop foreign key if it exists
-            try {
-                $table->dropForeign('orders_product_id_foreign');
-            } catch (\Exception $e) {
-                // Ignore if not exists
+            if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+                try {
+                    $table->dropForeign('orders_product_id_foreign');
+                } catch (\Exception $e) {
+                    // Ignore if not exists
+                }
             }
             $table->unsignedBigInteger('product_id')->nullable()->change();
             
